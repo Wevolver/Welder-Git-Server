@@ -20,7 +20,7 @@ master_doc = 'index'
 
 html_theme_options = {
     'description': "A git server build for hardware development",
-    'github_user': 'btcrs',
+    'github_user': 'wevolver',
     'github_repo': 'welder',
     'travis_button': True,
 }
@@ -86,7 +86,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'VersionControldoc'
+htmlhelp_basename = 'Welderdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -113,7 +113,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'VersionControl.tex', u'VersionControl Documentation',
+    (master_doc, 'Welder.tex', u'Welder Documentation',
      u'Wevolver', 'manual'),
 ]
 
@@ -123,7 +123,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'versioncontrol', u'VersionControl Documentation',
+    (master_doc, 'welder', u'Welder Documentation',
      [author], 1)
 ]
 
@@ -134,8 +134,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'VersionControl', u'VersionControl Documentation',
-     author, 'VersionControl', 'One line description of project.',
+    (master_doc, 'Welder', u'Welder Documentation',
+     author, 'Welder', 'One line description of project.',
      'Miscellaneous'),
 ]
 
