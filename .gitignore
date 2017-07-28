@@ -1,0 +1,14 @@
+repos/*
+db.sqlite3
+welder/secrets.json
+logs/*
+**/.DS_Store
+//*.pyc
+*.pyc
+/test
+__pycache__
+dd.sqlite3
+
+run\.sh
+env
+.env

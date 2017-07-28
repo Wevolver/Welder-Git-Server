@@ -1,0 +1,269 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>groot.versions.porcelain &#8212; Groot 0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for groot.versions.porcelain</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">pygit2</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="generate_directory"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.generate_directory">[docs]</a><span class="k">def</span> <span class="nf">generate_directory</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generates a unique directory structure for the project based on the user name.</span>
+
+<span class="sd">    https://github.com/blog/117-scaling-lesson-23742</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        username (string): The user&#39;s name slug</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Path (str): The unique path as a string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">();</span>
+    <span class="nb">hash</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">username</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>
+    <span class="nb">hash</span> <span class="o">=</span> <span class="nb">hash</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="o">=</span> <span class="nb">hash</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">hash</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="nb">hash</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">],</span> <span class="nb">hash</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="parse_file_tree"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.parse_file_tree">[docs]</a><span class="k">def</span> <span class="nf">parse_file_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Parses the repository&#39;s tree structure into JSON.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tree (Tree): The most recent commit tree.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: A list of all blobs and trees in the provided tree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">),</span> <span class="s">&#39;oid&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)}</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">]}</span></div>
+
+
+<div class="viewcode-block" id="walk_tree"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.walk_tree">[docs]</a><span class="k">def</span> <span class="nf">walk_tree</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">full_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Given a path in returns the object.</span>
+
+<span class="sd">        If the object is a blob it returns the previous object as the tree else blob is None.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        repo (Repository): The user&#39;s repository.</span>
+<span class="sd">        full_path (string): The full path to the object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        current_object: The last tree in the path.</span>
+<span class="sd">        blob: The requested blob if there is one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_object</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">revparse_single</span><span class="p">(</span><span class="s">&#39;master&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tree</span>
+    <span class="n">locations</span> <span class="o">=</span> <span class="n">full_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">locations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="k">None</span>
+    <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">locations</span><span class="p">:</span>
+        <span class="n">next_object</span> <span class="o">=</span> <span class="n">current_object</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+        <span class="n">temp_object</span> <span class="o">=</span> <span class="n">current_object</span>
+        <span class="n">current_object</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">next_object</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">current_object</span><span class="p">)</span> <span class="o">==</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">Blob</span><span class="p">:</span>
+            <span class="n">blob</span> <span class="o">=</span> <span class="n">current_object</span>
+            <span class="n">current_object</span> <span class="o">=</span> <span class="n">temp_object</span>
+    <span class="k">return</span> <span class="n">current_object</span><span class="p">,</span> <span class="n">blob</span></div>
+
+<div class="viewcode-block" id="add_blobs_to_tree"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.add_blobs_to_tree">[docs]</a><span class="k">def</span> <span class="nf">add_blobs_to_tree</span><span class="p">(</span><span class="n">previous_commit_tree</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">blobs</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Adds blobs to a tree at a given path.</span>
+
+<span class="sd">        Traverse the repository to find the given path to a blob. </span>
+<span class="sd">        If the path to the blob does not exist it creates the necessary trees.</span>
+<span class="sd">        Then add blob to the last tree.</span>
+<span class="sd">        Then in reverse order trees are inserted into their parent up to the root.</span>
+<span class="sd">        Insert the new tree into the previous one to make a new snapshot.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        previous_commit_tree: The tree object of the last commit.</span>
+<span class="sd">        repo (Repository): The user&#39;s repository.</span>
+<span class="sd">        blobs: New blobs to be added to a specific path.</span>
+<span class="sd">        path (string): The full path to the object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tree: New tree with the blobs added.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_tree</span> <span class="o">=</span> <span class="n">previous_commit_tree</span>
+    <span class="n">trees</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">location</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">next_tree_entry</span> <span class="o">=</span> <span class="n">current_tree</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+                <span class="n">current_tree</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">next_tree_entry</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">current_tree</span> <span class="o">=</span> <span class="k">False</span>
+            <span class="n">trees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_tree</span><span class="p">)</span>
+
+        <span class="n">is_tree</span> <span class="o">=</span> <span class="n">trees</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">current_tree_builder</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">(</span><span class="n">trees</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">is_tree</span> <span class="k">else</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">blob</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">current_tree_builder</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">GIT_FILEMODE_BLOB</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">previous_tree_builder</span> <span class="o">=</span> <span class="n">current_tree_builder</span>
+            <span class="n">is_tree</span> <span class="o">=</span> <span class="n">trees</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">current_tree_builder</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">(</span><span class="n">is_tree</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_tree</span> <span class="k">else</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">()</span>
+            <span class="n">current_tree_builder</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">previous_tree_builder</span><span class="o">.</span><span class="n">write</span><span class="p">(),</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">GIT_FILEMODE_TREE</span><span class="p">)</span>
+
+        <span class="n">previous_commit_tree_builder</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">(</span><span class="n">previous_commit_tree</span><span class="p">)</span>
+        <span class="n">previous_commit_tree_builder</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">current_tree_builder</span><span class="o">.</span><span class="n">write</span><span class="p">(),</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">GIT_FILEMODE_TREE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">previous_commit_tree_builder</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">previous_commit_tree_builder</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">TreeBuilder</span><span class="p">(</span><span class="n">previous_commit_tree</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">blob</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">previous_commit_tree_builder</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">GIT_FILEMODE_BLOB</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">previous_commit_tree_builder</span><span class="o">.</span><span class="n">write</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="commit_blob"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.commit_blob">[docs]</a><span class="k">def</span> <span class="nf">commit_blob</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">blob</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;readme.md&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Adds a blob to a tree and commits it to a repository.</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        repo (Repository): The user&#39;s repository.</span>
+<span class="sd">        blob (Blob): The file object.</span>
+<span class="sd">        path (string): The full path to the object.</span>
+<span class="sd">        name (string): Filename of the blob.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">previous_commit_tree</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">revparse_single</span><span class="p">(</span><span class="s">&#39;master&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tree</span>
+    <span class="n">newTree</span> <span class="o">=</span> <span class="n">add_blobs_to_tree</span><span class="p">(</span><span class="n">previous_commit_tree</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="p">[(</span><span class="n">blob</span><span class="p">,</span> <span class="n">name</span><span class="p">)],</span> <span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">newTree</span><span class="p">:</span>
+        <span class="n">commit_tree</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">newTree</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="commit_tree"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.commit_tree">[docs]</a><span class="k">def</span> <span class="nf">commit_tree</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">newTree</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Commits tree to a repository.</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        repo (Repository): The user&#39;s repository.</span>
+<span class="sd">        newTree (Tree): Tree with new objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">Signature</span><span class="p">(</span><span class="s">&#39;Tester&#39;</span><span class="p">,</span> <span class="s">&#39;test@example.com&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">()),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">commit</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">create_commit</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="s">&#39;Test commit with pygit2&#39;</span><span class="p">,</span> <span class="n">newTree</span><span class="p">,</span> <span class="p">[</span><span class="n">repo</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">peel</span><span class="p">()</span><span class="o">.</span><span class="n">id</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="flatten"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.porcelain.flatten">[docs]</a><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">repo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Translates a tree structure into a single level array.</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        repo (Repository): The user&#39;s repository.</span>
+<span class="sd">        tree (Tree): Tree to be flattened.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: flattened tree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flattened</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entry</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;tree&#39;</span><span class="p">:</span>
+            <span class="n">flattened</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">flatten</span><span class="p">(</span><span class="n">repo</span><span class="p">[</span><span class="n">entry</span><span class="o">.</span><span class="n">id</span><span class="p">],</span> <span class="n">repo</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flattened</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flattened</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Groot</a></h1>
+
+
+
+<p class="blurb">A git server build for hardware development</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=btcrs&repo=groot&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/btcrs/groot">
+    <img
+        alt="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+        src="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/groot.versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/groot.permissions.html">Permissions</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Wevolver.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

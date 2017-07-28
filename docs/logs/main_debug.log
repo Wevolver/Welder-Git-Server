@@ -1,0 +1,1150 @@
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.applehelp' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.html.StandaloneHTMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.html.DirectoryHTMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.html.SingleFileHTMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.html.PickleHTMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.html.JSONHTMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_theme', 'alabaster', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_theme_path', [], 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_theme_options', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_title', <function setup.<locals>.<lambda> at 0x107854268>, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_short_title', <function setup.<locals>.<lambda> at 0x1089550d0>, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_style', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_logo', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_favicon', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_static_path', [], 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_extra_path', [], 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_last_updated_fmt', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_use_smartypants', None, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_sidebars', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_additional_pages', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_domain_indices', True, 'html', [<class 'list'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_add_permalinks', '¶', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_use_index', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_split_index', False, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_copy_source', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_show_sourcelink', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_sourcelink_suffix', '.txt', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_use_opensearch', '', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_file_suffix', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_link_suffix', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_show_copyright', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_show_sphinx', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_context', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_output_encoding', 'utf-8', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_compact_lists', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_secnumber_suffix', '. ', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_search_language', None, 'html', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_search_options', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_search_scorer', '', None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_scaled_image_link', True, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('html_experimental_html5_writer', None, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.applehelp.AppleHelpBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_bundle_name', <function setup.<locals>.<lambda> at 0x108d1ad90>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_bundle_id', None, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_dev_region', 'en-us', 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_bundle_version', '1', 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_icon', None, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_kb_product', <function setup.<locals>.<lambda> at 0x108d1ae18>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_kb_url', None, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_remote_url', None, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_index_anchors', False, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_min_term_length', None, 'applehelp', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_stopwords', <function setup.<locals>.<lambda> at 0x108d1aea0>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_locale', <function setup.<locals>.<lambda> at 0x108d1af28>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_title', <function setup.<locals>.<lambda> at 0x108d1e048>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_codesign_identity', <function setup.<locals>.<lambda> at 0x108d1e0d0>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_codesign_flags', <function setup.<locals>.<lambda> at 0x108d1e158>, 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_indexer_path', '/usr/bin/hiutil', 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_codesign_path', '/usr/bin/codesign', 'applehelp') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('applehelp_disable_external_tools', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.changes' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.changes.ChangesBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.epub2' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.epub2.Epub2Builder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'builder-inited': <function emit_deprecation_warning at 0x108d1e620> [id=0] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_basename', <function setup.<locals>.<lambda> at 0x108d46510>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_theme', 'epub', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_theme_options', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_title', <function setup.<locals>.<lambda> at 0x108d46598>, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_author', 'unknown', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_language', <function setup.<locals>.<lambda> at 0x108d46620>, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_publisher', 'unknown', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_copyright', <function setup.<locals>.<lambda> at 0x108d466a8>, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_identifier', 'unknown', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_scheme', 'unknown', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_uid', 'unknown', 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_cover', (), 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_guide', (), 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_pre_files', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_post_files', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_exclude_files', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_tocdepth', 3, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_tocdup', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_tocscope', 'default', 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_fix_images', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_max_image_width', 0, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_show_urls', 'inline', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_use_index', <function setup.<locals>.<lambda> at 0x108d46730>, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.epub3' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.epub2' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.epub3.Epub3Builder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_description', 'unknown', 'epub3', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_contributor', 'unknown', 'epub3', [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('epub_writing_mode', 'horizontal', 'epub3', <sphinx.config.ENUM object at 0x108971b38>) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.devhelp' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.devhelp.DevhelpBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('devhelp_basename', <function setup.<locals>.<lambda> at 0x108d467b8>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.dummy' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.dummy.DummyBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.gettext' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.gettext.MessageCatalogBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('gettext_compact', True, 'gettext') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('gettext_location', True, 'gettext') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('gettext_uuid', False, 'gettext') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('gettext_auto_build', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('gettext_additional_targets', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.htmlhelp' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.htmlhelp.HTMLHelpBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('htmlhelp_basename', <function setup.<locals>.<lambda> at 0x108d5c620>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.latex' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.latex.LaTeXBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'builder-inited': <function validate_config_values at 0x108d64bf8> [id=1] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_engine', <function default_latex_engine at 0x108df4598>, None, <sphinx.config.ENUM object at 0x108d37630>) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_documents', <function setup.<locals>.<lambda> at 0x108d646a8>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_logo', None, None, [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_appendices', [], None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_keep_old_macro_names', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_use_latex_multicolumn', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_toplevel_sectioning', None, None, [<class 'str'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_domain_indices', True, None, [<class 'list'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_show_urls', 'no', None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_show_pagerefs', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_elements', {}, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_additional_files', [], None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('latex_docclass', <function default_latex_docclass at 0x108df4620>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.linkcheck' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.linkcheck.CheckExternalLinksBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_ignore', [], None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_retries', 1, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_timeout', None, None, [<class 'int'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_workers', 5, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_anchors', True, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('linkcheck_anchors_ignore', ['^!'], None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.manpage' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.manpage.ManualPageBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('man_pages', <function setup.<locals>.<lambda> at 0x108df4730>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('man_show_urls', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.qthelp' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.html' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.qthelp.QtHelpBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('qthelp_basename', <function setup.<locals>.<lambda> at 0x109068268>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('qthelp_theme', 'nonav', 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('qthelp_theme_options', {}, 'html') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.texinfo' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.texinfo.TexinfoBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_documents', <function setup.<locals>.<lambda> at 0x109068840>, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_appendices', [], None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_elements', {}, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_domain_indices', True, None, [<class 'list'>]) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_show_urls', 'footnote', None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('texinfo_no_detailmenu', False, None) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.text' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.text.TextBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('text_sectionchars', '*=-~"+`', 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('text_newlines', 'unix', 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.websupport' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinxcontrib.websupport.builder.WebSupportBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.builders.xml' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.xml.XMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.builders.xml.PseudoXMLBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('xml_pretty', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.c' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.c.CDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.cpp' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.cpp.CPPDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('cpp_index_common_prefix', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('cpp_id_attributes', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('cpp_paren_attributes', [], 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.javascript' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.javascript.JavaScriptDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.python' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.python.PythonDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.rst' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.rst.ReSTDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.domains.std' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding domain: <class 'sphinx.domains.std.StandardDomain'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.directives' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.directives.code' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.directives.other' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.directives.patches' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.parsers' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding search source_parser: '*', <class 'sphinx.parsers.RSTParser'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.roles' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.transforms.post_transforms' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding post transform: <class 'sphinx.transforms.post_transforms.DocReferenceMigrator'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding post transform: <class 'sphinx.transforms.post_transforms.ReferencesResolver'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding post transform: <class 'sphinx.transforms.post_transforms.OnlyNodeTransform'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.transforms.post_transforms.images' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding post transform: <class 'sphinx.transforms.post_transforms.images.ImageDownloader'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding post transform: <class 'sphinx.transforms.post_transforms.images.DataURIExtractor'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.dependencies' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.dependencies.DependenciesCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method DependenciesCollector.process_doc of <sphinx.environment.collectors.dependencies.DependenciesCollector object at 0x10916acc0>> [id=2] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method DependenciesCollector.merge_other of <sphinx.environment.collectors.dependencies.DependenciesCollector object at 0x10916acc0>> [id=3] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method DependenciesCollector.clear_doc of <sphinx.environment.collectors.dependencies.DependenciesCollector object at 0x10916acc0>> [id=4] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.dependencies.DependenciesCollector object at 0x10916acc0>> [id=5] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.dependencies.DependenciesCollector object at 0x10916acc0>> [id=6] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.asset' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.asset.ImageCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method ImageCollector.process_doc of <sphinx.environment.collectors.asset.ImageCollector object at 0x109183cf8>> [id=7] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method ImageCollector.merge_other of <sphinx.environment.collectors.asset.ImageCollector object at 0x109183cf8>> [id=8] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method ImageCollector.clear_doc of <sphinx.environment.collectors.asset.ImageCollector object at 0x109183cf8>> [id=9] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.asset.ImageCollector object at 0x109183cf8>> [id=10] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.asset.ImageCollector object at 0x109183cf8>> [id=11] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.asset.DownloadFileCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method DownloadFileCollector.process_doc of <sphinx.environment.collectors.asset.DownloadFileCollector object at 0x109183d30>> [id=12] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method DownloadFileCollector.merge_other of <sphinx.environment.collectors.asset.DownloadFileCollector object at 0x109183d30>> [id=13] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method DownloadFileCollector.clear_doc of <sphinx.environment.collectors.asset.DownloadFileCollector object at 0x109183d30>> [id=14] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.asset.DownloadFileCollector object at 0x109183d30>> [id=15] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.asset.DownloadFileCollector object at 0x109183d30>> [id=16] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.metadata' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.metadata.MetadataCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method MetadataCollector.process_doc of <sphinx.environment.collectors.metadata.MetadataCollector object at 0x10918f3c8>> [id=17] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method MetadataCollector.merge_other of <sphinx.environment.collectors.metadata.MetadataCollector object at 0x10918f3c8>> [id=18] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method MetadataCollector.clear_doc of <sphinx.environment.collectors.metadata.MetadataCollector object at 0x10918f3c8>> [id=19] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.metadata.MetadataCollector object at 0x10918f3c8>> [id=20] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.metadata.MetadataCollector object at 0x10918f3c8>> [id=21] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.title' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.title.TitleCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method TitleCollector.process_doc of <sphinx.environment.collectors.title.TitleCollector object at 0x10918f630>> [id=22] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method TitleCollector.merge_other of <sphinx.environment.collectors.title.TitleCollector object at 0x10918f630>> [id=23] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method TitleCollector.clear_doc of <sphinx.environment.collectors.title.TitleCollector object at 0x10918f630>> [id=24] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.title.TitleCollector object at 0x10918f630>> [id=25] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.title.TitleCollector object at 0x10918f630>> [id=26] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.toctree' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.toctree.TocTreeCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method TocTreeCollector.process_doc of <sphinx.environment.collectors.toctree.TocTreeCollector object at 0x10918f828>> [id=27] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method TocTreeCollector.merge_other of <sphinx.environment.collectors.toctree.TocTreeCollector object at 0x10918f828>> [id=28] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method TocTreeCollector.clear_doc of <sphinx.environment.collectors.toctree.TocTreeCollector object at 0x10918f828>> [id=29] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method TocTreeCollector.get_updated_docs of <sphinx.environment.collectors.toctree.TocTreeCollector object at 0x10918f828>> [id=30] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.toctree.TocTreeCollector object at 0x10918f828>> [id=31] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.environment.collectors.indexentries' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding environment collector: <class 'sphinx.environment.collectors.indexentries.IndexEntriesCollector'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <bound method IndexEntriesCollector.process_doc of <sphinx.environment.collectors.indexentries.IndexEntriesCollector object at 0x10918feb8>> [id=32] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <bound method IndexEntriesCollector.merge_other of <sphinx.environment.collectors.indexentries.IndexEntriesCollector object at 0x10918feb8>> [id=33] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-purge-doc': <bound method IndexEntriesCollector.clear_doc of <sphinx.environment.collectors.indexentries.IndexEntriesCollector object at 0x10918feb8>> [id=34] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-updated': <bound method EnvironmentCollector.get_updated_docs of <sphinx.environment.collectors.indexentries.IndexEntriesCollector object at 0x10918feb8>> [id=35] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-get-outdated': <bound method EnvironmentCollector.get_outdated_docs of <sphinx.environment.collectors.indexentries.IndexEntriesCollector object at 0x10918feb8>> [id=36] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'alabaster' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'html-page-context': <function update_context at 0x109196950> [id=37] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.ext.autodoc' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.ModuleDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('automodule', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.ClassDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autoclass', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.ExceptionDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autoexception', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.DataDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autodata', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.FunctionDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autofunction', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.MethodDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('automethod', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.AttributeDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autoattribute', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding autodocumenter: <class 'sphinx.ext.autodoc.InstanceAttributeDocumenter'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('autoinstanceattribute', <class 'sphinx.ext.autodoc.AutoDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('autoclass_content', 'class', True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('autodoc_member_order', 'alphabetic', True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('autodoc_default_flags', [], True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('autodoc_docstring_signature', True, True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('autodoc_mock_imports', [], True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding event: 'autodoc-process-docstring' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding event: 'autodoc-process-signature' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding event: 'autodoc-skip-member' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.ext.napoleon' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'autodoc-process-docstring': <function _process_docstring at 0x109222510> [id=38] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'autodoc-skip-member': <function _skip_member at 0x109222598> [id=39] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_google_docstring', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_numpy_docstring', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_include_init_with_doc', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_include_private_with_doc', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_include_special_with_doc', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_admonition_for_examples', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_admonition_for_notes', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_admonition_for_references', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_ivar', False, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_param', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_rtype', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('napoleon_use_keyword', True, 'env') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.ext.doctest' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('testsetup', <class 'sphinx.ext.doctest.TestsetupDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('testcleanup', <class 'sphinx.ext.doctest.TestcleanupDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('doctest', <class 'sphinx.ext.doctest.DoctestDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('testcode', <class 'sphinx.ext.doctest.TestcodeDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding directive: ('testoutput', <class 'sphinx.ext.doctest.TestoutputDirective'>, None, None, {}) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding builder: <class 'sphinx.ext.doctest.DocTestBuilder'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('doctest_path', [], False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('doctest_test_doctest_blocks', 'default', False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('doctest_global_setup', '', False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('doctest_global_cleanup', '', False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('doctest_default_flags', 41, False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.ext.intersphinx' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('intersphinx_mapping', {}, True) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('intersphinx_cache_limit', 5, False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('intersphinx_timeout', None, False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'missing-reference': <function missing_reference at 0x109222d08> [id=40] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'builder-inited': <function load_mappings at 0x109222c80> [id=41] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] setting up extension: 'sphinx.ext.viewcode' (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('viewcode_import', True, False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] adding config value: ('viewcode_enable_epub', False, False) (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'doctree-read': <function doctree_read at 0x10920d158> [id=42] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'env-merge-info': <function env_merge_info at 0x10920d1e0> [id=43] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'html-collect-pages': <function collect_pages at 0x10920d2f0> [id=44] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] connecting event 'missing-reference': <function missing_reference at 0x10920d268> [id=45] (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.application: [01mloading pickled environment... [39;49;00m (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.application: done (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'builder-inited'() (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.builders: [01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.builders: [01mbuilding [html][39;49;00m: targets for 1 source files that are out of date (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.environment: [01mupdating environment: [39;49;00m (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-get-outdated'(<sphinx.environment.BuildEnvironment object at 0x109224518>, set(), {'index', 'modules/groot.versio (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.environment: 0 added, 2 changed, 0 removed (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-before-read-docs'(<sphinx.environment.BuildEnvironment object at 0x109224518>, ['index', 'modules/groot.versions']) (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.util: [01mreading sources... [39;49;00m[ 50%] [35mindex[39;49;00m                                                                                                                                                    (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-purge-doc'(<sphinx.environment.BuildEnvironment object at 0x109224518>, 'index') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'source-read'('index', [".. VersionControl documentation master file, created by\n   sphinx-quickstart on Fri Jun (2017-07-27 12:08:48; logging.py:97)
+WARNING:sphinx.util.docutils: toctree contains reference to nonexisting document 'overview' (2017-07-27 12:08:48; logging.py:100)
+DEBUG:sphinx.transforms: /Users/ben/Code/groot/docs/index.rst:17: (WARNING/2) toctree contains reference to nonexisting document ‘overview’ [filtered system message] (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'doctree-read'(<document: <comment...><section "welcome to groot's documentation!" ...>,) (2017-07-27 12:08:48; logging.py:97)
+INFO:sphinx.util: [01mreading sources... [39;49;00m[100%] [35mmodules/groot.versions[39;49;00m                                                                                                                                   (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-purge-doc'(<sphinx.environment.BuildEnvironment object at 0x109224518>, 'modules/groot.versions') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'source-read'('modules/groot.versions', ['groot\\.versions package\n=======================\n\nSubpackages\n----- (2017-07-27 12:08:48; logging.py:97)
+WARNING:sphinx.util.docutils: toctree contains reference to nonexisting document 'modules/groot.versions.migrations' (2017-07-27 12:08:48; logging.py:100)
+DEBUG:sphinx.ext.autodoc: [autodoc] /Users/ben/Code/groot/docs/modules/groot.versions.rst:18: input:
+.. automodule:: groot.versions.git
+    :members:
+    :undoc-members:
+    :show-inheritance:
+ (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('module', 'groot.versions.git', <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/vers (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import Enum (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Enum') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Enum'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('class', 'groot.versions.git.GitResponse', <class 'groot.versions.git.GitResponse'>, {'members': <o (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse.get_http_info_refs (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'get_http_info_refs') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function GitResponse.get_http_info_refs at 0x1070576a8> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('method', 'groot.versions.git.GitResponse.get_http_info_refs', <function GitResponse.get_http_info_ (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse.get_http_service_rpc (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'get_http_service_rpc') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function GitResponse.get_http_service_rpc at 0x107057730> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('method', 'groot.versions.git.GitResponse.get_http_service_rpc', <function GitResponse.get_http_ser (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse.set_response_first_line (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'set_response_first_line') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function GitResponse.set_response_first_line at 0x107057598> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('method', 'groot.versions.git.GitResponse.set_response_first_line', <function GitResponse.set_respo (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse.set_response_header (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'set_response_header') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function GitResponse.set_response_header at 0x107057488> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('method', 'groot.versions.git.GitResponse.set_response_header', <function GitResponse.set_response_ (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import GitResponse.set_response_payload (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'set_response_payload') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function GitResponse.set_response_payload at 0x107057620> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('method', 'groot.versions.git.GitResponse.set_response_payload', <function GitResponse.set_response (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import HttpResponse (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'HttpResponse') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.HttpResponse'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import HttpResponseNotFound (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'HttpResponseNotFound') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.HttpResponseNotFound'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import Services (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Services') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Services'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('class', 'groot.versions.git.Services', <enum 'Services'>, {'members': <object object at 0x108b01a0 (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import Services.git_receive_pack (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Services') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Services'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'git_receive_pack') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <Services.git_receive_pack: 'git-receive-pack'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import Services.git_upload_pack (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Services') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Services'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'git_upload_pack') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <Services.git_upload_pack: 'git-upload-pack'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import get_http_error (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'get_http_error') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function get_http_error at 0x10703f840> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.git.get_http_error', <function get_http_error at 0x10703f840>, {'member (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.git import plumbing (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.git (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.git' from '/Users/ben/Code/groot/groot/versions/git.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'plumbing') (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'git_plumbing'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] output:
+
+.. py:module:: groot.versions.git
+
+
+.. py:class:: GitResponse(*args, **kwargs)
+   :module: groot.versions.git
+
+   Bases: :class:`django.http.response.HttpResponse`
+
+   An extension of Django's HttpResponse that meets Git's smart HTTP specs
+   
+   The responses to Git's requests must follow a protocol, and this class is
+   meant to build properly formed responses.
+   
+   .. attribute:: service
+   
+      *str* -- the initiated git plumbing command
+   
+   .. attribute:: action
+   
+      *str* -- the action initiated by the service
+   
+   .. attribute:: repository
+   
+      *str* -- target repository of the request
+   
+   .. attribute:: data
+   
+      *str* -- uploaded data
+   
+   
+   .. py:method:: GitResponse.get_http_info_refs()
+      :module: groot.versions.git
+   
+      Creates a response for git's info_refs request
+      
+      Sets the headers, generates the first line of the request, and adds
+      the info_refs functions data to the payload.
+      
+      :returns: An HttpResponse for the handshake response for the info_refs function.
+      :rtype: GitResponse
+      
+   
+   .. py:method:: GitResponse.get_http_service_rpc()
+      :module: groot.versions.git
+   
+      Initiates a git plumbing rpc call depending on the received service request
+      
+      Sets the headers and sets the payload to the data generated by receive_pack or
+      upload_pack depending on whether the request is a push or a pull respectively.
+      
+      :returns: An HttpResponse containing the data requested by git's service call.
+      :rtype: GitResponse
+      
+   
+   .. py:method:: GitResponse.set_response_first_line()
+      :module: groot.versions.git
+   
+      Writes the first line of the responses body
+      
+      Constructs a line to detail the service of the current request. Adds the a prefix
+      (total line length in hex) to tell the client where the payload starts.
+      
+      e.g. 001f# service=git-receive-pack0000
+      
+   
+   .. py:method:: GitResponse.set_response_header()
+      :module: groot.versions.git
+   
+      Writes the required headers for a git handshake
+      
+      Primarily disables caching and sets the content type to the requested service and action
+      
+   
+   .. py:method:: GitResponse.set_response_payload(payload_type)
+      :module: groot.versions.git
+   
+      Executes the service requested and writes the data to the payload
+      
+      :param payload_type: git plumbing call initiated by the request.
+      :type payload_type: plumbing
+      
+
+.. py:class:: Services
+   :module: groot.versions.git
+
+   Bases: :class:`enum.Enum`
+
+   An enumeration.
+   
+   
+   .. py:attribute:: Services.git_receive_pack
+      :module: groot.versions.git
+      :annotation: = 'git-receive-pack'
+   
+   
+   .. py:attribute:: Services.git_upload_pack
+      :module: groot.versions.git
+      :annotation: = 'git-upload-pack'
+   
+
+.. py:function:: get_http_error(exception)
+   :module: groot.versions.git
+
+
+.. py:attribute:: plumbing
+   :module: groot.versions.git
+
+   alias of :class:`git_plumbing` (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] /Users/ben/Code/groot/docs/modules/groot.versions.rst:26: input:
+.. automodule:: groot.versions.porcelain
+    :members:
+    :undoc-members:
+    :show-inheritance:
+ (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:48; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('module', 'groot.versions.porcelain', <module 'groot.versions.porcelain' from '/Users/ben/Code/groo (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import add_blobs_to_tree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'add_blobs_to_tree') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function add_blobs_to_tree at 0x109f052f0> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.add_blobs_to_tree', <function add_blobs_to_tree at 0x109f052f (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import commit_blob (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'commit_blob') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function commit_blob at 0x109f05378> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.commit_blob', <function commit_blob at 0x109f05378>, {'member (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import commit_tree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'commit_tree') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function commit_tree at 0x109f05400> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.commit_tree', <function commit_tree at 0x109f05400>, {'member (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import flatten (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'flatten') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function flatten at 0x109f05488> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.flatten', <function flatten at 0x109f05488>, {'members': <obj (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import generate_directory (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'generate_directory') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function generate_directory at 0x10894b268> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.generate_directory', <function generate_directory at 0x10894b (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import parse_file_tree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'parse_file_tree') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function parse_file_tree at 0x109f051e0> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.parse_file_tree', <function parse_file_tree at 0x109f051e0>,  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import time (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'time') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <built-in function time> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.porcelain import walk_tree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.porcelain (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.porcelain' from '/Users/ben/Code/groot/groot/versions/porcelain.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'walk_tree') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function walk_tree at 0x109f05268> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.porcelain.walk_tree', <function walk_tree at 0x109f05268>, {'members':  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] output:
+
+.. py:module:: groot.versions.porcelain
+
+
+.. py:function:: add_blobs_to_tree(previous_commit_tree, repo, blobs, path)
+   :module: groot.versions.porcelain
+
+   Adds blobs to a tree at a given path.
+   
+       Traverse the repository to find the given path to a blob.
+       If the path to the blob does not exist it creates the necessary trees.
+       Then add blob to the last tree.
+       Then in reverse order trees are inserted into their parent up to the root.
+       Insert the new tree into the previous one to make a new snapshot.
+   
+   :param previous_commit_tree: The tree object of the last commit.
+   :param repo: The user's repository.
+   :type repo: Repository
+   :param blobs: New blobs to be added to a specific path.
+   :param path: The full path to the object.
+   :type path: string
+   
+   :returns: New tree with the blobs added.
+   :rtype: tree
+   
+
+.. py:function:: commit_blob(repo, blob, path, name='readme.md')
+   :module: groot.versions.porcelain
+
+   Adds a blob to a tree and commits it to a repository.
+   
+   :param repo: The user's repository.
+   :type repo: Repository
+   :param blob: The file object.
+   :type blob: Blob
+   :param path: The full path to the object.
+   :type path: string
+   :param name: Filename of the blob.
+   :type name: string
+   
+
+.. py:function:: commit_tree(repo, newTree)
+   :module: groot.versions.porcelain
+
+   Commits tree to a repository.
+   
+   :param repo: The user's repository.
+   :type repo: Repository
+   :param newTree: Tree with new objects.
+   :type newTree: Tree
+   
+
+.. py:function:: flatten(tree, repo)
+   :module: groot.versions.porcelain
+
+   Translates a tree structure into a single level array.
+   
+   :param repo: The user's repository.
+   :type repo: Repository
+   :param tree: Tree to be flattened.
+   :type tree: Tree
+   
+   :returns: flattened tree
+   :rtype: list
+   
+
+.. py:function:: generate_directory(username)
+   :module: groot.versions.porcelain
+
+   Generates a unique directory structure for the project based on the user name.
+   
+   https://github.com/blog/117-scaling-lesson-23742
+   
+   :param username: The user's name slug
+   :type username: string
+   
+   :returns: The unique path as a string
+   :rtype: Path (str)
+   
+
+.. py:function:: parse_file_tree(tree)
+   :module: groot.versions.porcelain
+
+   Parses the repository's tree structure into JSON.
+   
+   :param tree: The most recent commit tree.
+   :type tree: Tree
+   
+   :returns: A list of all blobs and trees in the provided tree.
+   :rtype: dict
+   
+
+.. py:function:: walk_tree(repo, full_path)
+   :module: groot.versions.porcelain
+
+   Given a path in returns the object.
+   
+       If the object is a blob it returns the previous object as the tree else blob is None.
+   
+   :param repo: The user's repository.
+   :type repo: Repository
+   :param full_path: The full path to the object.
+   :type full_path: string
+   
+   :returns: The last tree in the path.
+             blob: The requested blob if there is one.
+   :rtype: current_object
+    (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] /Users/ben/Code/groot/docs/modules/groot.versions.rst:34: input:
+.. automodule:: groot.versions.urls
+    :members:
+    :undoc-members:
+    :show-inheritance:
+ (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.urls (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.urls' from '/Users/ben/Code/groot/groot/versions/urls.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('module', 'groot.versions.urls', <module 'groot.versions.urls' from '/Users/ben/Code/groot/groot/ve (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.urls import url (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.urls (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.urls' from '/Users/ben/Code/groot/groot/versions/urls.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'url') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function url at 0x109f05f28> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] output:
+
+.. py:module:: groot.versions.urls
+ (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] /Users/ben/Code/groot/docs/modules/groot.versions.rst:42: input:
+.. automodule:: groot.versions.views
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+ (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('module', 'groot.versions.views', <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/ (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import Actions (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Actions') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Actions'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('class', 'groot.versions.views.Actions', <enum 'Actions'>, {'members': <object object at 0x108b01a0 (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import Actions.advertisement (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Actions') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Actions'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'advertisement') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <Actions.advertisement: 'advertisement'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import Actions.result (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Actions') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Actions'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'result') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <Actions.result: 'result'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import BytesIO (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'BytesIO') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class '_io.BytesIO'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import Enum (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'Enum') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <enum 'Enum'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import FileWrapper (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'FileWrapper') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'wsgiref.util.FileWrapper'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import GitResponse (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'GitResponse') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'groot.versions.git.GitResponse'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import HttpResponse (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'HttpResponse') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.HttpResponse'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import HttpResponseBadRequest (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'HttpResponseBadRequest') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.HttpResponseBadRequest'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import JsonResponse (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'JsonResponse') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.JsonResponse'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import PermissionDenied (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'PermissionDenied') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.core.exceptions.PermissionDenied'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import StreamingHttpResponse (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'StreamingHttpResponse') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <class 'django.http.response.StreamingHttpResponse'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import create_new_folder (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'create_new_folder') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function create_new_folder at 0x10a1541e0> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.create_new_folder', <function create_new_folder at 0x10a1541e0>,  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import create_project (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'create_project') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function create_project at 0x10a14bc80> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.create_project', <function create_project at 0x10a14bc80>, {'memb (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import delete_project (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'delete_project') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function delete_project at 0x10a14be18> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.delete_project', <function delete_project at 0x10a14be18>, {'memb (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import download_archive (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'download_archive') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function download_archive at 0x10a1546a8> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.download_archive', <function download_archive at 0x10a1546a8>, {' (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import info_refs (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'info_refs') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function info_refs at 0x10a154840> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.info_refs', <function info_refs at 0x10a154840>, {'members': <obj (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import list_bom (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'list_bom') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function list_bom at 0x10a154510> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.list_bom', <function list_bom at 0x10a154510>, {'members': <objec (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import read_file (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'read_file') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function read_file at 0x10a154048> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.read_file', <function read_file at 0x10a154048>, {'members': <obj (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import read_tree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'read_tree') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function read_tree at 0x10a154c80> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.read_tree', <function read_tree at 0x10a154c80>, {'members': <obj (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import receive_files (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'receive_files') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function receive_files at 0x10a154378> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.receive_files', <function receive_files at 0x10a154378>, {'member (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import receive_pack (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'receive_pack') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function receive_pack at 0x10a154b70> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.receive_pack', <function receive_pack at 0x10a154b70>, {'members' (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import require_http_methods (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'require_http_methods') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function require_http_methods at 0x109f05a60> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import service_rpc (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'service_rpc') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function service_rpc at 0x109f057b8> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.service_rpc', <function service_rpc at 0x109f057b8>, {'members':  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import time (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'time') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <built-in function time> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] from groot.versions.views import upload_pack (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions.views (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions.views' from '/Users/ben/Code/groot/groot/versions/views.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] getattr(_, 'upload_pack') (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <function upload_pack at 0x10a154a60> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('function', 'groot.versions.views.upload_pack', <function upload_pack at 0x10a154a60>, {'members':  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] output:
+
+.. py:module:: groot.versions.views
+
+
+.. py:class:: Actions
+   :module: groot.versions.views
+
+   Bases: :class:`enum.Enum`
+
+   An enumeration.
+   
+   
+   .. py:attribute:: Actions.advertisement
+      :module: groot.versions.views
+      :annotation: = 'advertisement'
+   
+   
+   .. py:attribute:: Actions.result
+      :module: groot.versions.views
+      :annotation: = 'result'
+   
+
+.. py:function:: create_new_folder(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Commits a single file to a specified path, creating a new folder in the repository.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: An object
+   :rtype: JsonResponse
+   
+
+.. py:function:: create_project(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Creates a bare repository (project) based on the user name
+       and project name in the URL.
+   
+       It generates a unique path based on the user name and
+       project, creates a default readme and commits it.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: A message indicating the success or failure of the create
+   :rtype: HttpResponse
+   
+
+.. py:function:: delete_project(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Finds the repository specified in the URL and deletes from the file system.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: A message indicating the success or failure of the delete
+   :rtype: HttpResponse
+   
+
+.. py:function:: download_archive(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Grabs and returns a user's repository as a tarball.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   
+   :returns: An object with the requested user's repository as a tarball.
+   :rtype: JsonResponse
+   
+
+.. py:function:: info_refs(request, user, project_name)
+   :module: groot.versions.views
+
+   Initiates a handshake for a smart HTTP connection
+   
+   https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   
+   :returns: A HttpResponse with the proper headers and payload needed by git.
+   :rtype: GitResponse
+   
+
+.. py:function:: list_bom(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Collects all the bom.csv files in a repository and return their sum.
+   
+       Flattens the repository's tree into an array. Then filters the array for 'bom.csv',
+       concatenates them and returns unique lines.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: The full Bill of Materials (BOM)
+   :rtype: HttpResponse
+   
+
+.. py:function:: read_file(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Finds a file in the path of the repository specified by the URL
+       and returns the blob.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: The file's raw data.
+   :rtype: StreamingHttpResponse
+   
+
+.. py:function:: read_tree(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Grabs and returns a single file or a tree from a user's repository
+   
+       The requested tree is first parsed into JSON.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: An object with the requested tree as JSON
+   :rtype: JsonResponse
+   
+
+.. py:function:: receive_files(request, user, project_name, permissions_token)
+   :module: groot.versions.views
+
+   Receives and commits an array of files to a specific path in the repository.
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   :param permissions_token: JWT token signed by Wevolver.
+   :type permissions_token: string
+   
+   :returns: An object
+   :rtype: JsonResponse
+   
+
+.. py:function:: receive_pack(request, user, project_name)
+   :module: groot.versions.views
+
+   Calls service_rpc assuming the user is authenticated and has write permissions
+   
+
+.. py:function:: service_rpc(user, project_name, request_service, request_body)
+   :module: groot.versions.views
+
+   Calls the Git commands to pull or push data from the server depending on the received service.
+   
+   https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
+   
+   :param user: The user's name.
+   :type user: string
+   :param project_name: The user's repository name.
+   :type project_name: string
+   
+   :returns: An HttpResponse that indicates success or failure and may include the requested packfile
+   :rtype: GitResponse
+   
+
+.. py:function:: upload_pack(request, user, project_name)
+   :module: groot.versions.views
+
+   Calls service_rpc assuming the user is authenticated and has read permissions
+    (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] /Users/ben/Code/groot/docs/modules/groot.versions.rst:51: input:
+.. automodule:: groot.versions
+    :members:
+    :undoc-members:
+    :show-inheritance: (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] import groot.versions (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] => <module 'groot.versions' from '/Users/ben/Code/groot/groot/versions/__init__.py'> (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'autodoc-process-docstring'('module', 'groot.versions', <module 'groot.versions' from '/Users/ben/Code/groot/groot/versions/__i (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.ext.autodoc: [autodoc] output:
+
+.. py:module:: groot.versions
+ (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.transforms: /Users/ben/Code/groot/docs/modules/groot.versions.rst:7: (WARNING/2) toctree contains reference to nonexisting document ‘modules/groot.versions.migrations’ [filtered system message] (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'doctree-read'(<document: <section "groot.versions package"...>>,) (2017-07-27 12:08:49; logging.py:97)
+Level 15:sphinx.ext.viewcode: Didn't find GitResponse.service in groot.versions.git (2017-07-27 12:08:49; logging.py:97)
+Level 15:sphinx.ext.viewcode: Didn't find GitResponse.action in groot.versions.git (2017-07-27 12:08:49; logging.py:97)
+Level 15:sphinx.ext.viewcode: Didn't find GitResponse.repository in groot.versions.git (2017-07-27 12:08:49; logging.py:97)
+Level 15:sphinx.ext.viewcode: Didn't find GitResponse.data in groot.versions.git (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util:  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-updated'(<sphinx.environment.BuildEnvironment object at 0x109224518>,) (2017-07-27 12:08:49; logging.py:97)
+WARNING:sphinx.util.docutils: toctree contains reference to nonexisting document 'overview' (2017-07-27 12:08:48; logging.py:100)
+WARNING:sphinx.util.docutils: toctree contains reference to nonexisting document 'modules/groot.versions.migrations' (2017-07-27 12:08:48; logging.py:100)
+INFO:sphinx.builders: [01mlooking for now-outdated files... [39;49;00m (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-get-updated'(<sphinx.environment.BuildEnvironment object at 0x109224518>,) (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: none found (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: [01mpickling environment... [39;49;00m (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: done (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: [01mchecking consistency... [39;49;00m (2017-07-27 12:08:49; logging.py:97)
+WARNING:sphinx.environment: document isn't included in any toctree (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'env-check-consistency'(<sphinx.environment.BuildEnvironment object at 0x109224518>,) (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: done (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.builders: docnames to write: index, modules/groot.versions (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: [01mpreparing documents... [39;49;00m (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders: done (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mwriting output... [39;49;00m[ 33%] [32mindex[39;49;00m                                                                                                                                                     (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'doctree-resolved'(<document: <comment...><section "welcome to groot's documentation!" ...>, 'index') (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mwriting output... [39;49;00m[ 66%] [32mmodules/groot[39;49;00m                                                                                                                                             (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'doctree-resolved'(<document: <section "groot package"...>>, 'modules/groot') (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mwriting output... [39;49;00m[100%] [32mmodules/groot.versions[39;49;00m                                                                                                                                    (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'doctree-resolved'(<document: <section "groot.versions package"...>>, 'modules/groot.versions') (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util:  (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders.html: [01mgenerating indices...[39;49;00m (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders.html:  genindex (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders.html:  py-modindex (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.builders.html:  (2017-07-27 12:08:49; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'html-collect-pages'() (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 14%] [34;01mgroot.settings[39;49;00m                                                                                                                                  (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 28%] [34;01mgroot.permissions.decorators[39;49;00m                                                                                                                    (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 42%] [34;01mgroot.permissions.views[39;49;00m                                                                                                                         (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 57%] [34;01mgroot.versions.git[39;49;00m                                                                                                                              (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 71%] [34;01mgroot.versions.porcelain[39;49;00m                                                                                                                        (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[ 85%] [34;01mgroot.versions.views[39;49;00m                                                                                                                            (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util: [01mhighlighting module code... [39;49;00m[100%] [34;01mgroot.versions.tests.test_views[39;49;00m                                                                                                                 (2017-07-27 12:08:49; logging.py:97)
+INFO:sphinx.util:  (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: [01mwriting additional pages...[39;49;00m (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html:  search (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html:  (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: [01mcopying static files... [39;49;00m (2017-07-27 12:08:50; logging.py:97)
+WARNING:sphinx.builders.html: html_static_path entry '/Users/ben/Code/groot/docs/_static' does not exist (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: done (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: [01mcopying extra files... [39;49;00m (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: done (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: [01mdumping search index in English (code: en) ... [39;49;00m (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: done (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: [01mdumping object inventory... [39;49;00m (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.builders.html: done (2017-07-27 12:08:50; logging.py:97)
+INFO:sphinx.application: [01mbuild succeeded.[39;49;00m (2017-07-27 12:08:50; logging.py:97)
+DEBUG:sphinx.application: [app] emitting event: 'build-finished'(None,) (2017-07-27 12:08:50; logging.py:97)

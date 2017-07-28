@@ -1,0 +1,285 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>groot.settings &#8212; Groot 0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for groot.settings</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">ImproperlyConfigured</span>
+<span class="kn">from</span> <span class="nn">corsheaders.defaults</span> <span class="k">import</span> <span class="n">default_headers</span>
+
+<span class="n">CORS_ALLOW_HEADERS</span> <span class="o">=</span> <span class="n">default_headers</span> <span class="o">+</span> <span class="p">(</span>
+    <span class="s">&#39;Permissions&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">CORS_EXPOSE_HEADERS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Permissions&#39;</span><span class="p">,]</span>
+<span class="n">CORS_ORIGIN_ALLOW_ALL</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">CORS_ALLOW_CREDENTIALS</span> <span class="o">=</span> <span class="k">True</span>
+
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&#39;ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a&#39;</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="k">True</span>
+
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span> <span class="s">&#39;test.wevolver.com&#39;</span><span class="p">,</span> <span class="s">&#39;dev.wevolver.com&#39;</span><span class="p">,</span> <span class="s">&#39;localhost&#39;</span><span class="p">,</span> <span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="s">&#39;groot&#39;</span> <span class="p">]</span>
+
+<span class="n">DATA_UPLOAD_MAX_MEMORY_SIZE</span> <span class="o">=</span> <span class="mi">524288000</span>
+
+<span class="c"># Application definition</span>
+
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;robots&#39;</span><span class="p">,</span>
+    <span class="s">&#39;corsheaders&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
+    <span class="c"># &#39;django.contrib.admin&#39;,</span>
+    <span class="c"># &#39;django.contrib.auth&#39;,</span>
+    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="c"># &#39;django.contrib.sessions&#39;,</span>
+    <span class="c"># &#39;django.contrib.messages&#39;,</span>
+    <span class="c"># &#39;django.contrib.staticfiles&#39;,</span>
+<span class="p">)</span>
+
+<span class="n">SITE_ID</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">MIDDLEWARE_CLASSES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;corsheaders.middleware.CorsMiddleware&#39;</span><span class="p">,</span>
+    <span class="c"># &#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,</span>
+    <span class="s">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+    <span class="c"># &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,</span>
+    <span class="c"># &#39;django.contrib.auth.middleware.SessionAuthenticationMiddleware&#39;,</span>
+    <span class="c"># &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,</span>
+    <span class="c"># &#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;,</span>
+    <span class="c"># &#39;django.middleware.security.SecurityMiddleware&#39;,</span>
+    <span class="s">&#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;</span><span class="p">,</span>
+    <span class="s">&#39;django.middleware.security.SecurityMiddleware&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="s">&#39;groot.urls&#39;</span>
+
+<span class="c"># TEMPLATES = [</span>
+<span class="c">#     {</span>
+<span class="c">#         &#39;BACKEND&#39;: &#39;django.template.backends.django.DjangoTemplates&#39;,</span>
+<span class="c">#         &#39;DIRS&#39;: [],</span>
+<span class="c">#         &#39;APP_DIRS&#39;: True,</span>
+<span class="c">#         &#39;OPTIONS&#39;: {</span>
+<span class="c">#             &#39;context_processors&#39;: [</span>
+<span class="c">#                 &#39;django.template.loaders.app_directories.Loader&#39;,</span>
+<span class="c">#                 &#39;django.template.context_processors.debug&#39;,</span>
+<span class="c">#                 &#39;django.template.context_processors.request&#39;,</span>
+<span class="c">#                 &#39;django.contrib.auth.context_processors.auth&#39;,</span>
+<span class="c">#                 &#39;django.contrib.messages.context_processors.messages&#39;,</span>
+<span class="c">#             ],</span>
+<span class="c">#         },</span>
+<span class="c">#     },</span>
+<span class="c"># ]</span>
+
+<span class="n">WSGI_APPLICATION</span> <span class="o">=</span> <span class="s">&#39;groot.wsgi.application&#39;</span>
+
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;django.db.backends.sqlite3&#39;</span><span class="p">,</span>
+        <span class="s">&#39;NAME&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;db.sqlite3&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">&#39;en-us&#39;</span>
+<span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">&#39;UTC&#39;</span>
+<span class="n">USE_I18N</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">USE_L10N</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">USE_TZ</span> <span class="o">=</span> <span class="k">True</span>
+
+<span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;/static/&#39;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&#39;logs/&#39;</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s">&#39;logs/&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;logs&#39;</span><span class="p">,</span> <span class="s">&#39;main_debug.log&#39;</span><span class="p">),</span> <span class="s">&#39;w&#39;</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">LOGGING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;version&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s">&#39;disable_existing_loggers&#39;</span><span class="p">:</span> <span class="k">False</span><span class="p">,</span>
+    <span class="s">&#39;filters&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;require_debug_false&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;()&#39;</span><span class="p">:</span> <span class="s">&#39;django.utils.log.RequireDebugFalse&#39;</span>
+        <span class="p">},</span>
+        <span class="s">&#39;require_debug_true&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;()&#39;</span><span class="p">:</span> <span class="s">&#39;django.utils.log.RequireDebugTrue&#39;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;formatters&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;main_formatter&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;%(levelname)s:%(name)s: %(message)s &#39;</span>
+        <span class="s">&#39;(%(asctime)s; %(filename)s:%(lineno)d)&#39;</span><span class="p">,</span>
+        <span class="s">&#39;datefmt&#39;</span><span class="p">:</span> <span class="s">&quot;%Y-%m-%d %H:%M:%S&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;console&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">,</span>
+            <span class="s">&#39;filters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;require_debug_true&#39;</span><span class="p">],</span>
+            <span class="s">&#39;class&#39;</span><span class="p">:</span> <span class="s">&#39;logging.StreamHandler&#39;</span><span class="p">,</span>
+            <span class="s">&#39;formatter&#39;</span><span class="p">:</span> <span class="s">&#39;main_formatter&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s">&#39;debug_file&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;DEBUG&#39;</span><span class="p">,</span>
+            <span class="s">&#39;class&#39;</span><span class="p">:</span> <span class="s">&#39;logging.handlers.RotatingFileHandler&#39;</span><span class="p">,</span>
+            <span class="s">&#39;filename&#39;</span><span class="p">:</span> <span class="s">&#39;logs/main_debug.log&#39;</span><span class="p">,</span>
+            <span class="s">&#39;maxBytes&#39;</span><span class="p">:</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s">&#39;backupCount&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="s">&#39;formatter&#39;</span><span class="p">:</span> <span class="s">&#39;main_formatter&#39;</span><span class="p">,</span>
+            <span class="s">&#39;filters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;require_debug_true&#39;</span><span class="p">],</span>
+        <span class="p">},</span>
+        <span class="s">&#39;null&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&quot;class&quot;</span><span class="p">:</span> <span class="s">&#39;logging.NullHandler&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&#39;loggers&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;django.request&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;console&#39;</span><span class="p">],</span>
+        <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&#39;ERROR&#39;</span><span class="p">,</span>
+        <span class="s">&#39;propagate&#39;</span><span class="p">:</span> <span class="k">True</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s">&#39;django&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;null&#39;</span><span class="p">,</span> <span class="p">],</span>
+        <span class="p">},</span>
+        <span class="s">&#39;py.warnings&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;null&#39;</span><span class="p">,</span> <span class="p">],</span>
+        <span class="p">},</span>
+        <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;handlers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;console&#39;</span><span class="p">,</span> <span class="s">&#39;debug_file&#39;</span><span class="p">],</span>
+            <span class="s">&#39;level&#39;</span><span class="p">:</span> <span class="s">&quot;DEBUG&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;env.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;../env.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">environment</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+
+<div class="viewcode-block" id="get_env"><a class="viewcode-back" href="../../modules/groot.html#groot.settings.get_env">[docs]</a><span class="k">def</span> <span class="nf">get_env</span><span class="p">(</span><span class="n">setting</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">environment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the env variable or return explicit exception.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">env</span><span class="p">[</span><span class="n">setting</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="s">&quot;Set the {0} environment variable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span></div>
+
+<span class="n">API_BASE</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s">&quot;API_BASE&quot;</span><span class="p">)</span>
+<span class="n">AUTH_BASE</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s">&quot;AUTH_BASE&quot;</span><span class="p">)</span>
+<span class="n">TEST_API_BASE</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s">&quot;TEST_API_BASE&quot;</span><span class="p">)</span>
+<span class="n">TEST_AUTH_BASE</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s">&quot;TEST_AUTH_BASE&quot;</span><span class="p">)</span>
+<span class="n">TOKEN_SECRET</span> <span class="o">=</span> <span class="n">get_env</span><span class="p">(</span><span class="s">&quot;TOKEN_SECRET&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Groot</a></h1>
+
+
+
+<p class="blurb">A git server build for hardware development</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=btcrs&repo=groot&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/btcrs/groot">
+    <img
+        alt="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+        src="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/groot.versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/groot.permissions.html">Permissions</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Wevolver.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

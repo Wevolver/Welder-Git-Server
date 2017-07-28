@@ -1,0 +1,258 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>groot.permissions.decorators &#8212; Groot 0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for groot.permissions.decorators</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">PermissionDenied</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">JsonResponse</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponseForbidden</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">profilehooks</span> <span class="k">import</span> <span class="n">profile</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="requires_permission_to"><a class="viewcode-back" href="../../../modules/groot.permissions.html#groot.permissions.decorators.requires_permission_to">[docs]</a><span class="k">def</span> <span class="nf">requires_permission_to</span><span class="p">(</span><span class="n">permission</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Determines the user and authorization through Wevolver token based auth</span>
+
+<span class="sd">    Uses the request&#39;s access_token and user_id params to check the user&#39;s bearer</span>
+<span class="sd">    token against the Wevolver API</span>
+
+<span class="sd">    Calls the project permission endpoint with the current user&#39;s id to</span>
+<span class="sd">    get a list of permissions based on their role</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">has_permission</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;permissions_token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;All Good&quot;</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">access_token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HTTP_AUTHORIZATION&#39;</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
+            <span class="n">permissions</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HTTP_PERMISSIONS&#39;</span><span class="p">,</span> <span class="k">None</span><span class="p">)</span>
+            <span class="n">permissions</span> <span class="o">=</span> <span class="n">permissions</span> <span class="k">if</span> <span class="n">permissions</span> <span class="k">else</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;permissions&quot;</span><span class="p">)</span>
+            <span class="n">project_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;project_name&#39;</span><span class="p">]</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;user_id&quot;</span><span class="p">)</span>
+            <span class="n">user_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">permissions</span><span class="p">:</span>
+                <span class="n">success</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">get_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+                <span class="n">decoded_token</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)</span>
+                <span class="n">permissions</span> <span class="o">=</span> <span class="n">decoded_token</span><span class="p">[</span><span class="s">&#39;permissions&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">permissions</span>
+                <span class="n">permissions</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s">&quot;The permission set {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">permissions</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">permissions</span> <span class="ow">and</span> <span class="n">access_token</span><span class="p">:</span>
+                    <span class="n">success</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">get_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+                    <span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+                    <span class="n">permissions</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)[</span><span class="s">&#39;permissions&#39;</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">permissions</span><span class="p">:</span>
+                    <span class="n">permissions</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;none&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">permissions</span> <span class="o">=</span> <span class="n">permissions</span><span class="p">[</span><span class="s">&#39;permissions&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">permissions</span> <span class="ow">and</span> <span class="n">permission</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;permissions_token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">HttpResponseForbidden</span><span class="p">(</span><span class="s">&#39;No Permissions&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_decorator</span>
+    <span class="k">return</span> <span class="n">has_permission</span></div>
+
+<div class="viewcode-block" id="requires_git_permission_to"><a class="viewcode-back" href="../../../modules/groot.permissions.html#groot.permissions.decorators.requires_git_permission_to">[docs]</a><span class="k">def</span> <span class="nf">requires_git_permission_to</span><span class="p">(</span><span class="n">permission</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Determines the user and authorization through basic http auth</span>
+
+<span class="sd">    Uses the requests HTTP_AUTHORIZATION to authorize the user against</span>
+<span class="sd">    basic HTTP auth</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">has_git_permission</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;HTTP_AUTHORIZATION&#39;</span><span class="p">):</span>
+                <span class="n">access_token</span><span class="p">,</span> <span class="n">user_id</span> <span class="o">=</span> <span class="n">basic_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="p">[</span><span class="s">&#39;HTTP_AUTHORIZATION&#39;</span><span class="p">])</span>
+                <span class="n">user_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span>
+                <span class="n">project_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;project_name&#39;</span><span class="p">]</span>
+                <span class="n">success</span><span class="p">,</span> <span class="n">response</span> <span class="o">=</span> <span class="n">get_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span>
+                <span class="n">decoded_token</span> <span class="o">=</span> <span class="n">decode_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                <span class="n">permissions</span> <span class="o">=</span> <span class="n">decoded_token</span><span class="p">[</span><span class="s">&#39;permissions&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">user_id</span> <span class="ow">and</span> <span class="n">permissions</span> <span class="ow">and</span> <span class="n">permission</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">HttpResponseForbidden</span><span class="p">(</span><span class="s">&#39;No Permissions&#39;</span><span class="p">)</span>
+
+            <span class="n">res</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">()</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">status_code</span> <span class="o">=</span> <span class="mi">401</span>
+            <span class="n">res</span><span class="p">[</span><span class="s">&#39;WWW-Authenticate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;Basic&#39;</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="n">_decorator</span>
+    <span class="k">return</span> <span class="n">has_git_permission</span></div>
+
+<div class="viewcode-block" id="basic_auth"><a class="viewcode-back" href="../../../modules/groot.permissions.html#groot.permissions.decorators.basic_auth">[docs]</a><span class="k">def</span> <span class="nf">basic_auth</span><span class="p">(</span><span class="n">authorization_header</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Basic auth middleware for git requests</span>
+
+<span class="sd">    Attempts to log the current user into the Wevolver API login endpoint</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        authorization_header (str): the current user&#39;s bearer token</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">authorization_method</span><span class="p">,</span> <span class="n">authorization</span> <span class="o">=</span> <span class="n">authorization_header</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">authorization_method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;basic&#39;</span><span class="p">:</span>
+        <span class="n">authorization</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">authorization</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span>
+        <span class="n">username</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="n">authorization</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">username</span><span class="p">),</span>
+                <span class="s">&#39;password&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">password</span><span class="p">),</span>
+                <span class="s">&#39;grant_type&#39;</span><span class="p">:</span> <span class="s">&#39;password&#39;</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;{}/proxy-client-token&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_BASE</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)[</span><span class="s">&#39;access_token&#39;</span><span class="p">],</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)[</span><span class="s">&#39;user&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">None</span></div>
+
+<div class="viewcode-block" id="get_token"><a class="viewcode-back" href="../../../modules/groot.permissions.html#groot.permissions.decorators.get_token">[docs]</a><span class="k">def</span> <span class="nf">get_token</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">access_token</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Checks against the Wevolver API to see if the users token is currently valid</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        authorization (str): the current user&#39;s bearer token</span>
+<span class="sd">        user (str): the current requesting user&#39;s id</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;{}/users/{}/checktoken/?project={}/{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">API_BASE</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">access_token</span> <span class="k">if</span> <span class="n">access_token</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;Bearer&quot;</span> <span class="k">else</span> <span class="s">&quot;Bearer &quot;</span> <span class="o">+</span> <span class="n">access_token</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;Authorization&#39;</span><span class="p">:</span> <span class="s">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">access_token</span><span class="p">)}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="o">.</span><span class="n">ok</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="decode_token"><a class="viewcode-back" href="../../../modules/groot.permissions.html#groot.permissions.decorators.decode_token">[docs]</a><span class="k">def</span> <span class="nf">decode_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Decodes the received token using Wevolvers JWT public key</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        token (str): the received token</span>
+<span class="sd">        user_id (str): the current requesting user&#39;s id</span>
+<span class="sd">        user_name (str): the current requesting user</span>
+<span class="sd">        user_name (str): the current requesting user&#39;s project</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;versions/jwt.verify&#39;</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">verify</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">verify</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;RS256&#39;</span><span class="p">],</span> <span class="n">issuer</span><span class="o">=</span><span class="s">&#39;wevolver&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">ExpiredSignatureError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">None</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">Groot</a></h1>
+
+
+
+<p class="blurb">A git server build for hardware development</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=btcrs&repo=groot&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/btcrs/groot">
+    <img
+        alt="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+        src="https://secure.travis-ci.org/btcrs/groot.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/groot.versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/groot.permissions.html">Permissions</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Wevolver.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

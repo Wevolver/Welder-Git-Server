@@ -1,0 +1,22 @@
+sudo: required
+
+language: python
+python:
+   - "3.6"
+
+before_install:
+      - git clone --depth 1 --single-branch https://github.com/libgit2/libgit2.git
+      - cd libgit2
+      - mkdir build && cd build
+      - sudo cmake ..
+      - sudo cmake --build .
+      - sudo cmake --build . --target install
+      - cd ${TRAVIS_BUILD_DIR}
+      - sudo apt-get install libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev build-essential libssl-dev build-essential autoconf libtool pkg-config
+      - pip install -r requirements.txt
+
+script:
+      - python ./manage.py test
+
+notifications:
+  slack: wevolver:xL4CGDEFEJ6qQeTHMFVk9tEe
