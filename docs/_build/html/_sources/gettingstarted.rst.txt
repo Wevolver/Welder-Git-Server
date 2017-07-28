@@ -2,10 +2,10 @@
 Installation
 ============
 
-The bare minimum required to install Groot is as follows:
+The bare minimum required to install Welder is as follows:
 
-* Python 3.6
 * Git
+* Python 3.6
 * LibGit 0.26
 
 

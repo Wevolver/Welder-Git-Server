@@ -5,12 +5,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>groot.versions package &#8212; Groot 0.1 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <title>welder.versions package &#8212; welder 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
+        URL_ROOT:    '../',
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -18,13 +18,15 @@
         SOURCELINK_SUFFIX: '.txt'
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="welder.versions.tests package" href="welder.versions.tests.html" />
+    <link rel="prev" title="API" href="../api.html" />
    
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -38,16 +40,16 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="groot-versions-package">
-<h1>groot.versions package<a class="headerlink" href="#groot-versions-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="welder-versions-package">
+<h1>welder.versions package<a class="headerlink" href="#welder-versions-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="groot.versions.tests.html">groot.versions.tests package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="groot.versions.tests.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="groot.versions.tests.html#module-groot.versions.tests.test_views">groot.versions.tests.test_views module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="groot.versions.tests.html#module-groot.versions.tests">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="welder.versions.tests.html">welder.versions.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="welder.versions.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="welder.versions.tests.html#module-welder.versions.tests.test_views">welder.versions.tests.test_views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="welder.versions.tests.html#module-welder.versions.tests">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -56,42 +58,42 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-groot.versions.git">
-<span id="groot-versions-git-module"></span><h2>groot.versions.git module<a class="headerlink" href="#module-groot.versions.git" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-welder.versions.git">
+<span id="welder-versions-git-module"></span><h2>welder.versions.git module<a class="headerlink" href="#module-welder.versions.git" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="groot.versions.git.GitResponse">
-<em class="property">class </em><code class="descclassname">groot.versions.git.</code><code class="descname">GitResponse</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse">
+<em class="property">class </em><code class="descclassname">welder.versions.git.</code><code class="descname">GitResponse</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.http.response.HttpResponse</span></code></p>
 <p>An extension of Django’s HttpResponse that meets Git’s smart HTTP specs</p>
 <p>The responses to Git’s requests must follow a protocol, and this class is
 meant to build properly formed responses.</p>
 <dl class="attribute">
-<dt id="groot.versions.git.GitResponse.service">
-<code class="descname">service</code><a class="headerlink" href="#groot.versions.git.GitResponse.service" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.service">
+<code class="descname">service</code><a class="headerlink" href="#welder.versions.git.GitResponse.service" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>str</em> – the initiated git plumbing command</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.git.GitResponse.action">
-<code class="descname">action</code><a class="headerlink" href="#groot.versions.git.GitResponse.action" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.action">
+<code class="descname">action</code><a class="headerlink" href="#welder.versions.git.GitResponse.action" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>str</em> – the action initiated by the service</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.git.GitResponse.repository">
-<code class="descname">repository</code><a class="headerlink" href="#groot.versions.git.GitResponse.repository" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.repository">
+<code class="descname">repository</code><a class="headerlink" href="#welder.versions.git.GitResponse.repository" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>str</em> – target repository of the request</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.git.GitResponse.data">
-<code class="descname">data</code><a class="headerlink" href="#groot.versions.git.GitResponse.data" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.data">
+<code class="descname">data</code><a class="headerlink" href="#welder.versions.git.GitResponse.data" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>str</em> – uploaded data</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="groot.versions.git.GitResponse.get_http_info_refs">
-<code class="descname">get_http_info_refs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse.get_http_info_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse.get_http_info_refs" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.get_http_info_refs">
+<code class="descname">get_http_info_refs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse.get_http_info_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse.get_http_info_refs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a response for git’s info_refs request</p>
 <p>Sets the headers, generates the first line of the request, and adds
 the info_refs functions data to the payload.</p>
@@ -101,15 +103,15 @@ the info_refs functions data to the payload.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An HttpResponse for the handshake response for the info_refs function.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../../modules/groot.versions.html#groot.versions.git.GitResponse" title="groot.versions.git.GitResponse">GitResponse</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#welder.versions.git.GitResponse" title="welder.versions.git.GitResponse">GitResponse</a></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="groot.versions.git.GitResponse.get_http_service_rpc">
-<code class="descname">get_http_service_rpc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse.get_http_service_rpc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse.get_http_service_rpc" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.get_http_service_rpc">
+<code class="descname">get_http_service_rpc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse.get_http_service_rpc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse.get_http_service_rpc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initiates a git plumbing rpc call depending on the received service request</p>
 <p>Sets the headers and sets the payload to the data generated by receive_pack or
 upload_pack depending on whether the request is a push or a pull respectively.</p>
@@ -119,15 +121,15 @@ upload_pack depending on whether the request is a push or a pull respectively.</
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An HttpResponse containing the data requested by git’s service call.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../../modules/groot.versions.html#groot.versions.git.GitResponse" title="groot.versions.git.GitResponse">GitResponse</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#welder.versions.git.GitResponse" title="welder.versions.git.GitResponse">GitResponse</a></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="groot.versions.git.GitResponse.set_response_first_line">
-<code class="descname">set_response_first_line</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse.set_response_first_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse.set_response_first_line" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.set_response_first_line">
+<code class="descname">set_response_first_line</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse.set_response_first_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse.set_response_first_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the first line of the responses body</p>
 <p>Constructs a line to detail the service of the current request. Adds the a prefix
 (total line length in hex) to tell the client where the payload starts.</p>
@@ -135,21 +137,21 @@ upload_pack depending on whether the request is a push or a pull respectively.</
 </dd></dl>
 
 <dl class="method">
-<dt id="groot.versions.git.GitResponse.set_response_header">
-<code class="descname">set_response_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse.set_response_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse.set_response_header" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.set_response_header">
+<code class="descname">set_response_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse.set_response_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse.set_response_header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the required headers for a git handshake</p>
 <p>Primarily disables caching and sets the content type to the requested service and action</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="groot.versions.git.GitResponse.set_response_payload">
-<code class="descname">set_response_payload</code><span class="sig-paren">(</span><em>payload_type</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#GitResponse.set_response_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.GitResponse.set_response_payload" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.GitResponse.set_response_payload">
+<code class="descname">set_response_payload</code><span class="sig-paren">(</span><em>payload_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#GitResponse.set_response_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.GitResponse.set_response_payload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Executes the service requested and writes the data to the payload</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>payload_type</strong> (<a class="reference internal" href="../../modules/groot.versions.html#groot.versions.git.plumbing" title="groot.versions.git.plumbing"><em>plumbing</em></a>) – git plumbing call initiated by the request.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>payload_type</strong> (<a class="reference internal" href="#welder.versions.git.plumbing" title="welder.versions.git.plumbing"><em>plumbing</em></a>) – git plumbing call initiated by the request.</td>
 </tr>
 </tbody>
 </table>
@@ -158,39 +160,39 @@ upload_pack depending on whether the request is a push or a pull respectively.</
 </dd></dl>
 
 <dl class="class">
-<dt id="groot.versions.git.Services">
-<em class="property">class </em><code class="descclassname">groot.versions.git.</code><code class="descname">Services</code><a class="reference internal" href="../../_modules/groot/versions/git.html#Services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.Services" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.Services">
+<em class="property">class </em><code class="descclassname">welder.versions.git.</code><code class="descname">Services</code><a class="reference internal" href="../_modules/welder/versions/git.html#Services"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.Services" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="groot.versions.git.Services.git_receive_pack">
-<code class="descname">git_receive_pack</code><em class="property"> = 'git-receive-pack'</em><a class="headerlink" href="#groot.versions.git.Services.git_receive_pack" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.Services.git_receive_pack">
+<code class="descname">git_receive_pack</code><em class="property"> = 'git-receive-pack'</em><a class="headerlink" href="#welder.versions.git.Services.git_receive_pack" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.git.Services.git_upload_pack">
-<code class="descname">git_upload_pack</code><em class="property"> = 'git-upload-pack'</em><a class="headerlink" href="#groot.versions.git.Services.git_upload_pack" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.Services.git_upload_pack">
+<code class="descname">git_upload_pack</code><em class="property"> = 'git-upload-pack'</em><a class="headerlink" href="#welder.versions.git.Services.git_upload_pack" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.git.get_http_error">
-<code class="descclassname">groot.versions.git.</code><code class="descname">get_http_error</code><span class="sig-paren">(</span><em>exception</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/git.html#get_http_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.git.get_http_error" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.get_http_error">
+<code class="descclassname">welder.versions.git.</code><code class="descname">get_http_error</code><span class="sig-paren">(</span><em>exception</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/git.html#get_http_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.git.get_http_error" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.git.plumbing">
-<code class="descclassname">groot.versions.git.</code><code class="descname">plumbing</code><a class="headerlink" href="#groot.versions.git.plumbing" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.git.plumbing">
+<code class="descclassname">welder.versions.git.</code><code class="descname">plumbing</code><a class="headerlink" href="#welder.versions.git.plumbing" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">git_plumbing</span></code></p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-groot.versions.porcelain">
-<span id="groot-versions-porcelain-module"></span><h2>groot.versions.porcelain module<a class="headerlink" href="#module-groot.versions.porcelain" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-welder.versions.porcelain">
+<span id="welder-versions-porcelain-module"></span><h2>welder.versions.porcelain module<a class="headerlink" href="#module-welder.versions.porcelain" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="groot.versions.porcelain.add_blobs_to_tree">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">add_blobs_to_tree</code><span class="sig-paren">(</span><em>previous_commit_tree</em>, <em>repo</em>, <em>blobs</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#add_blobs_to_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.add_blobs_to_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.add_blobs_to_tree">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">add_blobs_to_tree</code><span class="sig-paren">(</span><em>previous_commit_tree</em>, <em>repo</em>, <em>blobs</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#add_blobs_to_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.add_blobs_to_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds blobs to a tree at a given path.</p>
 <blockquote>
 <div>Traverse the repository to find the given path to a blob.
@@ -221,8 +223,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.commit_blob">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">commit_blob</code><span class="sig-paren">(</span><em>repo</em>, <em>blob</em>, <em>path</em>, <em>name='readme.md'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#commit_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.commit_blob" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.commit_blob">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">commit_blob</code><span class="sig-paren">(</span><em>repo</em>, <em>blob</em>, <em>path</em>, <em>name='readme.md'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#commit_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.commit_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a blob to a tree and commits it to a repository.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -241,8 +243,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.commit_tree">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">commit_tree</code><span class="sig-paren">(</span><em>repo</em>, <em>newTree</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#commit_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.commit_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.commit_tree">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">commit_tree</code><span class="sig-paren">(</span><em>repo</em>, <em>newTree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#commit_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.commit_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commits tree to a repository.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -259,8 +261,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.flatten">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">flatten</code><span class="sig-paren">(</span><em>tree</em>, <em>repo</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.flatten" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.flatten">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">flatten</code><span class="sig-paren">(</span><em>tree</em>, <em>repo</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.flatten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translates a tree structure into a single level array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -283,8 +285,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.generate_directory">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">generate_directory</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#generate_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.generate_directory" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.generate_directory">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">generate_directory</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#generate_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.generate_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates a unique directory structure for the project based on the user name.</p>
 <p><a class="reference external" href="https://github.com/blog/117-scaling-lesson-23742">https://github.com/blog/117-scaling-lesson-23742</a></p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -302,8 +304,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.parse_file_tree">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">parse_file_tree</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#parse_file_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.parse_file_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.parse_file_tree">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">parse_file_tree</code><span class="sig-paren">(</span><em>tree</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#parse_file_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.parse_file_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses the repository’s tree structure into JSON.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -320,8 +322,8 @@ Insert the new tree into the previous one to make a new snapshot.</div></blockqu
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.porcelain.walk_tree">
-<code class="descclassname">groot.versions.porcelain.</code><code class="descname">walk_tree</code><span class="sig-paren">(</span><em>repo</em>, <em>full_path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/porcelain.html#walk_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.porcelain.walk_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.porcelain.walk_tree">
+<code class="descclassname">welder.versions.porcelain.</code><code class="descname">walk_tree</code><span class="sig-paren">(</span><em>repo</em>, <em>full_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/porcelain.html#walk_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.porcelain.walk_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a path in returns the object.</p>
 <blockquote>
 <div>If the object is a blob it returns the previous object as the tree else blob is None.</div></blockquote>
@@ -347,31 +349,31 @@ blob: The requested blob if there is one.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-groot.versions.urls">
-<span id="groot-versions-urls-module"></span><h2>groot.versions.urls module<a class="headerlink" href="#module-groot.versions.urls" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-welder.versions.urls">
+<span id="welder-versions-urls-module"></span><h2>welder.versions.urls module<a class="headerlink" href="#module-welder.versions.urls" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-groot.versions.views">
-<span id="groot-versions-views-module"></span><h2>groot.versions.views module<a class="headerlink" href="#module-groot.versions.views" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-welder.versions.views">
+<span id="welder-versions-views-module"></span><h2>welder.versions.views module<a class="headerlink" href="#module-welder.versions.views" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="groot.versions.views.Actions">
-<em class="property">class </em><code class="descclassname">groot.versions.views.</code><code class="descname">Actions</code><a class="reference internal" href="../../_modules/groot/versions/views.html#Actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.Actions" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.Actions">
+<em class="property">class </em><code class="descclassname">welder.versions.views.</code><code class="descname">Actions</code><a class="reference internal" href="../_modules/welder/versions/views.html#Actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.Actions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="attribute">
-<dt id="groot.versions.views.Actions.advertisement">
-<code class="descname">advertisement</code><em class="property"> = 'advertisement'</em><a class="headerlink" href="#groot.versions.views.Actions.advertisement" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.Actions.advertisement">
+<code class="descname">advertisement</code><em class="property"> = 'advertisement'</em><a class="headerlink" href="#welder.versions.views.Actions.advertisement" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="groot.versions.views.Actions.result">
-<code class="descname">result</code><em class="property"> = 'result'</em><a class="headerlink" href="#groot.versions.views.Actions.result" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.Actions.result">
+<code class="descname">result</code><em class="property"> = 'result'</em><a class="headerlink" href="#welder.versions.views.Actions.result" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.create_new_folder">
-<code class="descclassname">groot.versions.views.</code><code class="descname">create_new_folder</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#create_new_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.create_new_folder" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.create_new_folder">
+<code class="descclassname">welder.versions.views.</code><code class="descname">create_new_folder</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#create_new_folder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.create_new_folder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commits a single file to a specified path, creating a new folder in the repository.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -395,8 +397,8 @@ blob: The requested blob if there is one.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.create_project">
-<code class="descclassname">groot.versions.views.</code><code class="descname">create_project</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.create_project" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.create_project">
+<code class="descclassname">welder.versions.views.</code><code class="descname">create_project</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#create_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.create_project" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Creates a bare repository (project) based on the user name</dt>
 <dd><p class="first">and project name in the URL.</p>
@@ -426,8 +428,8 @@ project, creates a default readme and commits it.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.delete_project">
-<code class="descclassname">groot.versions.views.</code><code class="descname">delete_project</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#delete_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.delete_project" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.delete_project">
+<code class="descclassname">welder.versions.views.</code><code class="descname">delete_project</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#delete_project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.delete_project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the repository specified in the URL and deletes from the file system.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -451,8 +453,8 @@ project, creates a default readme and commits it.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.download_archive">
-<code class="descclassname">groot.versions.views.</code><code class="descname">download_archive</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#download_archive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.download_archive" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.download_archive">
+<code class="descclassname">welder.versions.views.</code><code class="descname">download_archive</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#download_archive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.download_archive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Grabs and returns a user’s repository as a tarball.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -475,8 +477,8 @@ project, creates a default readme and commits it.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.info_refs">
-<code class="descclassname">groot.versions.views.</code><code class="descname">info_refs</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#info_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.info_refs" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.info_refs">
+<code class="descclassname">welder.versions.views.</code><code class="descname">info_refs</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#info_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.info_refs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initiates a handshake for a smart HTTP connection</p>
 <p><a class="reference external" href="https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols">https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols</a></p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -492,7 +494,7 @@ project, creates a default readme and commits it.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A HttpResponse with the proper headers and payload needed by git.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../../modules/groot.versions.html#groot.versions.git.GitResponse" title="groot.versions.git.GitResponse">GitResponse</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#welder.versions.git.GitResponse" title="welder.versions.git.GitResponse">GitResponse</a></p>
 </td>
 </tr>
 </tbody>
@@ -500,8 +502,8 @@ project, creates a default readme and commits it.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.list_bom">
-<code class="descclassname">groot.versions.views.</code><code class="descname">list_bom</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#list_bom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.list_bom" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.list_bom">
+<code class="descclassname">welder.versions.views.</code><code class="descname">list_bom</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#list_bom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.list_bom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Collects all the bom.csv files in a repository and return their sum.</p>
 <blockquote>
 <div>Flattens the repository’s tree into an array. Then filters the array for ‘bom.csv’,
@@ -528,8 +530,8 @@ concatenates them and returns unique lines.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.read_file">
-<code class="descclassname">groot.versions.views.</code><code class="descname">read_file</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.read_file" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.read_file">
+<code class="descclassname">welder.versions.views.</code><code class="descname">read_file</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.read_file" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Finds a file in the path of the repository specified by the URL</dt>
 <dd>and returns the blob.</dd>
@@ -556,8 +558,8 @@ concatenates them and returns unique lines.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.read_tree">
-<code class="descclassname">groot.versions.views.</code><code class="descname">read_tree</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#read_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.read_tree" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.read_tree">
+<code class="descclassname">welder.versions.views.</code><code class="descname">read_tree</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#read_tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.read_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Grabs and returns a single file or a tree from a user’s repository</p>
 <blockquote>
 <div>The requested tree is first parsed into JSON.</div></blockquote>
@@ -583,8 +585,8 @@ concatenates them and returns unique lines.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.receive_files">
-<code class="descclassname">groot.versions.views.</code><code class="descname">receive_files</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#receive_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.receive_files" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.receive_files">
+<code class="descclassname">welder.versions.views.</code><code class="descname">receive_files</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em>, <em>permissions_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#receive_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.receive_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receives and commits an array of files to a specific path in the repository.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -608,14 +610,14 @@ concatenates them and returns unique lines.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.receive_pack">
-<code class="descclassname">groot.versions.views.</code><code class="descname">receive_pack</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#receive_pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.receive_pack" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.receive_pack">
+<code class="descclassname">welder.versions.views.</code><code class="descname">receive_pack</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#receive_pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.receive_pack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls service_rpc assuming the user is authenticated and has write permissions</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.service_rpc">
-<code class="descclassname">groot.versions.views.</code><code class="descname">service_rpc</code><span class="sig-paren">(</span><em>user</em>, <em>project_name</em>, <em>request_service</em>, <em>request_body</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#service_rpc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.service_rpc" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.service_rpc">
+<code class="descclassname">welder.versions.views.</code><code class="descname">service_rpc</code><span class="sig-paren">(</span><em>user</em>, <em>project_name</em>, <em>request_service</em>, <em>request_body</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#service_rpc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.service_rpc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls the Git commands to pull or push data from the server depending on the received service.</p>
 <p><a class="reference external" href="https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols">https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols</a></p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -631,7 +633,7 @@ concatenates them and returns unique lines.</div></blockquote>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An HttpResponse that indicates success or failure and may include the requested packfile</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="../../modules/groot.versions.html#groot.versions.git.GitResponse" title="groot.versions.git.GitResponse">GitResponse</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#welder.versions.git.GitResponse" title="welder.versions.git.GitResponse">GitResponse</a></p>
 </td>
 </tr>
 </tbody>
@@ -639,14 +641,14 @@ concatenates them and returns unique lines.</div></blockquote>
 </dd></dl>
 
 <dl class="function">
-<dt id="groot.versions.views.upload_pack">
-<code class="descclassname">groot.versions.views.</code><code class="descname">upload_pack</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/groot/versions/views.html#upload_pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#groot.versions.views.upload_pack" title="Permalink to this definition">¶</a></dt>
+<dt id="welder.versions.views.upload_pack">
+<code class="descclassname">welder.versions.views.</code><code class="descname">upload_pack</code><span class="sig-paren">(</span><em>request</em>, <em>user</em>, <em>project_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/welder/versions/views.html#upload_pack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#welder.versions.views.upload_pack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls service_rpc assuming the user is authenticated and has read permissions</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-groot.versions">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-groot.versions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-welder.versions">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-welder.versions" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -656,36 +658,60 @@ concatenates them and returns unique lines.</div></blockquote>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">groot.versions package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-groot.versions.git">groot.versions.git module</a></li>
-<li><a class="reference internal" href="#module-groot.versions.porcelain">groot.versions.porcelain module</a></li>
-<li><a class="reference internal" href="#module-groot.versions.urls">groot.versions.urls module</a></li>
-<li><a class="reference internal" href="#module-groot.versions.views">groot.versions.views module</a></li>
-<li><a class="reference internal" href="#module-groot.versions">Module contents</a></li>
+<h1 class="logo"><a href="../index.html">welder</a></h1>
+
+
+
+<p class="blurb">A git server build for hardware development</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=btcrs&repo=welder&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/btcrs/welder">
+    <img
+        alt="https://secure.travis-ci.org/btcrs/welder.svg?branch=master"
+        src="https://secure.travis-ci.org/btcrs/welder.svg?branch=master"
+    />
+</a>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Versions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="welder.versions.tests.html">welder.versions.tests package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-welder.versions.git">welder.versions.git module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-welder.versions.porcelain">welder.versions.porcelain module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-welder.versions.urls">welder.versions.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-welder.versions.views">welder.versions.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-welder.versions">Module contents</a></li>
 </ul>
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  </ul></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="welder.permissions.html">Permissions</a></li>
 </ul>
-</div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/docs/modules/groot.versions.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+
+
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
+    <form class="search" action="../search.html" method="get">
       <div><input type="text" name="q" /></div>
       <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
@@ -705,7 +731,7 @@ concatenates them and returns unique lines.</div></blockquote>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../../_sources/docs/modules/groot.versions.rst.txt"
+      <a href="../_sources/modules/welder.versions.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

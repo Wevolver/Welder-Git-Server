@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>groot.versions.views &#8212; welder 0.1 documentation</title>
+    <title>welder.versions.views &#8212; welder 0.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -38,7 +38,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for groot.versions.views</h1><div class="highlight"><pre>
+  <h1>Source code for welder.versions.views</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">django.views.decorators.http</span> <span class="k">import</span> <span class="n">require_http_methods</span>
 <span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">PermissionDenied</span>
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">JsonResponse</span>
@@ -46,9 +46,9 @@
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponseBadRequest</span>
 <span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
 
-<span class="kn">from</span> <span class="nn">groot.permissions</span> <span class="k">import</span> <span class="n">decorators</span> <span class="k">as</span> <span class="n">permissions</span>
-<span class="kn">from</span> <span class="nn">groot.versions</span> <span class="k">import</span> <span class="n">porcelain</span>
-<span class="kn">from</span> <span class="nn">groot.versions.git</span> <span class="k">import</span> <span class="n">GitResponse</span>
+<span class="kn">from</span> <span class="nn">welder.permissions</span> <span class="k">import</span> <span class="n">decorators</span> <span class="k">as</span> <span class="n">permissions</span>
+<span class="kn">from</span> <span class="nn">welder.versions</span> <span class="k">import</span> <span class="n">porcelain</span>
+<span class="kn">from</span> <span class="nn">welder.versions.git</span> <span class="k">import</span> <span class="n">GitResponse</span>
 
 <span class="kn">from</span> <span class="nn">wsgiref.util</span> <span class="k">import</span> <span class="n">FileWrapper</span>
 <span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
@@ -66,11 +66,11 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Actions"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.Actions">[docs]</a><span class="k">class</span> <span class="nc">Actions</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="Actions"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.Actions">[docs]</a><span class="k">class</span> <span class="nc">Actions</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">advertisement</span> <span class="o">=</span> <span class="s">&#39;advertisement&#39;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="s">&#39;result&#39;</span></div>
 
-<div class="viewcode-block" id="create_project"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.create_project">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="create_project"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.create_project">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&quot;create&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_project</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Creates a bare repository (project) based on the user name</span>
@@ -108,7 +108,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponseBadRequest</span><span class="p">(</span><span class="s">&quot;looks like you already have a project with this name!&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="delete_project"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.delete_project">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="delete_project"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.delete_project">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&#39;write&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">delete_project</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Finds the repository specified in the URL and deletes from the file system.</span>
@@ -132,7 +132,7 @@
     <span class="n">response</span><span class="p">[</span><span class="s">&#39;Permissions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">permissions_token</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.read_file">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.read_file">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Finds a file in the path of the repository specified by the URL</span>
@@ -171,7 +171,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponseBadRequest</span><span class="p">(</span><span class="s">&quot;Not a git repository.&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="create_new_folder"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.create_new_folder">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="create_new_folder"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.create_new_folder">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&quot;write&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_new_folder</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Commits a single file to a specified path, creating a new folder in the repository.</span>
@@ -201,7 +201,7 @@
     <span class="n">response</span><span class="p">[</span><span class="s">&#39;Permissions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">permissions_token</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="receive_files"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.receive_files">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="receive_files"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.receive_files">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;POST&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&quot;write&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">receive_files</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Receives and commits an array of files to a specific path in the repository.</span>
@@ -238,7 +238,7 @@
     <span class="n">response</span><span class="p">[</span><span class="s">&#39;Permissions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">permissions_token</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="list_bom"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.list_bom">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="list_bom"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.list_bom">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">list_bom</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Collects all the bom.csv files in a repository and return their sum.</span>
@@ -264,11 +264,11 @@
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span> <span class="k">if</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;bom.csv&#39;</span><span class="p">]:</span>
             <span class="n">data</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">repo</span><span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="n">id</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">except</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">giterror</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">httpresponsebadrequest</span><span class="p">(</span><span class="s">&#39;not a repository&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">GitError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponseBadRequest</span><span class="p">(</span><span class="s">&#39;not a repository&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="download_archive"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.download_archive">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="download_archive"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.download_archive">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">download_archive</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Grabs and returns a user&#39;s repository as a tarball.</span>
@@ -294,7 +294,7 @@
         <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponseBadRequest</span><span class="p">(</span><span class="s">&quot;Not a repository&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span></div>
 
-<div class="viewcode-block" id="info_refs"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.info_refs">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="info_refs"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.info_refs">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_git_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">info_refs</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Initiates a handshake for a smart HTTP connection</span>
@@ -315,19 +315,19 @@
                            <span class="n">repository</span><span class="o">=</span><span class="n">requested_repo</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="k">None</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get_http_info_refs</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="upload_pack"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.upload_pack">[docs]</a><span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_git_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="upload_pack"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.upload_pack">[docs]</a><span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_git_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">upload_pack</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calls service_rpc assuming the user is authenticated and has read permissions &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">service_rpc</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">path_info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="receive_pack"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.receive_pack">[docs]</a><span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_git_permission_to</span><span class="p">(</span><span class="s">&#39;write&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="receive_pack"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.receive_pack">[docs]</a><span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_git_permission_to</span><span class="p">(</span><span class="s">&#39;write&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">receive_pack</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calls service_rpc assuming the user is authenticated and has write permissions &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">service_rpc</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">path_info</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="service_rpc"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.service_rpc">[docs]</a><span class="k">def</span> <span class="nf">service_rpc</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">request_service</span><span class="p">,</span> <span class="n">request_body</span><span class="p">):</span>
+<div class="viewcode-block" id="service_rpc"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.service_rpc">[docs]</a><span class="k">def</span> <span class="nf">service_rpc</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">request_service</span><span class="p">,</span> <span class="n">request_body</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calls the Git commands to pull or push data from the server depending on the received service.</span>
 
 <span class="sd">    https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols</span>
@@ -346,7 +346,7 @@
                            <span class="n">repository</span><span class="o">=</span><span class="n">requested_repo</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request_body</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get_http_service_rpc</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="read_tree"><a class="viewcode-back" href="../../../modules/groot.versions.html#groot.versions.views.read_tree">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="read_tree"><a class="viewcode-back" href="../../../modules/welder.versions.html#welder.versions.views.read_tree">[docs]</a><span class="nd">@require_http_methods</span><span class="p">([</span><span class="s">&quot;GET&quot;</span><span class="p">])</span>
 <span class="nd">@permissions</span><span class="o">.</span><span class="n">requires_permission_to</span><span class="p">(</span><span class="s">&#39;read&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">read_tree</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">project_name</span><span class="p">,</span> <span class="n">permissions_token</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Grabs and returns a single file or a tree from a user&#39;s repository</span>
@@ -362,8 +362,10 @@
 <span class="sd">        JsonResponse: An object with the requested tree as JSON</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;path&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;path&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="n">porcelain</span><span class="o">.</span><span class="n">generate_directory</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">project_name</span><span class="p">)</span>
         <span class="n">repo</span> <span class="o">=</span> <span class="n">pygit2</span><span class="o">.</span><span class="n">Repository</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;./repos&#39;</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">project_name</span><span class="p">))</span>
         <span class="n">git_tree</span><span class="p">,</span> <span class="n">git_blob</span> <span class="o">=</span> <span class="n">porcelain</span><span class="o">.</span><span class="n">walk_tree</span><span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="n">parsed_tree</span> <span class="o">=</span> <span class="k">None</span>

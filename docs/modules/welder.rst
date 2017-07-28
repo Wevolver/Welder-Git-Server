@@ -1,37 +1,37 @@
-groot package
-=============
+welder package
+==============
 
 Subpackages
 -----------
 
 .. toctree::
 
-    groot.permissions
-    groot.versions
+    welder.permissions
+    welder.versions
 
 Submodules
 ----------
 
-groot\.settings module
-----------------------
+welder\.settings module
+-----------------------
 
-.. automodule:: groot.settings
+.. automodule:: welder.settings
     :members:
     :undoc-members:
     :show-inheritance:
 
-groot\.urls module
-------------------
+welder\.urls module
+-------------------
 
-.. automodule:: groot.urls
+.. automodule:: welder.urls
     :members:
     :undoc-members:
     :show-inheritance:
 
-groot\.wsgi module
-------------------
+welder\.wsgi module
+-------------------
 
-.. automodule:: groot.wsgi
+.. automodule:: welder.wsgi
     :members:
     :undoc-members:
     :show-inheritance:
@@ -40,7 +40,7 @@ groot\.wsgi module
 Module contents
 ---------------
 
-.. automodule:: groot
+.. automodule:: welder
     :members:
     :undoc-members:
     :show-inheritance:

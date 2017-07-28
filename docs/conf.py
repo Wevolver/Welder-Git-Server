@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append(os.path.abspath('../groot'))
+sys.path.append(os.path.abspath('../welder'))
 sys.path.append(os.path.abspath('../'))
 
 from django.conf import settings
@@ -21,7 +21,7 @@ master_doc = 'index'
 html_theme_options = {
     'description': "A git server build for hardware development",
     'github_user': 'btcrs',
-    'github_repo': 'groot',
+    'github_repo': 'welder',
     'travis_button': True,
 }
 
@@ -33,7 +33,7 @@ html_sidebars = {
     ]
 }
 # General information about the project.
-project = u'Groot'
+project = u'welder'
 copyright = u'2017, Wevolver'
 author = u'Wevolver'
 
