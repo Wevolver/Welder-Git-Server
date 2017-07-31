@@ -107,6 +107,7 @@ def read_file(request, user, project_name, permissions_token):
     """
     try:
         path = request.GET.get('path').rstrip('/')
+        download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
         git_tree, git_blob = porcelain.walk_tree(repo, path)
@@ -119,9 +120,8 @@ def read_file(request, user, project_name, permissions_token):
                                content_type=mimetypes.guess_type(path)[0])
         response['Content-Length'] = len(git_blob.data)
         response['Permissions'] = permissions_token
-
-        # for download needs and argument in the call
-        # response['Content-Disposition'] = "attachment; filename=%s" % path
+        if download:
+            response['Content-Disposition'] = "attachment; filename=%s" % path
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
     except AttributeError as e:
