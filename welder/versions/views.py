@@ -323,17 +323,12 @@ def read_tree(request, user, project_name, permissions_token):
     try:
         path = request.GET.get('path').rstrip('/').lstrip('/')
         directory = porcelain.generate_directory(user)
-        print(directory)
-        print(project_name)
         repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
         git_tree, git_blob = porcelain.walk_tree(repo, path)
         parsed_tree = None
-        parsed_file = None
         if type(git_tree) == pygit2.Tree:
             parsed_tree = porcelain.parse_file_tree(git_tree)
-        if type(git_blob) == pygit2.Blob:
-            parsed_file = str(base64.b64encode(git_blob.data), 'utf-8')
-        response = JsonResponse({'file': parsed_file, 'tree': parsed_tree})
+        response = JsonResponse({'tree': parsed_tree})
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a git repository")
     except AttributeError as e:
