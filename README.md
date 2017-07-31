@@ -1,6 +1,6 @@
 # Welder 
 
-[![Coverage Status](https://coveralls.io/repos/github/btcrs/groot/badge.svg?branch=upload-testing)](https://coveralls.io/github/btcrs/groot?branch=master) [![Build Status](https://travis-ci.org/btcrs/groot.svg?branch=master)](https://travis-ci.org/btcrs/groot) [![API Docs](https://img.shields.io/badge/API-Slate-ff69b4.svg)](https://btcrs.github.io/slate)
+[![Build Status](https://travis-ci.org/Wevolver/Welder.svg?branch=master)](https://travis-ci.org/Wevlver/Welder) [![API Docs](https://img.shields.io/badge/API-Slate-ff69b4.svg)](https://wevolver.github.io/WelderApi/#introduction)
 
 ## Installation Requirements
 
