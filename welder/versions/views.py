@@ -58,7 +58,8 @@ def create_project(request, user, project_name, permissions_token):
         tree = repo.TreeBuilder()
         message = "Initial Commit - Automated"
         comitter = pygit2.Signature('Wevolver', 'Wevolver')
-        readme = "#{} \nThis is where you should document your project  \n### Getting Started".format(project_name)
+        with open('welder/versions/starter.md','r') as readme:
+            readme = readme.read().format(project_name)
         blob = repo.create_blob(readme)
         tree.insert('readme.md', blob, pygit2.GIT_FILEMODE_BLOB)
         sha = repo.create_commit('HEAD', comitter, comitter, message, tree.write(), [])

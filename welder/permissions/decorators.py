@@ -136,7 +136,7 @@ def decode_token(token, user_id, user_name, project_name):
         user_name (str): the current requesting user
         user_name (str): the current requesting user's project
     """
-    with open('versions/jwt.verify','r') as verify:
+    with open('permissions/jwt.verify','r') as verify:
         try:
             return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
         except jwt.ExpiredSignatureError as error:
