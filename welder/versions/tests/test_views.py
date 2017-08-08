@@ -28,7 +28,7 @@ class VersionsViewsTestCase(TestCase):
     @classmethod
     def tearDownClass(cls):
         path = generate_directory('wevolver')
-        path = os.path.join('./repos', path, cls.app)
+        path = os.path.join(settings.REPO_DIRECTORY, path, cls.app)
         if os.path.exists(path):
             shutil.rmtree(path)
 
@@ -52,7 +52,7 @@ class VersionsViewsTestCase(TestCase):
 
     def test_created_bare(self):
         path = generate_directory(self.username)
-        path = os.path.join("./repos", path, self.app)
+        path = os.path.join(settings.REPO_DIRECTORY, path, self.app)
         repo = Repository(path)
         self.assertTrue(repo.is_bare)
 

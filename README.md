@@ -1,6 +1,6 @@
 # Welder 
 
-[![Build Status](https://travis-ci.org/Wevolver/Welder.svg?branch=master)](https://travis-ci.org/Wevlver/Welder) [![API Docs](https://img.shields.io/badge/API-Slate-ff69b4.svg)](https://wevolver.github.io/WelderApi/#introduction)
+[![Build Status](https://travis-ci.org/Wevolver/Welder.svg?branch=master)](https://travis-ci.org/Wevolver/Welder) [![API Docs](https://img.shields.io/badge/API-Slate-ff69b4.svg)](https://wevolver.github.io/WelderApi/#introduction)
 
 ## Installation Requirements
 
