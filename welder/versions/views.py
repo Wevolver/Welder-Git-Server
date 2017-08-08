@@ -48,10 +48,10 @@ def create_project(request, user, project_name, permissions_token):
     """
 
     directory = porcelain.generate_directory(user)
-    path = os.path.join("./repos", directory, project_name)
+    path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
 
-    if not os.path.exists(os.path.join('./repos', directory)):
-        os.makedirs(os.path.join('./repos', directory))
+    if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
+        os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
 
     try:
         repo = pygit2.init_repository(path, True)
@@ -84,7 +84,7 @@ def delete_project(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        path = os.path.join("./repos", directory, project_name)
+        path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
         shutil.rmtree(path)
         response = HttpResponse("Deleted at ./repos/{}/{}".format(user, project_name))
     except FileNotFoundError as e:
@@ -110,7 +110,7 @@ def read_file(request, user, project_name, permissions_token):
         path = request.GET.get('path').rstrip('/')
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
-        repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         git_tree, git_blob = porcelain.walk_tree(repo, path)
         parsed_file = None
         if type(git_blob) == pygit2.Blob:
@@ -149,7 +149,7 @@ def create_new_folder(request, user, project_name, permissions_token):
         directory = porcelain.generate_directory(user)
         post = json.loads(request.body)
         path = post['path'].lstrip('/').rstrip('/')
-        repo = pygit2.Repository(os.path.join("./repos", directory, project_name))
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         readme = "#{} \nThis is where you should document your project  \n### Getting Started".format(project_name)
         blob = repo.create_blob(readme)
         porcelain.commit_blob(repo, blob, path.split('/'), 'readme.md')
@@ -178,7 +178,7 @@ def receive_files(request, user, project_name, permissions_token):
     try:
         directory = porcelain.generate_directory(user)
         path = request.GET.get('path').rstrip('/')
-        repo = pygit2.Repository(os.path.join("./repos", directory, project_name))
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
             old_commit_tree = repo.revparse_single('master').tree
             blobs = []
@@ -217,7 +217,7 @@ def list_bom(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         tree = (repo.revparse_single('master').tree)
         blobs = porcelain.flatten(tree, repo)
         data = ''
@@ -248,7 +248,7 @@ def download_archive(request, user, project_name, permissions_token):
 
     try:
         with tarfile.open(fileobj=response, mode='w') as archive:
-            repo = pygit2.Repository(os.path.join("./repos", directory, project_name))
+            repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
             repo.write_archive(repo.head.target, archive)
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a repository")
@@ -270,7 +270,7 @@ def info_refs(request, user, project_name):
     """
 
     directory = porcelain.generate_directory(user)
-    requested_repo = os.path.join('./repos', directory, project_name)
+    requested_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
     response = GitResponse(service=request.GET['service'], action=Actions.advertisement.value,
                            repository=requested_repo, data=None)
     return response.get_http_info_refs()
@@ -301,7 +301,7 @@ def service_rpc(user, project_name, request_service, request_body):
     """
 
     directory = porcelain.generate_directory(user)
-    requested_repo = os.path.join('./repos', directory, project_name)
+    requested_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
     response = GitResponse(service=request_service, action=Actions.result.value,
                            repository=requested_repo, data=request_body)
     return response.get_http_service_rpc()
@@ -326,7 +326,7 @@ def read_tree(request, user, project_name, permissions_token):
         directory = porcelain.generate_directory(user)
         print(directory)
         print(project_name)
-        repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         git_tree, git_blob = porcelain.walk_tree(repo, path)
         parsed_tree = None
         parsed_file = None
