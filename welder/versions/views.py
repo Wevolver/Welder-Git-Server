@@ -23,6 +23,8 @@ import shutil
 import json
 import os
 
+from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
+
 logger = logging.getLogger(__name__)
 
 class Actions(Enum):
@@ -107,25 +109,39 @@ def read_file(request, user, project_name, permissions_token):
         StreamingHttpResponse: The file's raw data.
     """
     try:
-        path = request.GET.get('path').rstrip('/')
+        path = request.GET.get('path').lstrip('/').rstrip('/')
+        oid = request.GET.get('oid')
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        git_tree, git_blob = porcelain.walk_tree(repo, path)
+        
         parsed_file = None
-        if type(git_blob) == pygit2.Blob:
-            parsed_file = str(base64.b64encode(git_blob.data), 'utf-8')
+        data = None
+        if oid:
+            git_blob = repo.read(oid)
+            # 3 is type blob
+            if git_blob[0] == 3:
+                data = git_blob[1]
+        else:
+            root_tree = repo.revparse_single('master').tree
+            git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+            if type(git_blob) == pygit2.Blob:
+                data = git_blob.data
+        
+        parsed_file = str(base64.b64encode(data), 'utf-8')
+
         chunk_size = 8192
-        filelike = FileWrapper(BytesIO(git_blob.data), chunk_size)
+        filelike = FileWrapper(BytesIO(data), chunk_size)
         response = StreamingHttpResponse(filelike,
                                content_type=mimetypes.guess_type(path)[0])
-        response['Content-Length'] = len(git_blob.data)
+        response['Content-Length'] = len(data)
         response['Permissions'] = permissions_token
         if download:
             response['Content-Disposition'] = "attachment; filename=%s" % path
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
     except AttributeError as e:
+        print(e)
         response = HttpResponseBadRequest("The request is missing a path parameter")
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a git repository.")
@@ -324,20 +340,53 @@ def read_tree(request, user, project_name, permissions_token):
     try:
         path = request.GET.get('path').rstrip('/').lstrip('/')
         directory = porcelain.generate_directory(user)
-        print(directory)
-        print(project_name)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        git_tree, git_blob = porcelain.walk_tree(repo, path)
+        root_tree = repo.revparse_single('master').tree
+        git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
         parsed_tree = None
-        parsed_file = None
         if type(git_tree) == pygit2.Tree:
             parsed_tree = porcelain.parse_file_tree(git_tree)
-        if type(git_blob) == pygit2.Blob:
-            parsed_file = str(base64.b64encode(git_blob.data), 'utf-8')
-        response = JsonResponse({'file': parsed_file, 'tree': parsed_tree})
+        response = JsonResponse({'tree': parsed_tree})
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a git repository")
     except AttributeError as e:
         response = HttpResponseBadRequest("No path parameter")
     response['Permissions'] = permissions_token
     return response
+
+@require_http_methods(["GET"])
+@permissions.requires_permission_to('read')
+def read_history(request, user, project_name, permissions_token):
+    """ Grabs and returns the history of a single file.
+
+       The commit history of the branch is parsed and the file of
+       interest is found on each commit tree. 
+
+    Args:
+        user (string): The user's name.
+        project_name (string): The user's repository name.
+        permissions_token (string): JWT token signed by Wevolver.
+
+    Returns:
+        JsonResponse: The history of the file at this path.
+    """
+    path = request.GET.get('path').rstrip('/').lstrip('/')
+    directory = porcelain.generate_directory(user)
+    repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+    root_tree = repo.revparse_single('master').tree
+
+    # get the id of the current blob at the requested path
+    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+    blob_id = git_blob.id
+
+    history = []
+    for commit in repo.walk(repo.head.target, GIT_SORT_TIME | GIT_SORT_REVERSE):
+        git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
+        if type(git_blob) == pygit2.Blob:
+            if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
+                history.append({
+                    'id': git_blob.id.__str__(),
+                    'commit_time': commit.commit_time
+                })
+
+    return JsonResponse({'history': list(reversed(history))})
