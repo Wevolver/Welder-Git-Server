@@ -33,7 +33,7 @@ def parse_file_tree(tree):
     return {'data': [{'name': str(node.name), 'type': str(node.type), 'oid': str(node.id)} for node in tree]}
 
 
-def walk_tree(repo, full_path):
+def walk_tree(repo, root_tree, full_path):
     """ Given a path in returns the object.
 
         If the object is a blob it returns the previous object as the tree else blob is None.
@@ -46,7 +46,7 @@ def walk_tree(repo, full_path):
         current_object: The last tree in the path.
         blob: The requested blob if there is one.
     """
-    current_object = repo.revparse_single('master').tree
+    current_object = root_tree
     locations = full_path.split('/')
     if locations[0] == "":
         locations = []
