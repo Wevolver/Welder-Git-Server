@@ -77,7 +77,7 @@ def requires_git_permission_to(permission):
                 project_name = kwargs['project_name']
                 success, response = get_token(user_id, user_name, project_name, access_token)
                 token = response.content
-                decoded_token = decode_token(token)
+                decoded_token = decode_token(token, user_id, user_name, project_name)
                 permissions = decoded_token['permissions']
                 if user_id and permissions and permission in permissions:
                     return func(request, *args, **kwargs)
@@ -136,8 +136,9 @@ def decode_token(token, user_id, user_name, project_name):
         user_name (str): the current requesting user
         user_name (str): the current requesting user's project
     """
-    with open('permissions/jwt.verify','r') as verify:
+    with open('welder/permissions/jwt.verify','r') as verify:
         try:
             return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
         except jwt.ExpiredSignatureError as error:
+            print(error)
             return None
