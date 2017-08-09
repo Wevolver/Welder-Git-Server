@@ -10,5 +10,5 @@ __pycache__
 dd.sqlite3
 
 run\.sh
-env
 .env
+env.json
