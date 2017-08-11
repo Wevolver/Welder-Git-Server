@@ -30,10 +30,14 @@ def requires_permission_to(permission):
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
+            access_token = access_token if access_token else request.GET.get("access_token")
+
             permissions = request.META.get('HTTP_PERMISSIONS', None)
             permissions = permissions if permissions else request.GET.get("permissions")
+
             project_name = kwargs['project_name']
             user_id = request.GET.get("user_id")
+
             user_name = kwargs['user']
             if not permissions:
                 success, response = get_token(user_id, user_name, project_name, access_token)
