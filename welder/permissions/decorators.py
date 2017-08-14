@@ -60,7 +60,10 @@ def requires_permission_to(permission):
                 elif not permissions:
                     permissions = ['none']
                 else:
-                    permissions = permissions['permissions']
+                    permissions = decoded_token['permissions']
+            
+            print(decoded_token)
+            print(permissions)
 
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
@@ -134,10 +137,10 @@ def get_token(user_id, user_name, project_name, access_token):
     body = {
         'project': "{}/{}".format(user_name, project_name)
     }
-    url = "{}/permission".format(settings.AUTH_BASE)
+    url = "{}/permissions".format(settings.AUTH_BASE)
     access_token = access_token if access_token.split()[0] == "Bearer" else "Bearer " + access_token
     headers = {'Authorization': '{}'.format(access_token)}
-    response = requests.get(url, headers=headers, data=body)
+    response = requests.post(url, headers=headers, data=body)
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token, user_id, user_name, project_name):
