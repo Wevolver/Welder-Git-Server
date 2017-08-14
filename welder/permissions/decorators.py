@@ -41,30 +41,28 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
+            
             if not permissions:
-                success, response = get_token(user_id, user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token)
                 token = response.content
-                decoded_token = decode_token(token, user_id, user_name, project_name)
+                decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
 
             else:
                 token = permissions
-                decoded_token = decode_token(token, user_id, user_name, project_name)
-                right_project = decoded_token['project'] == project_name 
+                decoded_token = decode_token(token)
+                right_project = decoded_token['project'] == project_name if decoded_token else None
                 not_permissions = not decoded_token or not right_project
                 if not_permissions and access_token:
-                    success, response = get_token(user_id, user_name, project_name, access_token)
+                    success, response = get_token(user_name, project_name, access_token)
                     token = response.content
-                    decoded_token = decode_token(token, user_id, user_name, project_name)
+                    decoded_token = decode_token(token)
                     permissions = decoded_token['permissions']
                 elif not permissions:
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
             
-            print(decoded_token)
-            print(permissions)
-
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
@@ -88,9 +86,9 @@ def requires_git_permission_to(permission):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
                 user_name = kwargs['user']
                 project_name = kwargs['project_name']
-                success, response = get_token(user_id, user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token)
                 token = response.content
-                decoded_token = decode_token(token, user_id, user_name, project_name)
+                decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if user_id and permissions and permission in permissions:
                     return func(request, *args, **kwargs)
@@ -127,7 +125,7 @@ def basic_auth(authorization_header):
     else:
         return None
 
-def get_token(user_id, user_name, project_name, access_token):
+def get_token(user_name, project_name, access_token):
     """ Checks against the Wevolver API to see if the users token is currently valid
 
     Args:
@@ -138,12 +136,16 @@ def get_token(user_id, user_name, project_name, access_token):
         'project': "{}/{}".format(user_name, project_name)
     }
     url = "{}/permissions".format(settings.AUTH_BASE)
-    access_token = access_token if access_token.split()[0] == "Bearer" else "Bearer " + access_token
-    headers = {'Authorization': '{}'.format(access_token)}
-    response = requests.post(url, headers=headers, data=body)
+    
+    access_token = access_token if access_token and access_token.split()[0] == "Bearer" else None
+    if access_token:
+        headers = {'Authorization': '{}'.format(access_token)}
+        response = requests.post(url, headers=headers, data=body)
+    else:
+        response = requests.post(url, data=body)
     return (response.status_code == requests.codes.ok, response)
 
-def decode_token(token, user_id, user_name, project_name):
+def decode_token(token):
     """ Decodes the received token using Wevolvers JWT public key
 
     Args:
@@ -157,7 +159,6 @@ def decode_token(token, user_id, user_name, project_name):
             try:
                 return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
             except jwt.ExpiredSignatureError as error:
-                print(error)
                 return None
     except Exception as e:
         print(e)
