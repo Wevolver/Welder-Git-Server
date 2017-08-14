@@ -12,9 +12,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
-DEBUG = False
 
-ALLOWED_HOSTS = [ '*.wevolver.com', 'test.wevolver.com', 'dev.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
+DEBUG = False
+# DEBUG = True
+
+ALLOWED_HOSTS = [ '*.wevolver.com', 'test.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
@@ -165,7 +167,5 @@ def get_env(setting, env=environment):
 
 API_BASE = get_env("API_BASE")
 AUTH_BASE = get_env("AUTH_BASE")
-TEST_API_BASE = get_env("TEST_API_BASE")
-TEST_AUTH_BASE = get_env("TEST_AUTH_BASE")
 TOKEN_SECRET = get_env("TOKEN_SECRET")
 REPO_DIRECTORY = get_env("REPO_DIRECTORY")

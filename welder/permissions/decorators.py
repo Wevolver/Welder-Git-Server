@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.http import HttpResponseForbidden
 from django.conf import settings
 from profilehooks import profile
+from time import gmtime, strftime
 from functools import wraps
 import requests
 import logging
@@ -30,10 +31,14 @@ def requires_permission_to(permission):
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
+            access_token = access_token if access_token else request.GET.get("access_token")
+
             permissions = request.META.get('HTTP_PERMISSIONS', None)
             permissions = permissions if permissions else request.GET.get("permissions")
+
             project_name = kwargs['project_name']
             user_id = request.GET.get("user_id")
+
             user_name = kwargs['user']
 
             if not permissions:
@@ -44,19 +49,20 @@ def requires_permission_to(permission):
 
             else:
                 token = permissions
-                permissions = decode_token(token, user_id, user_name, project_name)
-                print("The permission set {}".format(permissions))
-
-                if not permissions and access_token:
+                decoded_token = decode_token(token, user_id, user_name, project_name)
+                right_project = decoded_token['project'] == project_name 
+                not_permissions = not decoded_token or not right_project
+                if not_permissions and access_token:
                     success, response = get_token(user_id, user_name, project_name, access_token)
                     token = response.content
-                    permissions = decode_token(token, user_id, user_name, project_name)['permissions']
+                    decoded_token = decode_token(token, user_id, user_name, project_name)
+                    permissions = decoded_token['permissions']
                 elif not permissions:
                     permissions = ['none']
                 else:
                     permissions = permissions['permissions']
 
-            if permissions and permission in permissions:
+            if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
             else:
@@ -143,9 +149,13 @@ def decode_token(token, user_id, user_name, project_name):
         user_name (str): the current requesting user
         user_name (str): the current requesting user's project
     """
-    with open('welder/permissions/jwt.verify','r') as verify:
-        try:
-            return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
-        except jwt.ExpiredSignatureError as error:
-            print(error)
-            return None
+    try:
+        with open('./welder/permissions/jwt.verify','r') as verify:
+            try:
+                return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
+            except jwt.ExpiredSignatureError as error:
+                print(error)
+                return None
+    except Exception as e:
+        print(e)
+        

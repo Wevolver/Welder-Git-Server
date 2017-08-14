@@ -141,7 +141,6 @@ def read_file(request, user, project_name, permissions_token):
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
     except AttributeError as e:
-        print(e)
         response = HttpResponseBadRequest("The request is missing a path parameter")
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a git repository.")
