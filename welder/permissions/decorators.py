@@ -35,15 +35,18 @@ def requires_permission_to(permission):
             project_name = kwargs['project_name']
             user_id = request.GET.get("user_id")
             user_name = kwargs['user']
+
             if not permissions:
                 success, response = get_token(user_id, user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token, user_id, user_name, project_name)
                 permissions = decoded_token['permissions']
+
             else:
                 token = permissions
                 permissions = decode_token(token, user_id, user_name, project_name)
                 print("The permission set {}".format(permissions))
+
                 if not permissions and access_token:
                     success, response = get_token(user_id, user_name, project_name, access_token)
                     token = response.content
@@ -52,6 +55,7 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = permissions['permissions']
+
             if permissions and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
@@ -121,10 +125,13 @@ def get_token(user_id, user_name, project_name, access_token):
         authorization (str): the current user's bearer token
         user (str): the current requesting user's id
     """
-    url = "{}/users/{}/checktoken/?project={}/{}".format(settings.API_BASE, user_id, user_name, project_name)
+    body = {
+        'project': "{}/{}".format(user_name, project_name)
+    }
+    url = "{}/permission".format(settings.AUTH_BASE)
     access_token = access_token if access_token.split()[0] == "Bearer" else "Bearer " + access_token
     headers = {'Authorization': '{}'.format(access_token)}
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, data=body)
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token, user_id, user_name, project_name):
