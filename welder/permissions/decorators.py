@@ -53,7 +53,7 @@ def requires_permission_to(permission):
                 decoded_token = decode_token(token)
                 right_project = decoded_token['project'] == project_name if decoded_token else None
                 not_permissions = not decoded_token or not right_project
-                if not_permissions and access_token:
+                if not_permissions:
                     success, response = get_token(user_name, project_name, access_token)
                     token = response.content
                     decoded_token = decode_token(token)
@@ -62,7 +62,6 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
-            print(permissions)
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
@@ -143,7 +142,6 @@ def get_token(user_name, project_name, access_token):
         access_token = None
     
     if access_token:
-        print(access_token)
         headers = {'Authorization': '{}'.format(access_token)}
         response = requests.post(url, headers=headers, data=body)
     else:
@@ -162,9 +160,9 @@ def decode_token(token):
     try:
         with open('./welder/permissions/jwt.verify','r') as verify:
             try:
-                # print(token)
                 return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
             except jwt.ExpiredSignatureError as error:
+                print(error)
                 return None
     except Exception as e:
         print(e)
