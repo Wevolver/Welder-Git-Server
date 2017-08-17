@@ -41,7 +41,7 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
-            
+
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
@@ -80,15 +80,20 @@ def requires_git_permission_to(permission):
         def _decorator(request, *args, **kwargs):
             if settings.DEBUG:
                 return func(request, *args, **kwargs)
+
             user_name = kwargs['user']
             project_name = kwargs['project_name']
             access_token = None
-            success, response = get_token(user_name, project_name, access_token)
-            token = response.content
-            decoded_token = decode_token(token)
-            permissions = decoded_token['permissions']
-            if permissions and permission in permissions:
-                return func(request, *args, **kwargs)
+
+            if permission is 'read':
+                print(permission)
+                success, response = get_token(user_name, project_name, access_token)
+                token = response.content
+                decoded_token = decode_token(token)
+                permissions = decoded_token['permissions']
+                print(permissions)
+                if permissions and permission in permissions:
+                    return func(request, *args, **kwargs)
 
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
@@ -96,7 +101,8 @@ def requires_git_permission_to(permission):
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
-                if user_id and permissions and permission in permissions:
+                print(permissions)
+                if permissions and permission in permissions:
                     return func(request, *args, **kwargs)
                 else:
                     return HttpResponseForbidden('No Permissions')
@@ -116,7 +122,6 @@ def basic_auth(authorization_header):
     Args:
         authorization_header (str): the current user's bearer token
     """
-    print('basic')
     authorization_method, authorization = authorization_header.split(' ', 1)
     if authorization_method.lower() == 'basic':
         authorization = base64.b64decode(authorization.strip()).decode('utf8')
@@ -143,12 +148,12 @@ def get_token(user_name, project_name, access_token):
         'project': "{}/{}".format(user_name, project_name)
     }
     url = "{}/permissions".format(settings.AUTH_BASE)
-    
+
     if access_token:
         access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
     else:
         access_token = None
-    
+
     if access_token:
         headers = {'Authorization': '{}'.format(access_token)}
         response = requests.post(url, headers=headers, data=body)
@@ -174,4 +179,3 @@ def decode_token(token):
                 return None
     except Exception as e:
         print(e)
-        
