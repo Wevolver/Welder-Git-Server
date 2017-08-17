@@ -52,8 +52,7 @@ def requires_permission_to(permission):
                 token = permissions
                 decoded_token = decode_token(token)
                 right_project = decoded_token['project'] == project_name if decoded_token else None
-                not_permissions = not decoded_token or not right_project
-                if not_permissions:
+                if not decoded_token or not right_project:
                     success, response = get_token(user_name, project_name, access_token)
                     token = response.content
                     decoded_token = decode_token(token)
@@ -81,10 +80,18 @@ def requires_git_permission_to(permission):
         def _decorator(request, *args, **kwargs):
             if settings.DEBUG:
                 return func(request, *args, **kwargs)
+            user_name = kwargs['user']
+            project_name = kwargs['project_name']
+            access_token = None
+            success, response = get_token(user_name, project_name, access_token)
+            token = response.content
+            decoded_token = decode_token(token)
+            permissions = decoded_token['permissions']
+            if permissions and permission in permissions:
+                return func(request, *args, **kwargs)
+
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
-                user_name = kwargs['user']
-                project_name = kwargs['project_name']
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
@@ -109,6 +116,7 @@ def basic_auth(authorization_header):
     Args:
         authorization_header (str): the current user's bearer token
     """
+    print('basic')
     authorization_method, authorization = authorization_header.split(' ', 1)
     if authorization_method.lower() == 'basic':
         authorization = base64.b64decode(authorization.strip()).decode('utf8')
@@ -122,7 +130,7 @@ def basic_auth(authorization_header):
         response = requests.post(url, data=body)
         return (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
     else:
-        return None
+        return (None, 'Default')
 
 def get_token(user_name, project_name, access_token):
     """ Checks against the Wevolver API to see if the users token is currently valid

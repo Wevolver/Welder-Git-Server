@@ -316,9 +316,9 @@ def service_rpc(user, project_name, request_service, request_body):
     """
 
     directory = porcelain.generate_directory(user)
-    requested_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+    request_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
     response = GitResponse(service=request_service, action=Actions.result.value,
-                           repository=requested_repo, data=request_body)
+                           repository=request_repo, data=request_body)
     return response.get_http_service_rpc()
 
 @require_http_methods(["GET"])
