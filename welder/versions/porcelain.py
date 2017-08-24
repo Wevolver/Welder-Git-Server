@@ -135,8 +135,8 @@ def commit_tree(repo, newTree):
         repo (Repository): The user's repository.
         newTree (Tree): Tree with new objects.
     """
-    signature = pygit2.Signature('Tester', 'test@example.com', int(time()), 0)
-    commit = repo.create_commit(repo.head.name, signature, signature, 'Test commit with pygit2', newTree, [repo.head.peel().id])
+    signature = pygit2.Signature('Wevolver', 'git@wevolver.com', int(time()), 0)
+    commit = repo.create_commit(repo.head.name, signature, signature, 'Automated commit.', newTree, [repo.head.peel().id])
 
 def flatten(tree, repo):
     """ Translates a tree structure into a single level array.
