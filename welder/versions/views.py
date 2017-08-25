@@ -111,7 +111,7 @@ def read_file(request, user, project_name, permissions_token):
     try:
         path = request.GET.get('path').lstrip('/').rstrip('/')
         oid = request.GET.get('oid')
-        branch = request.GET.get('branch')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
@@ -194,7 +194,7 @@ def receive_files(request, user, project_name, permissions_token):
     try:
         directory = porcelain.generate_directory(user)
         path = request.GET.get('path').rstrip('/')
-        branch = request.GET.get('branch')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
             old_commit_tree = repo.revparse_single(branch).tree
@@ -234,7 +234,7 @@ def list_bom(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        branch = request.GET.get('branch')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         tree = (repo.revparse_single(branch).tree)
         blobs = porcelain.flatten(tree, repo)
@@ -341,7 +341,7 @@ def read_tree(request, user, project_name, permissions_token):
     """
     try:
         path = request.GET.get('path').rstrip('/').lstrip('/')
-        branch = request.GET.get('branch')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         root_tree = repo.revparse_single(branch).tree
@@ -375,7 +375,7 @@ def read_history(request, user, project_name, permissions_token):
     """
     path = request.GET.get('path').rstrip('/').lstrip('/')
     history_type = request.GET.get('type')
-    branch = request.GET.get('branch')
+    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     directory = porcelain.generate_directory(user)
     repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
     root_tree = repo.revparse_single(branch).tree
