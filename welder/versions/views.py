@@ -168,7 +168,7 @@ def create_new_folder(request, user, project_name, permissions_token):
         # message = post['message'] if post['message'] else 'created new folder'
         # path = post['path'].lstrip('/').rstrip('/')
         email = requset.POST.get('email', 'git@wevolver.com')
-        message = requset.POST.get('message', 'created new folder')
+        message = requset.POST.get('commit_message', 'created new folder')
         path = request.POST.get('path').lstrip('/').rstrip('/')
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         with open('welder/versions/starter.md','r') as readme:
@@ -201,7 +201,7 @@ def receive_files(request, user, project_name, permissions_token):
         directory = porcelain.generate_directory(user)
         path = request.GET.get('path').rstrip('/')
         email = request.POST.get('email', 'git@wevolver.com')
-        message = request.POST.get('message', 'received new files')
+        message = request.POST.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
