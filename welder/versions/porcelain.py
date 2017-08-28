@@ -113,7 +113,7 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
             previous_commit_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
         return previous_commit_tree_builder.write()
 
-def commit_blob(repo, blob, path, name='readme.md', name, email, message):
+def commit_blob(repo, blob, path, filename, email, message, name='readme.md'):
     """ Adds a blob to a tree and commits it to a repository.
 
     Args:
@@ -124,7 +124,7 @@ def commit_blob(repo, blob, path, name='readme.md', name, email, message):
     """
 
     previous_commit_tree = repo.revparse_single('master').tree
-    newTree = add_blobs_to_tree(previous_commit_tree, repo, [(blob, name)], path)
+    newTree = add_blobs_to_tree(previous_commit_tree, repo, [(blob, filename)], path)
     if newTree:
         commit_tree(repo, newTree, name, email, message)
 
@@ -136,7 +136,7 @@ def commit_tree(repo, newTree, name='Wevolver', email='git@wevolver.com', messag
         newTree (Tree): Tree with new objects.
     """
     author_signature = pygit2.Signature(name, email, int(time()), 0)
-    commiter_signature = pygit2.Signature(name, email, int(time()), 0)
+    committer_signature = pygit2.Signature(name, email, int(time()), 0)
     commit = repo.create_commit(repo.head.name, author_signature, committer_signature, message, newTree, [repo.head.peel().id])
 
 def flatten(tree, repo):

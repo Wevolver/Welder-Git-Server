@@ -171,7 +171,7 @@ def create_new_folder(request, user, project_name, permissions_token):
         with open('welder/versions/starter.md','r') as readme:
             readme = readme.read().format(project_name)
         blob = repo.create_blob(readme)
-        porcelain.commit_blob(repo, blob, path.split('/'), 'readme.md', user, email, message)
+        porcelain.commit_blob(repo, blob, path.split('/'), user, email, message, 'readme.md')
         response = JsonResponse({'message': 'Folder Created'})
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doestn't exist or the request is missing a path parameter")
@@ -196,10 +196,9 @@ def receive_files(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        post = json.loads(request.body)
         path = request.GET.get('path').rstrip('/')
-        email = post['email'] if post['email'] else 'git@wevolver.com'
-        message = post['message'] if post['message'] else 'received new files'
+        email = request.POST.get('email', 'git@wevolver.com')
+        message = request.POST.get('message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
