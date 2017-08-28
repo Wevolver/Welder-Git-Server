@@ -163,10 +163,13 @@ def create_new_folder(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        post = json.loads(request.body)
-        email = post['email'] if post['email'] else 'git@wevolver.com'
-        message = post['message'] if post['message'] else 'created new folder'
-        path = post['path'].lstrip('/').rstrip('/')
+        # post = json.loads(request.body)
+        # email = post['email'] if post['email'] else 'git@wevolver.com'
+        # message = post['message'] if post['message'] else 'created new folder'
+        # path = post['path'].lstrip('/').rstrip('/')
+        email = requset.POST.get('email', 'git@wevolver.com')
+        message = requset.POST.get('message', 'created new folder')
+        path = request.POST.get('path').lstrip('/').rstrip('/')
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         with open('welder/versions/starter.md','r') as readme:
             readme = readme.read().format(project_name)
