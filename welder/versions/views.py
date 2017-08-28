@@ -383,8 +383,8 @@ def read_history(request, user, project_name, permissions_token):
     directory = porcelain.generate_directory(user)
     repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
     root_tree = repo.revparse_single(branch).tree
-    page_size = request.GET.get('page_size', 10)
-    page = request.GET.get('page', 0)
+    page_size = int(request.GET.get('page_size', 10))
+    page = int(request.GET.get('page', 0))
     start_index = page_size * page
     history = []
     for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
