@@ -8,7 +8,7 @@ def generate_directory(username):
     """ Generates a unique directory structure for the project based on the user name.
 
     https://github.com/blog/117-scaling-lesson-23742
-    
+
     Args:
         username (string): The user's name slug
     Returns:
@@ -66,7 +66,7 @@ def walk_tree(repo, root_tree, full_path):
 def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
     """ Adds blobs to a tree at a given path.
 
-        Traverse the repository to find the given path to a blob. 
+        Traverse the repository to find the given path to a blob.
         If the path to the blob does not exist it creates the necessary trees.
         Then add blob to the last tree.
         Then in reverse order trees are inserted into their parent up to the root.
@@ -113,9 +113,9 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
             previous_commit_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
         return previous_commit_tree_builder.write()
 
-def commit_blob(repo, blob, path, name='readme.md'):
+def commit_blob(repo, blob, path, name='readme.md', name, email, message):
     """ Adds a blob to a tree and commits it to a repository.
-        
+
     Args:
         repo (Repository): The user's repository.
         blob (Blob): The file object.
@@ -126,21 +126,22 @@ def commit_blob(repo, blob, path, name='readme.md'):
     previous_commit_tree = repo.revparse_single('master').tree
     newTree = add_blobs_to_tree(previous_commit_tree, repo, [(blob, name)], path)
     if newTree:
-        commit_tree(repo, newTree)
+        commit_tree(repo, newTree, name, email, message)
 
-def commit_tree(repo, newTree):
+def commit_tree(repo, newTree, name='Wevolver', email='git@wevolver.com', message='None'):
     """ Commits tree to a repository.
-        
+
     Args:
         repo (Repository): The user's repository.
         newTree (Tree): Tree with new objects.
     """
-    signature = pygit2.Signature('Wevolver', 'git@wevolver.com', int(time()), 0)
-    commit = repo.create_commit(repo.head.name, signature, signature, 'Automated commit.', newTree, [repo.head.peel().id])
+    author_signature = pygit2.Signature(name, email, int(time()), 0)
+    commiter_signature = pygit2.Signature(name, email, int(time()), 0)
+    commit = repo.create_commit(repo.head.name, author_signature, committer_signature, message, newTree, [repo.head.peel().id])
 
 def flatten(tree, repo):
     """ Translates a tree structure into a single level array.
-        
+
     Args:
         repo (Repository): The user's repository.
         tree (Tree): Tree to be flattened.
