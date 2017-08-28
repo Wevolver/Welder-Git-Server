@@ -149,23 +149,28 @@ LOGGING = {
     }
 }
 
-try:
-    with open("env.json") as f:
-        environment = json.loads(f.read())
-except:
-    with open("../env.json") as f:
-        environment = json.loads(f.read())
 
-
-def get_env(setting, env=environment):
-    """Get the env variable or return explicit exception."""
+if 'TRAVIS' in os.environ
+    API_BASE = 'https://dev.wevolver.com'
+    AUTH_BASE = 'https://dev.wevolver.com/o'
+    TOKEN_SECRET = 'TOKEN_SECRET'
+    REPO_DIRECTORY = './'
+else:
     try:
-        return env[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+        with open("env.json") as f:
+            environment = json.loads(f.read())
+    except:
+        with open("../env.json") as f:
+            environment = json.loads(f.read())
+    def get_env(setting, env=environment):
+        """Get the env variable or return explicit exception."""
+        try:
+            return env[setting]
+        except KeyError:
+            error_msg = "Set the {0} environment variable".format(setting)
+            raise ImproperlyConfigured(error_msg)
 
-API_BASE = get_env("API_BASE")
-AUTH_BASE = get_env("AUTH_BASE")
-TOKEN_SECRET = get_env("TOKEN_SECRET")
-REPO_DIRECTORY = get_env("REPO_DIRECTORY")
+    API_BASE = get_env("API_BASE")
+    AUTH_BASE = get_env("AUTH_BASE")
+    TOKEN_SECRET = get_env("TOKEN_SECRET")
+    REPO_DIRECTORY = get_env("REPO_DIRECTORY")

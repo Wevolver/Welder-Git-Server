@@ -1,13 +1,13 @@
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
-from django.http import StreamingHttpResponse
 from django.http import HttpResponseBadRequest
+from django.http import StreamingHttpResponse
 from django.conf import settings
 
 from welder.permissions import decorators as permissions
-from welder.versions import porcelain
 from welder.versions.git import GitResponse
+from welder.versions import porcelain
 
 from wsgiref.util import FileWrapper
 from io import BytesIO
@@ -115,13 +115,12 @@ def read_file(request, user, project_name, permissions_token):
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-
         parsed_file = None
         data = None
+        type_blob = 3
         if oid:
             git_blob = repo.read(oid)
-            # 3 is type blob
-            if git_blob[0] == 3:
+            if git_blob[0] is type_blob:
                 data = git_blob[1]
         else:
             root_tree = repo.revparse_single(branch).tree
@@ -130,7 +129,6 @@ def read_file(request, user, project_name, permissions_token):
                 data = git_blob.data
 
         parsed_file = str(base64.b64encode(data), 'utf-8')
-
         chunk_size = 8192
         filelike = FileWrapper(BytesIO(data), chunk_size)
         response = StreamingHttpResponse(filelike,
@@ -163,10 +161,6 @@ def create_new_folder(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
-        # email = post['email'] if post['email'] else 'git@wevolver.com'
-        # message = post['message'] if post['message'] else 'created new folder'
-        # path = request.POST.get('path').lstrip('/').rstrip('/')
-        # message = request.POST.get('commit_message', 'created new folder')
         post = json.loads(request.body)
         path = post['path'].lstrip('/').rstrip('/')
         email = post['email'] or 'git@wevolver.com'
@@ -388,17 +382,12 @@ def read_history(request, user, project_name, permissions_token):
     directory = porcelain.generate_directory(user)
     repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
     root_tree = repo.revparse_single(branch).tree
-    print('history')
-    print(branch)
     history = []
-    # First get a list of all the commits
     for commit in repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME | GIT_SORT_REVERSE):
-        # if type file return just the history of changes to the file in the path
         try:
             title, description = commit.message.split('\n\n', 1)
         except:
             title, description = commit.message, None
-
         if history_type == 'file':
             git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
             if type(git_blob) == pygit2.Blob:
@@ -418,5 +407,4 @@ def read_history(request, user, project_name, permissions_token):
                 'commit_time': commit.commit_time,
                 'commit_id': commit.id.__str__()
             })
-
     return JsonResponse({'history': list(reversed(history))})
