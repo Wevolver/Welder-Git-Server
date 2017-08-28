@@ -393,6 +393,11 @@ def read_history(request, user, project_name, permissions_token):
     # First get a list of all the commits
     for commit in repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME | GIT_SORT_REVERSE):
         # if type file return just the history of changes to the file in the path
+        try:
+            title, description = commit.message.split('\n\n', 1)
+        except:
+            title, description = commit.message, None
+
         if history_type == 'file':
             git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
             if type(git_blob) == pygit2.Blob:
@@ -400,12 +405,15 @@ def read_history(request, user, project_name, permissions_token):
                     history.append({
                         'id': git_blob.id.__str__(),
                         'commit_time': commit.commit_time
+                        'commit_description': description,
+                        'commit_title': title
                     })
         elif history_type == 'commits':
             history.append({
                 'author': commit.author.email,
                 'committer': commit.committer.email,
-                'commit_message': str(commit.raw_message, 'utf-8'),
+                'commit_description': description,
+                'commit_title': title,
                 'commit_time': commit.commit_time,
                 'commit_id': commit.id.__str__()
             })
