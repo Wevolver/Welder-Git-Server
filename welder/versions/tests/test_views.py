@@ -57,12 +57,12 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open('./env.json') as fp:
+        with open('./Dockerfile') as fp:
             response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test,json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
     def test_list_files(self):
-        with open('./env.json') as fp:
+        with open('./Dockerfile') as fp:
             self.client.post('/{}/{}/upload?user_id={}&path=test.json'.format(self.username, self.app, self.user), {'file': fp, 'path': 'test.json'})
         response = self.client.get('/{}/{}?path=test.json'.format(self.username, self.app), {'user_id': self.user, 'path': 'test.json'})
         self.assertEqual('env.json', json.loads(response.content)['tree']['data'][0]['name'])
