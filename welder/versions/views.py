@@ -405,7 +405,7 @@ def read_history(request, user, project_name, permissions_token):
                 if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
                     history.append({
                         'id': git_blob.id.__str__(),
-                        'commit_time': commit.commit_time
+                        'commit_time': commit.commit_time,
                         'commit_description': description,
                         'commit_title': title
                     })
