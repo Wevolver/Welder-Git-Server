@@ -169,7 +169,7 @@ def create_new_folder(request, user, project_name, permissions_token):
         # message = request.POST.get('commit_message', 'created new folder')
         post = json.loads(request.body)
         path = post['path'].lstrip('/').rstrip('/')
-        email = "post['email'] or 'git@wevolver.com'"
+        email = post['email'] or 'git@wevolver.com'
         message = post['commit_message'] or 'Created new folder'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         with open('welder/versions/starter.md','r') as readme:
