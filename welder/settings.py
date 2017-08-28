@@ -150,7 +150,7 @@ LOGGING = {
 }
 
 
-if os.getenv('builder', False) is 'travis':
+if os.getenv('builder', False):
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
     TOKEN_SECRET = 'TOKEN_SECRET'
@@ -162,7 +162,6 @@ else:
     except:
         with open("../env.json") as f:
             environment = json.loads(f.read())
-
     def get_env(setting, env=environment):
         """Get the env variable or return explicit exception."""
         try:
