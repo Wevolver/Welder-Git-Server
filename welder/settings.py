@@ -150,7 +150,7 @@ LOGGING = {
 }
 
 
-if 'TRAVIS' in os.environ
+if 'TRAVIS' in os.environ:
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
     TOKEN_SECRET = 'TOKEN_SECRET'

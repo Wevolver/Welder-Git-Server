@@ -1,3 +1,4 @@
+from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
@@ -14,6 +15,7 @@ from io import BytesIO
 from time import time
 from enum import Enum
 import mimetypes
+import itertools
 import tokenlib
 import logging
 import tarfile
@@ -23,7 +25,6 @@ import shutil
 import json
 import os
 
-from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
 logger = logging.getLogger(__name__)
 
 class Actions(Enum):
@@ -382,8 +383,11 @@ def read_history(request, user, project_name, permissions_token):
     directory = porcelain.generate_directory(user)
     repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
     root_tree = repo.revparse_single(branch).tree
+    page_size = request.GET.get('page_size', 10)
+    page = request.GET.get('page', 0)
+    start_index = page_size * page
     history = []
-    for commit in repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME | GIT_SORT_REVERSE):
+    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
         try:
             title, description = commit.message.split('\n\n', 1)
         except:
@@ -407,4 +411,4 @@ def read_history(request, user, project_name, permissions_token):
                 'commit_time': commit.commit_time,
                 'commit_id': commit.id.__str__()
             })
-    return JsonResponse({'history': list(reversed(history))})
+    return JsonResponse({'history': history})
