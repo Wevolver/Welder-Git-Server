@@ -150,13 +150,13 @@ LOGGING = {
 }
 
 
-print('TRAVIS' in os.environ)
-print(os.environ.get('TRAVIS'))
-if os.environ.get('TRAVIS'):
+print(os.environ.get('TRAVIS') == 'true')
+if os.environ.get('TRAVIS') == 'true':
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
     TOKEN_SECRET = 'TOKEN_SECRET'
     REPO_DIRECTORY = './'
+
 else:
     try:
         with open("env.json") as f:
