@@ -132,8 +132,8 @@ def read_file(request, user, project_name, permissions_token):
         parsed_file = str(base64.b64encode(data), 'utf-8')
         chunk_size = 8192
         filelike = FileWrapper(BytesIO(data), chunk_size)
-        response = StreamingHttpResponse(filelike,
-                               content_type=mimetypes.guess_type(path)[0])
+        response = StreamingHttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
+        # response = HttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
         response['Content-Length'] = len(data)
         response['Permissions'] = permissions_token
         if download:
