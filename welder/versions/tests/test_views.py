@@ -65,7 +65,7 @@ class VersionsViewsTestCase(TestCase):
         with open('./Dockerfile') as fp:
             self.client.post('/{}/{}/upload?user_id={}&path=test.json'.format(self.username, self.app, self.user), {'file': fp, 'path': 'test.json'})
         response = self.client.get('/{}/{}?path=test.json'.format(self.username, self.app), {'user_id': self.user, 'path': 'test.json'})
-        self.assertEqual('env.json', json.loads(response.content)['tree']['data'][0]['name'])
+        self.assertEqual('Dockerfile', json.loads(response.content)['tree']['data'][0]['name'])
 
     def test_read_file(self):
         response = self.client.get('/{}/{}/readfile?path=test/'.format(self.username, self.app), {'user_id': self.user, 'path': "readme.md"})
