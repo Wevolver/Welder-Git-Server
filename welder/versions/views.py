@@ -111,6 +111,7 @@ def read_file(request, user, project_name, permissions_token):
     try:
         path = request.GET.get('path').lstrip('/').rstrip('/')
         oid = request.GET.get('oid')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
@@ -123,7 +124,7 @@ def read_file(request, user, project_name, permissions_token):
             if git_blob[0] == 3:
                 data = git_blob[1]
         else:
-            root_tree = repo.revparse_single('master').tree
+            root_tree = repo.revparse_single(branch).tree
             git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
             if type(git_blob) == pygit2.Blob:
                 data = git_blob.data
@@ -193,9 +194,10 @@ def receive_files(request, user, project_name, permissions_token):
     try:
         directory = porcelain.generate_directory(user)
         path = request.GET.get('path').rstrip('/')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
-            old_commit_tree = repo.revparse_single('master').tree
+            old_commit_tree = repo.revparse_single(branch).tree
             blobs = []
             for key, file in request.FILES.items():
                 blob = repo.create_blob(file.read())
@@ -232,8 +234,9 @@ def list_bom(request, user, project_name, permissions_token):
 
     try:
         directory = porcelain.generate_directory(user)
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        tree = (repo.revparse_single('master').tree)
+        tree = (repo.revparse_single(branch).tree)
         blobs = porcelain.flatten(tree, repo)
         data = ''
         for b in [blob for blob in blobs if blob.name == 'bom.csv']:
@@ -264,7 +267,7 @@ def download_archive(request, user, project_name, permissions_token):
     try:
         with tarfile.open(fileobj=response, mode='w') as archive:
             repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-            repo.write_archive(repo.head.target, archive)
+            repo.write_archive(repo.revparse_single(branch).id, archive)
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("Not a repository")
     return response
@@ -338,9 +341,10 @@ def read_tree(request, user, project_name, permissions_token):
     """
     try:
         path = request.GET.get('path').rstrip('/').lstrip('/')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        root_tree = repo.revparse_single('master').tree
+        root_tree = repo.revparse_single(branch).tree
         git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
         parsed_tree = None
         if type(git_tree) == pygit2.Tree:
@@ -370,22 +374,35 @@ def read_history(request, user, project_name, permissions_token):
         JsonResponse: The history of the file at this path.
     """
     path = request.GET.get('path').rstrip('/').lstrip('/')
+    history_type = request.GET.get('type')
+    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     directory = porcelain.generate_directory(user)
     repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-    root_tree = repo.revparse_single('master').tree
+    root_tree = repo.revparse_single(branch).tree
 
     # get the id of the current blob at the requested path
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
     blob_id = git_blob.id
 
     history = []
-    for commit in repo.walk(repo.head.target, GIT_SORT_TIME | GIT_SORT_REVERSE):
-        git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
-        if type(git_blob) == pygit2.Blob:
-            if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
-                history.append({
-                    'id': git_blob.id.__str__(),
-                    'commit_time': commit.commit_time
-                })
+    # First get a list of all the commits
+    for commit in repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME | GIT_SORT_REVERSE):
+        # if type file return just the history of changes to the file in the path
+        if history_type == 'file':
+            git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
+            if type(git_blob) == pygit2.Blob:
+                if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
+                    history.append({
+                        'id': git_blob.id.__str__(),
+                        'commit_time': commit.commit_time
+                    })
+        elif history_type == 'commits':
+            history.append({
+                'author': commit.author.email,
+                'committer': commit.committer.email,
+                'commit_message': str(commit.raw_message, 'utf-8'),
+                'commit_time': commit.commit_time,
+                'commit_id': commit.id.__str__()
+            })
 
     return JsonResponse({'history': list(reversed(history))})

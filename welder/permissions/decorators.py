@@ -52,7 +52,8 @@ def requires_permission_to(permission):
                 token = permissions
                 decoded_token = decode_token(token)
                 right_project = decoded_token['project'] == project_name if decoded_token else None
-                if not decoded_token or not right_project:
+                not_permissions = not decoded_token or not right_project
+                if not_permissions:
                     success, response = get_token(user_name, project_name, access_token)
                     token = response.content
                     decoded_token = decode_token(token)
