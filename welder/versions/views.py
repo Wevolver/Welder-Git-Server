@@ -371,7 +371,7 @@ def read_history(request, user, project_name, permissions_token):
     """
     path = request.GET.get('path').rstrip('/').lstrip('/')
     directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     root_tree = repo.revparse_single('master').tree
 
     # get the id of the current blob at the requested path
