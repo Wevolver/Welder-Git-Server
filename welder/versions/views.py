@@ -381,7 +381,7 @@ def read_history(request, user, project_name, permissions_token):
     history_type = request.GET.get('type')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     root_tree = repo.revparse_single(branch).tree
     page_size = int(request.GET.get('page_size', 10))
     page = int(request.GET.get('page', 0))
