@@ -1,19 +1,21 @@
+from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
-from django.http import StreamingHttpResponse
 from django.http import HttpResponseBadRequest
+from django.http import StreamingHttpResponse
 from django.conf import settings
 
 from welder.permissions import decorators as permissions
-from welder.versions import porcelain
 from welder.versions.git import GitResponse
+from welder.versions import porcelain
 
 from wsgiref.util import FileWrapper
 from io import BytesIO
 from time import time
 from enum import Enum
 import mimetypes
+import itertools
 import tokenlib
 import logging
 import tarfile
@@ -22,8 +24,6 @@ import pygit2
 import shutil
 import json
 import os
-
-from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
 
 logger = logging.getLogger(__name__)
 
@@ -58,13 +58,14 @@ def create_project(request, user, project_name, permissions_token):
     try:
         repo = pygit2.init_repository(path, True)
         tree = repo.TreeBuilder()
-        message = "Initial Commit - Automated"
+        message = "Automated Initial Commit"
+        author = pygit2.Signature('Wevolver', 'Wevolver')
         comitter = pygit2.Signature('Wevolver', 'Wevolver')
         with open('welder/versions/starter.md','r') as readme:
             readme = readme.read().format(project_name)
         blob = repo.create_blob(readme)
         tree.insert('readme.md', blob, pygit2.GIT_FILEMODE_BLOB)
-        sha = repo.create_commit('HEAD', comitter, comitter, message, tree.write(), [])
+        sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
         response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("looks like you already have a project with this name!")
@@ -115,26 +116,24 @@ def read_file(request, user, project_name, permissions_token):
         download = request.GET.get('download')
         directory = porcelain.generate_directory(user)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        
         parsed_file = None
         data = None
+        type_blob = 3
         if oid:
             git_blob = repo.read(oid)
-            # 3 is type blob
-            if git_blob[0] == 3:
+            if git_blob[0] is type_blob:
                 data = git_blob[1]
         else:
             root_tree = repo.revparse_single(branch).tree
             git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
             if type(git_blob) == pygit2.Blob:
                 data = git_blob.data
-        
-        parsed_file = str(base64.b64encode(data), 'utf-8')
 
+        parsed_file = str(base64.b64encode(data), 'utf-8')
         chunk_size = 8192
         filelike = FileWrapper(BytesIO(data), chunk_size)
-        response = StreamingHttpResponse(filelike,
-                               content_type=mimetypes.guess_type(path)[0])
+        response = StreamingHttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
+        # response = HttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
         response['Content-Length'] = len(data)
         response['Permissions'] = permissions_token
         if download:
@@ -165,10 +164,13 @@ def create_new_folder(request, user, project_name, permissions_token):
         directory = porcelain.generate_directory(user)
         post = json.loads(request.body)
         path = post['path'].lstrip('/').rstrip('/')
+        email = post['email'] or 'git@wevolver.com'
+        message = post['commit_message'] or 'Created new folder'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        readme = "#{} \nThis is where you should document your project  \n### Getting Started".format(project_name)
+        with open('welder/versions/starter.md','r') as readme:
+            readme = readme.read().format(project_name)
         blob = repo.create_blob(readme)
-        porcelain.commit_blob(repo, blob, path.split('/'), 'readme.md')
+        porcelain.commit_blob(repo, blob, path.split('/'), user, email, message, 'readme.md')
         response = JsonResponse({'message': 'Folder Created'})
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doestn't exist or the request is missing a path parameter")
@@ -194,6 +196,8 @@ def receive_files(request, user, project_name, permissions_token):
     try:
         directory = porcelain.generate_directory(user)
         path = request.GET.get('path').rstrip('/')
+        email = request.POST.get('email', 'git@wevolver.com')
+        message = request.POST.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if request.FILES:
@@ -203,7 +207,7 @@ def receive_files(request, user, project_name, permissions_token):
                 blob = repo.create_blob(file.read())
                 blobs.append((blob, file.name))
             new_commit_tree = porcelain.add_blobs_to_tree(old_commit_tree, repo, blobs, path.split('/'))
-            porcelain.commit_tree(repo, new_commit_tree)
+            porcelain.commit_tree(repo, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:
             response = JsonResponse({'message': 'No files received'})
@@ -258,7 +262,7 @@ def download_archive(request, user, project_name, permissions_token):
     Returns:
         JsonResponse: An object with the requested user's repository as a tarball.
     """
-
+    branch = request.GET.get('branch', 'master')
     filename = project_name + '.tar'
     response = HttpResponse(content_type='application/x-gzip')
     response['Content-Disposition'] = 'attachment; filename=' + filename
@@ -363,7 +367,7 @@ def read_history(request, user, project_name, permissions_token):
     """ Grabs and returns the history of a single file.
 
        The commit history of the branch is parsed and the file of
-       interest is found on each commit tree. 
+       interest is found on each commit tree.
 
     Args:
         user (string): The user's name.
@@ -377,29 +381,34 @@ def read_history(request, user, project_name, permissions_token):
     history_type = request.GET.get('type')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join('./repos', directory, project_name))
+    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     root_tree = repo.revparse_single(branch).tree
-    print('history')
-    print(branch)
+    page_size = int(request.GET.get('page_size', 10))
+    page = int(request.GET.get('page', 0))
+    start_index = page_size * page
     history = []
-    # First get a list of all the commits
-    for commit in repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME | GIT_SORT_REVERSE):
-        # if type file return just the history of changes to the file in the path
+    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
+        try:
+            title, description = commit.message.split('\n\n', 1)
+        except:
+            title, description = commit.message, None
         if history_type == 'file':
             git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
             if type(git_blob) == pygit2.Blob:
                 if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
                     history.append({
                         'id': git_blob.id.__str__(),
-                        'commit_time': commit.commit_time
+                        'commit_time': commit.commit_time,
+                        'commit_description': description,
+                        'commit_title': title
                     })
         elif history_type == 'commits':
             history.append({
                 'author': commit.author.email,
                 'committer': commit.committer.email,
-                'commit_message': str(commit.raw_message, 'utf-8'),
+                'commit_description': description,
+                'commit_title': title,
                 'commit_time': commit.commit_time,
                 'commit_id': commit.id.__str__()
             })
-
-    return JsonResponse({'history': list(reversed(history))})
+    return JsonResponse({'history': history})
