@@ -113,7 +113,7 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
             previous_commit_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
         return previous_commit_tree_builder.write()
 
-def commit_blob(repo, blob, path, filename, email, message, name='readme.md'):
+def commit_blob(repo, blob, path, name, email, message, filename='readme.md'):
     """ Adds a blob to a tree and commits it to a repository.
 
     Args:
