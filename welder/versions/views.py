@@ -262,7 +262,7 @@ def download_archive(request, user, project_name, permissions_token):
     Returns:
         JsonResponse: An object with the requested user's repository as a tarball.
     """
-
+    branch = request.GET.get('branch', 'master')
     filename = project_name + '.tar'
     response = HttpResponse(content_type='application/x-gzip')
     response['Content-Disposition'] = 'attachment; filename=' + filename
