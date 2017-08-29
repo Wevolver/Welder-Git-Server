@@ -21,7 +21,7 @@ class VersionsViewsTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.app = 'testit'
+        cls.app = 'testing'
         cls.username = 'wevolver'
         cls.user = 'wevolver'
 
@@ -57,19 +57,22 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open('./env.json') as fp:
+        with open('./Dockerfile') as fp:
             response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test,json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
     def test_list_files(self):
-        with open('./env.json') as fp:
+        with open('./Dockerfile') as fp:
             self.client.post('/{}/{}/upload?user_id={}&path=test.json'.format(self.username, self.app, self.user), {'file': fp, 'path': 'test.json'})
         response = self.client.get('/{}/{}?path=test.json'.format(self.username, self.app), {'user_id': self.user, 'path': 'test.json'})
-        self.assertEqual('env.json', json.loads(response.content)['tree']['data'][0]['name'])
+        self.assertEqual('Dockerfile', json.loads(response.content)['tree']['data'][0]['name'])
 
-    def test_show_file(self):
-        response = self.client.get('/{}/{}?path=test/'.format(self.username, self.app), {'user_id': self.user, 'path': "readme.md"})
-        self.assertEqual(str(base64.b64encode(b"#testit \nThis is where you should document your project  \n### Getting Started"), 'utf-8'), json.loads(response.content)['file'])
+    def test_read_file(self):
+        response = self.client.get('/{}/{}/readfile?path=test/'.format(self.username, self.app), {'user_id': self.user, 'path': "readme.md"})
+        with open('welder/versions/starter.md','r') as readme:
+            readme = readme.read().format(self.app)
+        content = (list(response.streaming_content)[0].decode("utf-8"))
+        self.assertEqual(readme, content)
 
     def test_permissions(self):
         pass
