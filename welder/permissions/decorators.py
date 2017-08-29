@@ -26,7 +26,7 @@ def requires_permission_to(permission):
     def has_permission(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            if not settings.DEBUG:
+            if settings.DEBUG:
                 kwargs['permissions_token'] = "All Good"
                 return func(request, *args, **kwargs)
 
@@ -79,7 +79,7 @@ def requires_git_permission_to(permission):
     def has_git_permission(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            if not settings.DEBUG:
+            if settings.DEBUG:
                 return func(request, *args, **kwargs)
 
             user_name = kwargs['user']
