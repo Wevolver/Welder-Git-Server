@@ -385,7 +385,6 @@ def read_history(request, user, project_name, permissions_token):
     root_tree = repo.revparse_single(branch).tree
 
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
-    blob_id = git_blob.id
 
     page_size = int(request.GET.get('page_size', 10))
     page = int(request.GET.get('page', 0))
