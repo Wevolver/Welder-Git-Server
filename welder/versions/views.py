@@ -7,6 +7,7 @@ from django.http import StreamingHttpResponse
 from django.conf import settings
 
 from welder.permissions import decorators as permissions
+from welder.analytics import decorators as mixpanel
 from welder.versions.git import GitResponse
 from welder.versions import porcelain
 
@@ -363,6 +364,7 @@ def read_tree(request, user, project_name, permissions_token):
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
+@mixpanel.track
 def read_history(request, user, project_name, permissions_token):
     """ Grabs and returns the history of a single file.
 
