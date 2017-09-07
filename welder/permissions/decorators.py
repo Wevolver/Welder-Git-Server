@@ -87,7 +87,6 @@ def requires_git_permission_to(permission):
             access_token = None
 
             if permission is 'read':
-                print('reading')
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
