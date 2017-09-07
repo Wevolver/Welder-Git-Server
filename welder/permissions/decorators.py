@@ -64,7 +64,7 @@ def requires_permission_to(permission):
                     permissions = decoded_token['permissions']
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
-                kwargs['permissions'] = permissions
+                kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -93,7 +93,7 @@ def requires_git_permission_to(permission):
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
-                    kwargs['permissions'] = permissions
+                    kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
 
             if request.META.get('HTTP_AUTHORIZATION'):
@@ -105,7 +105,7 @@ def requires_git_permission_to(permission):
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
-                    kwargs['permissions'] = permissions 
+                    kwargs['tracking'] = decoded_token 
                     return func(request, *args, **kwargs)
                 else:
                     res = HttpResponse()
@@ -137,10 +137,8 @@ def basic_auth(authorization_header):
         body = {'username': str(username),
                 'password': str(password),
                 'grant_type': 'password'}
-        print(body)
         url = "{}/proxy-client-token".format(settings.AUTH_BASE)
         response = requests.post(url, data=body)
-        print(response.content)
         try:
             response = (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
             return response

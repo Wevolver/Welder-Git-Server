@@ -28,10 +28,11 @@ def track(func):
              return func(request, *args, **kwargs)
         title = name_mapping.get(func.__name__, False)
         if title:
-            print(func)
-            print(args)
-            print(kwargs)
-            user = kwargs['user']
+            tracking = kwargs['tracking']
+            if tracking:
+                user = tracking['user']
+            else:
+                user = 'default'
             project = kwargs['project_name']
             mixpanel.track(user, title, {
                'project': project,
