@@ -24,8 +24,8 @@ name_mapping = {
 def track(func):
     @wraps(func)
     def _decorator(request, *args, **kwargs):
-        # if settings.DEBUG:
-        #     return func(request, *args, **kwargs)
+        if not settings.TRACKING_TOKEN:
+             return func(request, *args, **kwargs)
         title = name_mapping.get(func.__name__, False)
         if title:
             print(func)

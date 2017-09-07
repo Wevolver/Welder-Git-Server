@@ -169,8 +169,7 @@ else:
         try:
             return env[setting]
         except KeyError:
-            error_msg = "Set the {0} environment variable".format(setting)
-            raise ImproperlyConfigured(error_msg)
+            return False
 
     API_BASE = get_env("API_BASE")
     AUTH_BASE = get_env("AUTH_BASE")
