@@ -30,3 +30,4 @@ sphinx-rtd-theme==0.2.4
 sphinxcontrib-websupport==1.0.1
 tokenlib==0.3.1
 urllib3==1.21.1
+mixpanel
