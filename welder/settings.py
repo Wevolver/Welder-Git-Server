@@ -150,7 +150,6 @@ LOGGING = {
 }
 
 
-print(os.environ.get('TRAVIS') == 'true')
 if os.environ.get('TRAVIS') == 'true':
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
