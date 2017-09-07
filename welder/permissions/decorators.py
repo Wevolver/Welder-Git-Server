@@ -64,6 +64,7 @@ def requires_permission_to(permission):
                     permissions = decoded_token['permissions']
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
+                kwargs['permissions'] = permissions
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -92,6 +93,7 @@ def requires_git_permission_to(permission):
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
+                    kwargs['permissions'] = permissions
                     return func(request, *args, **kwargs)
 
             if request.META.get('HTTP_AUTHORIZATION'):
@@ -103,6 +105,7 @@ def requires_git_permission_to(permission):
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
+                    kwargs['permissions'] = permissions 
                     return func(request, *args, **kwargs)
                 else:
                     res = HttpResponse()
