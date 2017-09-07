@@ -176,3 +176,4 @@ else:
     AUTH_BASE = get_env("AUTH_BASE")
     TOKEN_SECRET = get_env("TOKEN_SECRET")
     REPO_DIRECTORY = get_env("REPO_DIRECTORY")
+    TRACKING_TOKEN = get_env("TRACKING_TOKEN")

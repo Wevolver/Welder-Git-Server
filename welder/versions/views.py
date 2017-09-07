@@ -34,6 +34,7 @@ class Actions(Enum):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("create")
+@mixpanel.track
 def create_project(request, user, project_name, permissions_token):
     """ Creates a bare repository (project) based on the user name
         and project name in the URL.
@@ -74,6 +75,7 @@ def create_project(request, user, project_name, permissions_token):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to('write')
+@mixpanel.track
 def delete_project(request, user, project_name, permissions_token):
     """ Finds the repository specified in the URL and deletes from the file system.
 
@@ -98,6 +100,7 @@ def delete_project(request, user, project_name, permissions_token):
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
+@mixpanel.track
 def read_file(request, user, project_name, permissions_token):
     """ Finds a file in the path of the repository specified by the URL
         and returns the blob.
@@ -149,6 +152,7 @@ def read_file(request, user, project_name, permissions_token):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
+@mixpanel.track
 def create_new_folder(request, user, project_name, permissions_token):
     """ Commits a single file to a specified path, creating a new folder in the repository.
 
@@ -182,6 +186,7 @@ def create_new_folder(request, user, project_name, permissions_token):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
+@mixpanel.track
 def receive_files(request, user, project_name, permissions_token):
     """ Receives and commits an array of files to a specific path in the repository.
 
@@ -222,6 +227,7 @@ def receive_files(request, user, project_name, permissions_token):
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
+@mixpanel.track
 def list_bom(request, user, project_name, permissions_token):
     """ Collects all the bom.csv files in a repository and return their sum.
 
@@ -253,6 +259,7 @@ def list_bom(request, user, project_name, permissions_token):
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
+@mixpanel.track
 def download_archive(request, user, project_name, permissions_token):
     """ Grabs and returns a user's repository as a tarball.
 
@@ -299,12 +306,14 @@ def info_refs(request, user, project_name):
     return response.get_http_info_refs()
 
 @permissions.requires_git_permission_to('read')
+@mixpanel.track
 def upload_pack(request, user, project_name):
     """ Calls service_rpc assuming the user is authenticated and has read permissions """
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
 @permissions.requires_git_permission_to('write')
+@mixpanel.track
 def receive_pack(request, user, project_name):
     """ Calls service_rpc assuming the user is authenticated and has write permissions """
 
@@ -331,6 +340,7 @@ def service_rpc(user, project_name, request_service, request_body):
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
+@mixpanel.track
 def read_tree(request, user, project_name, permissions_token):
     """ Grabs and returns a single file or a tree from a user's repository
 
