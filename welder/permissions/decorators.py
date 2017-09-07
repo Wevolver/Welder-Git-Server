@@ -87,12 +87,10 @@ def requires_git_permission_to(permission):
             access_token = None
 
             if permission is 'read':
-                print(permission)
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
-                print(permissions)
                 if permissions and permission in permissions:
                     return func(request, *args, **kwargs)
 
@@ -102,7 +100,6 @@ def requires_git_permission_to(permission):
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
-                print(permissions)
                 if permissions and permission in permissions:
                     return func(request, *args, **kwargs)
                 else:
