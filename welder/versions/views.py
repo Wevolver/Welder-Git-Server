@@ -18,7 +18,7 @@ from enum import Enum
 import mimetypes
 import itertools
 import tokenlib
-import logginsg
+import logging
 import tarfile
 import base64
 import pygit2
@@ -265,8 +265,8 @@ def list_branches(request, user, project_name, permissions_token):
         directory = porcelain.generate_directory(user)
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        branches_list = list(repo.branches)
-        response = HttpResponse(branches_list)
+        branches = {'branches': [repo for repo in repo.branches]}
+        response = JsonResponse(branches)
     except pygit2.GitError as e:
         response = HttpResponseBadRequest('not a repository')
     return response
