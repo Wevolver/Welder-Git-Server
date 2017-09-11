@@ -260,6 +260,21 @@ def list_bom(request, user, project_name, permissions_token):
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
+def list_branches(request, user, project_name, permissions_token):
+    try:
+        directory = porcelain.generate_directory(user)
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+        branches = {'branches': [repo for repo in repo.branches]}
+        response = JsonResponse(branches)
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest('not a repository')
+    return response
+
+
+@require_http_methods(["GET"])
+@permissions.requires_permission_to('read')
+@mixpanel.track
 def download_archive(request, user, project_name, permissions_token):
     """ Grabs and returns a user's repository as a tarball.
 
