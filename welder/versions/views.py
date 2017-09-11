@@ -261,6 +261,16 @@ def list_bom(request, user, project_name, permissions_token):
 @permissions.requires_permission_to('read')
 @mixpanel.track
 def list_branches(request, user, project_name, permissions_token):
+    """ Collects and returns all the names of the branches from the repository.
+
+    Args:
+        user (string): The user's name.
+        project_name (string): The user's repository name.
+        permissions_token (string): JWT token signed by Wevolver.
+
+    Returns:
+        JsonResponse: The list of branches
+    """
     try:
         directory = porcelain.generate_directory(user)
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
@@ -271,6 +281,34 @@ def list_branches(request, user, project_name, permissions_token):
         response = HttpResponseBadRequest('not a repository')
     return response
 
+@require_http_methods(["GET"])
+@permissions.requires_permission_to('read')
+@mixpanel.track
+def list_branches_ahead_behind(request, user, project_name, permissions_token):
+    """ Returns the number of commits each branch is ahead or behind master
+
+    Args:
+        user (string): The user's name.
+        project_name (string): The user's repository name.
+        permissions_token (string): JWT token signed by Wevolver.
+
+    Returns:
+        JsonResponse: The list of branches and their status
+    """
+    try:
+        directory = porcelain.generate_directory(user)
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+        branches = {}
+        for branch in repo.branches:
+            branches[branch] = {"ahead": 0, "behind": 0}
+            ahead, behind = self.repo.ahead_behind(branch, 'master')
+            branches[branch]['ahead'] = ahead
+            branches[branch]['behind'] = behind
+        response = JsonResponse(branches)
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest('not a repository')
+    return response
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
