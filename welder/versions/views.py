@@ -302,7 +302,7 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token):
         branches = {}
         for branch in repo.branches:
             branches[branch] = {"ahead": 0, "behind": 0}
-            ahead, behind = self.repo.ahead_behind(branch, 'master')
+            ahead, behind = repo.ahead_behind(repo.lookup_branch(branch).target.hex, repo.lookup_branch('master').target.hex)
             branches[branch]['ahead'] = ahead
             branches[branch]['behind'] = behind
         response = JsonResponse(branches)
