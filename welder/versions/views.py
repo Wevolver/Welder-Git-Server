@@ -74,6 +74,44 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     return response
 
 @require_http_methods(["POST"])
+@permissions.requires_permission_to("create")
+@mixpanel.track
+def fork_project(request, user, project_name, permissions_token, tracking=None):
+    """ Creates a bare repository (project) based on the user name
+        and project name in the URL.
+
+        It generates a unique path based on the user name and
+        project, creates a default readme and commits it.
+
+    Args:
+        user (string): The user's name.
+        project_name (string): The user's repository name.
+        permissions_token (string): JWT token signed by Wevolver.
+
+    Returns:
+        HttpResponse: A message indicating the success or failure of the create
+    """
+
+    try:
+        post = json.loads(request.body)
+
+        directory = porcelain.generate_directory(user)
+        source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+
+        current_user = post['cloning_user'].lstrip('/').rstrip('/')
+        directory = porcelain.generate_directory(current_user)
+        destination_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+
+        if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
+            os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
+
+        shutil.copytree(source_path, destination_path)
+        response = HttpResponse("Cloned at ./repos/{}/{}".format(user, project_name))
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
+    return response
+
+@require_http_methods(["POST"])
 @permissions.requires_permission_to('write')
 @mixpanel.track
 def delete_project(request, user, project_name, permissions_token, tracking=None):
