@@ -107,6 +107,14 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
 
         shutil.copytree(source_path, destination_path)
         response = HttpResponse("Cloned at ./repos/{}/{}".format(user, project_name))
+    except json.decoder.JSONDecodeError as e:
+        response = HttpResponseBadRequest("The requested path parameter doesn't exist!")
+    except KeyError as e:
+        response = HttpResponseBadRequest("The requested path doesn't exist!")
+    except AttributeError as e:
+        response = HttpResponseBadRequest("The request is missing a path parameter")
+    except FileExistsError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("looks like you already have a project with this name!")
     return response
