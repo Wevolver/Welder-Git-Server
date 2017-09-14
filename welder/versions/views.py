@@ -322,7 +322,7 @@ def list_branches(request, user, project_name, permissions_token):
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
-def list_branches_ahead_behind(request, user, project_name, permissions_token):
+def list_branches_ahead_behind(request, user, project_name, permissions_token, tracking=None):
     """ Returns the number of commits each branch is ahead or behind master
 
     Args:
@@ -351,7 +351,7 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token):
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
-def download_archive(request, user, project_name, permissions_token):
+def download_archive(request, user, project_name, permissions_token, tracking=None):
     """ Grabs and returns a user's repository as a tarball.
 
     Args:
