@@ -91,17 +91,14 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
     Returns:
         HttpResponse: A message indicating the success or failure of the create
     """
-
     try:
-        post = json.loads(request.body)
-
+        post = request.POST
         directory = porcelain.generate_directory(user)
         source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
 
         current_user = post['cloning_user'].lstrip('/').rstrip('/')
         directory = porcelain.generate_directory(current_user)
         destination_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
-
         if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
             os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
 
