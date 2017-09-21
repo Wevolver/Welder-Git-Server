@@ -8,7 +8,7 @@ RUN cd libgit2-0.26.0 \
     && make \
     && make install
 
-RUN git clone https://github.com/btcrs/welder
+RUN git clone https://github.com/Wevolver/Welder
 COPY . /git_code
 
 RUN pip install sphinx
@@ -24,5 +24,6 @@ RUN pip install coverage
 RUN pip install coveralls
 RUN pip install pyjwt
 RUN pip install profilehooks
+RUN pip install mixpanel
 
 RUN ldconfig

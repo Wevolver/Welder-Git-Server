@@ -64,6 +64,7 @@ def requires_permission_to(permission):
                     permissions = decoded_token['permissions']
             if decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
+                kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -92,18 +93,25 @@ def requires_git_permission_to(permission):
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
+                    kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
 
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
+                if access_token is None:
+                    return user_id
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions']
                 if permissions and permission in permissions:
+                    kwargs['tracking'] = decoded_token 
                     return func(request, *args, **kwargs)
                 else:
-                    return HttpResponseForbidden('No Permissions')
+                    res = HttpResponse()
+                    res.status_code = 401
+                    res['WWW-Authenticate'] = 'Basic'
+                    return res
 
             res = HttpResponse()
             res.status_code = 401
@@ -131,7 +139,14 @@ def basic_auth(authorization_header):
                 'grant_type': 'password'}
         url = "{}/proxy-client-token".format(settings.AUTH_BASE)
         response = requests.post(url, data=body)
-        return (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
+        try:
+            response = (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
+            return response
+        except:
+            res = HttpResponse()
+            res.status_code = 401
+            res['WWW-Authenticate'] = 'Basic'
+            return (None, res)
     else:
         return (None, 'Default')
 

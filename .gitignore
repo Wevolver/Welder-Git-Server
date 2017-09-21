@@ -12,3 +12,4 @@ dd.sqlite3
 run\.sh
 .env
 env.json
+Dockerfile

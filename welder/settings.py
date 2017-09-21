@@ -13,10 +13,10 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
-ALLOWED_HOSTS = [ '*.wevolver.com', 'test.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
+ALLOWED_HOSTS = [ '*.wevolver.com', 'www.wevolver.com', 'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
@@ -150,7 +150,6 @@ LOGGING = {
 }
 
 
-print(os.environ.get('TRAVIS') == 'true')
 if os.environ.get('TRAVIS') == 'true':
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'

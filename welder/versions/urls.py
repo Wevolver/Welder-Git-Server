@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/create$', views.create_project, name='create-project'),
+    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/fork$', views.fork_project, name='fork-project'),
+    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/rename$', views.rename_project, name='rename-project'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/delete$', views.delete_project, name='delete-project'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/readfile$', views.read_file, name='read-file'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/readhistory$', views.read_history, name='read-history'),
