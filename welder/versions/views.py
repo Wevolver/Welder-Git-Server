@@ -117,6 +117,43 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
     return response
 
 @require_http_methods(["POST"])
+@permissions.requires_permission_to("write")
+@mixpanel.track
+def fork_project(request, user, project_name, permissions_token, tracking=None):
+    """ Renames a project
+
+    Args:
+        user (string): The user's name.
+        project_name (string): The user's repository name.
+        permissions_token (string): JWT token signed by Wevolver.
+
+    Returns:
+        HttpResponse: A message indicating the success or failure of the rename
+    """
+    try:
+        post = request.POST
+        directory = porcelain.generate_directory(user)
+        new_name = post['new_name'].lstrip('/').rstrip('/')
+
+        source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+        destination_path = os.path.join(settings.REPO_DIRECTORY, directory, new_name)
+
+        os.rename(source_path, destination_path)
+        response = HttpResponse("Renamed at ./repos/{}/{}".format(user, new_name))
+
+    except json.decoder.JSONDecodeError as e:
+        response = HttpResponseBadRequest("The requested path parameter doesn't exist!")
+    except KeyError as e:
+        response = HttpResponseBadRequest("The requested path doesn't exist!")
+    except AttributeError as e:
+        response = HttpResponseBadRequest("The request is missing a path parameter")
+    except FileExistsError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
+    return response
+
+@require_http_methods(["POST"])
 @permissions.requires_permission_to('write')
 @mixpanel.track
 def delete_project(request, user, project_name, permissions_token, tracking=None):
