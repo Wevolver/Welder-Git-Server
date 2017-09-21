@@ -119,7 +119,7 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
 @mixpanel.track
-def fork_project(request, user, project_name, permissions_token, tracking=None):
+def rename_project(request, user, project_name, permissions_token, tracking=None):
     """ Renames a project
 
     Args:
