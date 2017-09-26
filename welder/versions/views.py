@@ -522,41 +522,46 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     Returns:
         JsonResponse: The history of the file at this path.
     """
-    path = request.GET.get('path').rstrip('/').lstrip('/')
-    history_type = request.GET.get('type')
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-    root_tree = repo.revparse_single(branch).tree
+    try:
+        path = request.GET.get('path').rstrip('/').lstrip('/')
+        history_type = request.GET.get('type')
+        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+        directory = porcelain.generate_directory(user)
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+        root_tree = repo.revparse_single(branch).tree
 
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+        git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
 
-    page_size = int(request.GET.get('page_size', 10))
-    page = int(request.GET.get('page', 0))
-    start_index = page_size * page
-    history = []
-    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
-        try:
-            title, description = commit.message.split('\n\n', 1)
-        except:
-            title, description = commit.message, None
-        if history_type == 'file':
-            git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
-            if type(git_blob) == pygit2.Blob:
-                if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
-                    history.append({
-                        'id': git_blob.id.__str__(),
-                        'commit_time': commit.commit_time,
-                        'commit_description': description,
-                        'commit_title': title
-                    })
-        elif history_type == 'commits':
-            history.append({
-                'author': commit.author.email,
-                'committer': commit.committer.email,
-                'commit_description': description,
-                'commit_title': title,
-                'commit_time': commit.commit_time,
-                'commit_id': commit.id.__str__()
-            })
+        page_size = int(request.GET.get('page_size', 10))
+        page = int(request.GET.get('page', 0))
+        start_index = page_size * page
+        history = []
+        for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
+            try:
+                title, description = commit.message.split('\n\n', 1)
+            except:
+                title, description = commit.message, None
+            if history_type == 'file':
+                git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
+                if type(git_blob) == pygit2.Blob:
+                    if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
+                        history.append({
+                            'id': git_blob.id.__str__(),
+                            'commit_time': commit.commit_time,
+                            'commit_description': description,
+                            'commit_title': title
+                        })
+            elif history_type == 'commits':
+                history.append({
+                    'author': commit.author.email,
+                    'committer': commit.committer.email,
+                    'commit_description': description,
+                    'commit_title': title,
+                    'commit_time': commit.commit_time,
+                    'commit_id': commit.id.__str__()
+                })
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest("Not a git repository")
+    except AttributeError as e:
+        response = HttpResponseBadRequest("No path parameter")
     return JsonResponse({'history': history})
