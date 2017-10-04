@@ -66,7 +66,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
         privacy = request.GET.get('privacy')
         public, private = "0", "2"
         if privacy == private:
-            with open('welder/versions/starter.md','r') as readme:
+            with open('welder/versions/starter.bak','r') as readme:
                 readme = readme.read().format(project_name)
         else:
             with open('welder/versions/starter.md','r') as readme:
