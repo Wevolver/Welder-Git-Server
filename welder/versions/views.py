@@ -64,6 +64,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
         author = pygit2.Signature('Wevolver', 'Wevolver')
         comitter = pygit2.Signature('Wevolver', 'Wevolver')
         privacy = request.GET.get('privacy')
+        print(privacy)
         if privacy == "public":
             print('public')
             with open('welder/versions/starter.md','r') as readme:

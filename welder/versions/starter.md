@@ -1,5 +1,15 @@
 # {}
 
+> This `readme.md` file was created automatically to help you document your project:  
+ When you view a project folder, the content of the `readme.md` file in the folder is automatically displayed.  
+You can use the `readme.md` file to provide information about your project to team members or the public.
+
+> Good documentation is key to the success of any project.
+Below is an example template for public projects to help you get the most out of your `readme.md` files.
+Readme files use a format called Markdown, read more [here to learn how to style your Readme](https://blog.ghost.org/markdown/).
+
+## Readme Template:
+
 ### Description
 
 The `Description` section can be used to explain what your project does.
