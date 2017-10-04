@@ -63,8 +63,15 @@ def create_project(request, user, project_name, permissions_token, tracking=None
         message = "Automated Initial Commit"
         author = pygit2.Signature('Wevolver', 'Wevolver')
         comitter = pygit2.Signature('Wevolver', 'Wevolver')
-        with open('welder/versions/starter.md','r') as readme:
-            readme = readme.read().format(project_name)
+        privacy = request.GET.get('privacy')
+        if privacy == "public"
+            print('public')
+            with open('welder/versions/starter.md','r') as readme:
+                readme = readme.read().format(project_name)
+        else:
+            print('private')
+            with open('welder/versions/starter.md','r') as readme:
+                readme = readme.read().format(project_name)
         blob = repo.create_blob(readme)
         tree.insert('readme.md', blob, pygit2.GIT_FILEMODE_BLOB)
         sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
