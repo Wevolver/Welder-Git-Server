@@ -234,40 +234,6 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
 @mixpanel.track
-def create_new_folder(request, user, project_name, permissions_token, tracking=None):
-    """ Commits a single file to a specified path, creating a new folder in the repository.
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-        permissions_token (string): JWT token signed by Wevolver.
-
-    Returns:
-        JsonResponse: An object
-    """
-
-    try:
-        directory = porcelain.generate_directory(user)
-        post = json.loads(request.body)
-        path = post['path'].lstrip('/').rstrip('/')
-        email = post['email'] or 'git@wevolver.com'
-        message = post['commit_message'] or 'Created new folder'
-        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        with open('welder/versions/starter.md','r') as readme:
-            readme = readme.read().format(project_name)
-        blob = repo.create_blob(readme)
-        porcelain.commit_blob(repo, blob, path.split('/'), user, email, message, 'readme.md')
-        response = JsonResponse({'message': 'Folder Created'})
-    except KeyError as e:
-        response = HttpResponseBadRequest("The requested path doestn't exist or the request is missing a path parameter")
-    except pygit2.GitError as e:
-        response = HttpResponseBadRequest("looks like you already have a project with this name!")
-    response['Permissions'] = permissions_token
-    return response
-
-@require_http_methods(["POST"])
-@permissions.requires_permission_to("write")
-@mixpanel.track
 def receive_files(request, user, project_name, permissions_token, tracking=None):
     """ Receives and commits an array of files to a specific path in the repository.
 
