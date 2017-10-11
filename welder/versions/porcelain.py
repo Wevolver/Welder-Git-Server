@@ -95,6 +95,7 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
 
         is_tree = trees[-1]
         current_tree_builder = repo.TreeBuilder(trees[-1]) if is_tree else repo.TreeBuilder()
+
         for blob, name in blobs:
             current_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
 
@@ -112,6 +113,37 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
         for blob, name in blobs:
             previous_commit_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
         return previous_commit_tree_builder.write()
+
+
+def add_blob_to_tree(repo, branch, blobs):
+    # assume the blob name contains the full directory path (ex: folder1/folder2/blob.md)
+    # and expect to always be a file, never just a path
+    # split so we can loop through and create missing trees.
+    tree = repo.revparse_single(branch).tree
+    index = repo.index
+    index.read_tree(tree)
+
+    for blob, path in blobs:
+        # blob_name = split_path.pop()
+        # print(split_path)
+        # print(blob_name)
+        entry = pygit2.IndexEntry(path, blob, pygit2.GIT_FILEMODE_BLOB)
+        index.add(entry)
+
+    for entry in index:
+        print(entry.path)
+
+    new_tree = index.write_tree()
+    return new_tree
+    # trees = []
+    # for folder_name in split_path:
+    #     # build tree array, putting False if it doesn't exist yet
+    #     try:
+    #         next_tree_entry = current_tree.__getitem__(location)
+    #         current_tree = repo.get(next_tree_entry.id)
+    #         trees.append(current_tree)
+    #     except:
+    #         for index in range(len(split_path) - 1, 0, -1):
 
 def commit_blob(repo, blob, path, name, email, message, filename='readme.md'):
     """ Adds a blob to a tree and commits it to a repository.

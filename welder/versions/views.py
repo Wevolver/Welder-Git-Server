@@ -10,6 +10,7 @@ from welder.permissions import decorators as permissions
 from welder.analytics import decorators as mixpanel
 from welder.versions.git import GitResponse
 from welder.versions import porcelain
+from welder.versions.uploadhandlers import DirectoryUploadHandler
 
 from wsgiref.util import FileWrapper
 from io import BytesIO
@@ -278,6 +279,7 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
     Returns:
         JsonResponse: An object
     """
+    request.upload_handlers.insert(0, DirectoryUploadHandler())
 
     try:
         directory = porcelain.generate_directory(user)
@@ -289,10 +291,15 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
         if request.FILES:
             old_commit_tree = repo.revparse_single(branch).tree
             blobs = []
+            # print(request.FILES)
             for key, file in request.FILES.items():
                 blob = repo.create_blob(file.read())
-                blobs.append((blob, file.name))
-            new_commit_tree = porcelain.add_blobs_to_tree(old_commit_tree, repo, blobs, path.split('/'))
+                # print(file.content_type_extra)
+                blobs.append((blob, file.content_type_extra))
+            # print(blobs)
+            new_commit_tree = porcelain.add_blob_to_tree(repo,branch,blobs)
+            # new_commit_tree = porcelain.add_blobs_to_tree(old_commit_tree, repo, blobs, path.split('/'))
+            # print(new_commit_tree)
             porcelain.commit_tree(repo, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:
