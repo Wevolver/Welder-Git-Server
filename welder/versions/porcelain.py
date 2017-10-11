@@ -86,7 +86,7 @@ def add_blob_to_tree(repo, branch, blobs):
     tree = repo.revparse_single(branch).tree
     index = repo.index
     index.read_tree(tree)
-
+    
     for blob, path in blobs:
         entry = pygit2.IndexEntry(path, blob, pygit2.GIT_FILEMODE_BLOB)
         index.add(entry)
