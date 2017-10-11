@@ -63,7 +63,8 @@ def walk_tree(repo, root_tree, full_path):
             current_object = temp_object
     return current_object, blob
 
-def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
+
+def add_blob_to_tree(repo, branch, blobs):
     """ Adds blobs to a tree at a given path.
 
         Traverse the repository to find the given path to a blob.
@@ -81,52 +82,16 @@ def add_blobs_to_tree(previous_commit_tree, repo, blobs, path):
     Returns:
         tree: New tree with the blobs added.
     """
-    current_tree = previous_commit_tree
-    trees = []
 
-    if path[0] != '':
-        for location in path:
-            try:
-                next_tree_entry = current_tree.__getitem__(location)
-                current_tree = repo.get(next_tree_entry.id)
-            except:
-                current_tree = False
-            trees.append(current_tree)
+    tree = repo.revparse_single(branch).tree
+    index = repo.index
+    index.read_tree(tree)
 
-        is_tree = trees[-1]
-        current_tree_builder = repo.TreeBuilder(trees[-1]) if is_tree else repo.TreeBuilder()
-        for blob, name in blobs:
-            current_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
+    for blob, path in blobs:
+        entry = pygit2.IndexEntry(path, blob, pygit2.GIT_FILEMODE_BLOB)
+        index.add(entry)
 
-        for index in range(len(path) - 1, 0, -1):
-            previous_tree_builder = current_tree_builder
-            is_tree = trees[index - 1]
-            current_tree_builder = repo.TreeBuilder(is_tree) if is_tree else repo.TreeBuilder()
-            current_tree_builder.insert(path[index], previous_tree_builder.write(), pygit2.GIT_FILEMODE_TREE)
-
-        previous_commit_tree_builder = repo.TreeBuilder(previous_commit_tree)
-        previous_commit_tree_builder.insert(path[0], current_tree_builder.write(), pygit2.GIT_FILEMODE_TREE)
-        return previous_commit_tree_builder.write()
-    else:
-        previous_commit_tree_builder = repo.TreeBuilder(previous_commit_tree)
-        for blob, name in blobs:
-            previous_commit_tree_builder.insert(name, blob, pygit2.GIT_FILEMODE_BLOB)
-        return previous_commit_tree_builder.write()
-
-def commit_blob(repo, blob, path, name, email, message, filename='readme.md'):
-    """ Adds a blob to a tree and commits it to a repository.
-
-    Args:
-        repo (Repository): The user's repository.
-        blob (Blob): The file object.
-        path (string): The full path to the object.
-        name (string): Filename of the blob.
-    """
-
-    previous_commit_tree = repo.revparse_single('master').tree
-    newTree = add_blobs_to_tree(previous_commit_tree, repo, [(blob, filename)], path)
-    if newTree:
-        commit_tree(repo, newTree, name, email, message)
+    return index.write_tree()
 
 def commit_tree(repo, newTree, name='Wevolver', email='git@wevolver.com', message='None'):
     """ Commits tree to a repository.
