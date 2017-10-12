@@ -155,6 +155,7 @@ if os.environ.get('TRAVIS') == 'true':
     AUTH_BASE = 'https://dev.wevolver.com/o'
     TOKEN_SECRET = 'TOKEN_SECRET'
     REPO_DIRECTORY = './'
+    TRACKING_TOKEN = "TRACKING_TOKEN"
 
 else:
     try:
