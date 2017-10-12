@@ -263,7 +263,7 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
                 blob = repo.create_blob(file.read())
                 blobs.append((blob, file.content_type_extra))
 
-            new_commit_tree = porcelain.add_blob_to_tree(repo,branch,blobs)
+            new_commit_tree = porcelain.add_blobs_to_tree(repo,branch,blobs)
             porcelain.commit_tree(repo, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:

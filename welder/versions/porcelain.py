@@ -64,20 +64,17 @@ def walk_tree(repo, root_tree, full_path):
     return current_object, blob
 
 
-def add_blob_to_tree(repo, branch, blobs):
-    """ Adds blobs to a tree at a given path.
+def add_blobs_to_tree(repo, branch, blobs):
+    """ Adds blobs to a tree.
 
-        Traverse the repository to find the given path to a blob.
-        If the path to the blob does not exist it creates the necessary trees.
-        Then add blob to the last tree.
-        Then in reverse order trees are inserted into their parent up to the root.
-        Insert the new tree into the previous one to make a new snapshot.
+        Create an index file from a specific branch tree.
+        Add the blobs to it, the path must be the fill path from root to the name of the blob.
+        Write the index file to a new tree and return.
 
     Args:
-        previous_commit_tree: The tree object of the last commit.
         repo (Repository): The user's repository.
+        branch: The name of the branch we want to commit to.
         blobs: New blobs to be added to a specific path.
-        path (string): The full path to the object.
 
     Returns:
         tree: New tree with the blobs added.
