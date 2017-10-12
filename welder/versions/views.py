@@ -256,14 +256,15 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
 
         if request.FILES:
-            old_commit_tree = repo.revparse_single(branch).tree
             blobs = []
-
             for key, file in request.FILES.items():
                 blob = repo.create_blob(file.read())
+                # content_type_extra contains the full path of the file 
+                # with respect to the root of the tree.
+                # This is inserted in the custom upload handler.
                 blobs.append((blob, file.content_type_extra))
 
-            new_commit_tree = porcelain.add_blobs_to_tree(repo,branch,blobs)
+            new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
             porcelain.commit_tree(repo, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:

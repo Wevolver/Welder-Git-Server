@@ -68,13 +68,13 @@ def add_blobs_to_tree(repo, branch, blobs):
     """ Adds blobs to a tree.
 
         Create an index file from a specific branch tree.
-        Add the blobs to it, the path must be the fill path from root to the name of the blob.
+        Add the blobs to it, the path must be the full path from root to the name of the blob.
         Write the index file to a new tree and return.
 
     Args:
         repo (Repository): The user's repository.
         branch: The name of the branch we want to commit to.
-        blobs: New blobs to be added to a specific path.
+        blobs: New blobs to be added.
 
     Returns:
         tree: New tree with the blobs added.
