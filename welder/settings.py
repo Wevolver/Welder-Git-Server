@@ -13,8 +13,8 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [ '*.wevolver.com', 'www.wevolver.com', 'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
 
