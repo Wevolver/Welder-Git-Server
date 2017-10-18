@@ -272,7 +272,7 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
         else:
             response = JsonResponse({'message': 'No files received'})
     except pygit2.GitError as e:
-        response = HttpResponseBadRequest("Not a git repository.")
+        response = HttpResponseBadRequest("The repository for this project could not be found.")
 
     response['Permissions'] = permissions_token
     return response
