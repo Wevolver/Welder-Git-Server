@@ -226,6 +226,8 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
             response['Content-Disposition'] = "attachment; filename=%s" % path
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
+    except TypeError as e:
+        response = HttpResponseBadRequest("The file doesn't exist!")
     except AttributeError as e:
         response = HttpResponseBadRequest("The request is missing a path parameter")
     except pygit2.GitError as e:
@@ -259,7 +261,7 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
             blobs = []
             for key, file in request.FILES.items():
                 blob = repo.create_blob(file.read())
-                # content_type_extra contains the full path of the file 
+                # content_type_extra contains the full path of the file
                 # with respect to the root of the tree.
                 # This is inserted in the custom upload handler.
                 blobs.append((blob, file.content_type_extra))
