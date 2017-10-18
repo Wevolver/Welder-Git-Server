@@ -41,7 +41,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
         and project name in the URL.
 
         It generates a unique path based on the user name and
-        project, creates a default readme and commits it.
+        project, creates a default documentation and commits it.
 
     Args:
         user (string): The user's name.
@@ -67,13 +67,13 @@ def create_project(request, user, project_name, permissions_token, tracking=None
         privacy = request.GET.get('privacy')
         public, private = "0", "2"
         if privacy == private:
-            with open('welder/versions/starter.bak','r') as readme:
-                readme = readme.read().format(project_name)
+            with open('welder/versions/starter.bak','r') as documentation:
+                documentation = documentation.read().format(project_name)
         else:
-            with open('welder/versions/starter.md','r') as readme:
-                readme = readme.read().format(project_name)
-        blob = repo.create_blob(readme)
-        tree.insert('readme.md', blob, pygit2.GIT_FILEMODE_BLOB)
+            with open('welder/versions/starter.md','r') as documentation:
+                documentation = documentation.read().format(project_name)
+        blob = repo.create_blob(documentation)
+        tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
         sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
         response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
     except pygit2.GitError as e:
@@ -88,7 +88,7 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
         and project name in the URL.
 
         It generates a unique path based on the user name and
-        project, creates a default readme and commits it.
+        project, creates a default documentation and commits it.
 
     Args:
         user (string): The user's name.
