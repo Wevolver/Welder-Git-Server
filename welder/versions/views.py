@@ -8,7 +8,7 @@ from django.conf import settings
 
 from welder.permissions import decorators as permissions
 from welder.analytics import decorators as mixpanel
-from welder.notifcations import decorators as notifcations
+from welder.notifications import decorators as notification
 from welder.versions.git import GitResponse
 from welder.versions import porcelain
 from welder.versions.uploadhandlers import DirectoryUploadHandler, DirectoryUploadHandlerBig
