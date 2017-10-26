@@ -10,8 +10,6 @@ def notify(action):
             # if settings.DEBUG:
             #     return func(request, *args, **kwargs)
 
-            print('notification kwargs')
-            print(kwargs)
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
             access_token = access_token if access_token else request.GET.get("access_token")
 

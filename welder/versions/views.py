@@ -237,7 +237,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
-@notification.notify("commit")
+@notification.notify("committed to")
 @mixpanel.track
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
     """ Receives and commits an array of files to a specific path in the repository.
