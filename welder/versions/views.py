@@ -424,7 +424,7 @@ def upload_pack(request, user, project_name, tracking=None):
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
 @permissions.requires_git_permission_to('write')
-@notification.notify("commit")
+@notification.notify("committed to")
 @mixpanel.track
 def receive_files(request, user, project_name, permissions_token, tracking=None):
     """ Receives and commits an array of files to a specific path in the repository.
