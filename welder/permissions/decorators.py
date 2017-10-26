@@ -28,6 +28,8 @@ def requires_permission_to(permission):
         def _decorator(request, *args, **kwargs):
             if settings.DEBUG:
                 kwargs['permissions_token'] = "All Good"
+                print('has_permission')
+                print(kwargs)
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)

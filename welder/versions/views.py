@@ -239,7 +239,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 @permissions.requires_permission_to("write")
 @notification.notify("commit")
 @mixpanel.track
-def receive_files(request, user, project_name, permissions_token, tracking=None):
+def receive_files(request, user, project_name, permissions_token=None, tracking=None):
     """ Receives and commits an array of files to a specific path in the repository.
 
     Args:
@@ -252,13 +252,14 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
     """
     request.upload_handlers.insert(0, DirectoryUploadHandler())
     request.upload_handlers.insert(0, DirectoryUploadHandlerBig())
+    print('hello')
     try:
         directory = porcelain.generate_directory(user)
         email = request.POST.get('email', 'git@wevolver.com')
         message = request.POST.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-
+        print('hello')
         if request.FILES:
             blobs = []
             for key, file in request.FILES.items():
@@ -275,8 +276,11 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
             response = JsonResponse({'message': 'No files received'})
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("The repository for this project could not be found.")
+    except error:
+        print('error')
 
     response['Permissions'] = permissions_token
+    print(response)
     return response
 
 @require_http_methods(["GET"])

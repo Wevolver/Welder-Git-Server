@@ -1,13 +1,17 @@
+import requests
+
 from django.conf import settings
 from functools import wraps
 
 def notify(action):
-    def has_permission(func):
+    def notification(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            if settings.DEBUG:
-                return func(request, *args, **kwargs)
+            # if settings.DEBUG:
+            #     return func(request, *args, **kwargs)
 
+            print('notification kwargs')
+            print(kwargs)
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
             access_token = access_token if access_token else request.GET.get("access_token")
 
@@ -21,18 +25,21 @@ def notify(action):
             if(access_token):
                 send_notification(user_name, project_name, action, access_token)
 
+            kwargs['permissions_token'] = 'Shit'
+            return func(request, *args, **kwargs)
         return _decorator
-    return has_permission
+    return notification
 
 
-def get_token(user_name, project_name, verb, access_token):
+def send_notification(user_name, project_name, verb, access_token):
     body = {
         'verb': verb,
         'project': "{}/{}".format(user_name, project_name)
     }
 
-    url = "{}/notify/".format(settings.AUTH_BASE)
+    url = "{}/notify/".format(settings.API_BASE)
     access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
+    print(access_token)
     headers = {'Authorization': '{}'.format(access_token)}
     response = requests.post(url, headers=headers, data=body)
 
