@@ -6,7 +6,7 @@ You can use the `documentation.md` file to provide information about your projec
 
 > Good documentation is key to the success of any project.
 Below is an example template for public projects to help you get the most out of your `documentation.md` files.
-Readme files use a format called Markdown, read more [here to learn how to style your Readme](https://blog.ghost.org/markdown/).
+Documentation files use a format called Markdown, read more [here to learn how to style your Readme](https://blog.ghost.org/markdown/).
 
 ## Readme Template:
 
