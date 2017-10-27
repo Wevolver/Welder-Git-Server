@@ -68,8 +68,7 @@ class VersionsViewsTestCase(TestCase):
         with open(cwd + '/requirements.txt') as fp:
             self.client.post('/{}/{}/upload?path='.format(self.username, self.app, self.user), {'env': fp})
         response = self.client.get('/{}/{}?path='.format(self.username, self.app))
-        print(response.content)
-        self.assertEqual('env.json', json.loads(response.content)['tree']['data'][1]['name'])
+        self.assertEqual('requirements.txt', json.loads(response.content)['tree']['data'][1]['name'])
 
     def test_read_file(self):
         response = self.client.get('/{}/{}/readfile?path=documentation.md'.format(self.username, self.app))
