@@ -12,14 +12,13 @@ import base64
 import json
 import time
 import os
+import os
+cwd = os.getcwd()
 
 logger = logging.getLogger(__name__)
 logging.disable(logging.CRITICAL)
 settings.DEBUG = True
 
-import os
-cwd = os.getcwd()
-print(cwd)
 
 class VersionsViewsTestCase(TestCase):
 
@@ -61,7 +60,7 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open('Wevolver/Welder/readme.md') as fp:
+        with open(cwd + '/readme.md') as fp:
             response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test,json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
@@ -74,7 +73,7 @@ class VersionsViewsTestCase(TestCase):
 
     def test_read_file(self):
         response = self.client.get('/{}/{}/readfile?path=documentation.md'.format(self.username, self.app))
-        with open('welder/versions/starter.md','r') as readme:
+        with open(cwd + '/welder/versions/starter.md','r') as readme:
             readme = readme.read().format(self.app)
         content = list(response.streaming_content)[0].decode("utf-8")
         self.assertEqual(readme, content)
