@@ -15,8 +15,12 @@ import os
 
 logger = logging.getLogger(__name__)
 logging.disable(logging.CRITICAL)
-
 settings.DEBUG = True
+
+import os
+cwd = os.getcwd()
+print(cwd)
+
 class VersionsViewsTestCase(TestCase):
 
     @classmethod
@@ -57,13 +61,13 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open('./readme.md') as fp:
+        with open('Wevolver/Welder/readme.md') as fp:
             response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test,json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
     def test_list_files(self):
-        with open('./readme.md') as fp:
-            self.client.post('/{}/{}/upload?path=/'.format(self.username, self.app, self.user), {'bom.csv': fp})
+        fp = "file contents"
+        self.client.post('/{}/{}/upload?path=/'.format(self.username, self.app, self.user), {'bom.csv': fp})
         response = self.client.get('/{}/{}?path=/'.format(self.username, self.app))
         print(response.content)
         self.assertEqual('readme.md', json.loads(response.content)['tree']['data'][1]['name'])
