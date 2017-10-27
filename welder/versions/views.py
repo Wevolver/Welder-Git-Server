@@ -423,49 +423,6 @@ def upload_pack(request, user, project_name, tracking=None):
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
-@permissions.requires_git_permission_to('write')
-@notification.notify("committed to")
-@mixpanel.track
-def receive_files(request, user, project_name, permissions_token, tracking=None):
-    """ Receives and commits an array of files to a specific path in the repository.
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-        permissions_token (string): JWT token signed by Wevolver.
-
-    Returns:
-        JsonResponse: An object
-    """
-    request.upload_handlers.insert(0, DirectoryUploadHandler())
-    request.upload_handlers.insert(0, DirectoryUploadHandlerBig())
-    try:
-        directory = porcelain.generate_directory(user)
-        email = request.POST.get('email', 'git@wevolver.com')
-        message = request.POST.get('commit_message', 'received new files')
-        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-
-        if request.FILES:
-            blobs = []
-            for key, file in request.FILES.items():
-                blob = repo.create_blob(file.read())
-                # content_type_extra contains the full path of the file
-                # with respect to the root of the tree.
-                # This is inserted in the custom upload handler.
-                blobs.append((blob, file.content_type_extra))
-
-            new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
-            porcelain.commit_tree(repo, new_commit_tree, user, email, message)
-            response = JsonResponse({'message': 'Files uploaded'})
-        else:
-            response = JsonResponse({'message': 'No files received'})
-    except pygit2.GitError as e:
-        response = HttpResponseBadRequest("The repository for this project could not be found.")
-
-    response['Permissions'] = permissions_token
-    return response
-
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
 @mixpanel.track

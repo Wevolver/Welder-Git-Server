@@ -28,8 +28,6 @@ def requires_permission_to(permission):
         def _decorator(request, *args, **kwargs):
             if settings.DEBUG:
                 kwargs['permissions_token'] = "All Good"
-                print('has_permission')
-                print(kwargs)
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
@@ -65,6 +63,7 @@ def requires_permission_to(permission):
                 else:
                     permissions = decoded_token['permissions']
             if decoded_token['project'] == project_name and permission in permissions:
+                logger.info("Got token: {}".format(permissions))
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
@@ -130,6 +129,7 @@ def basic_auth(authorization_header):
     Args:
         authorization_header (str): the current user's bearer token
     """
+    logger.info(authorization_header)
     authorization_method, authorization = authorization_header.split(' ', 1)
     if authorization_method.lower() == 'basic':
         authorization = base64.b64decode(authorization.strip()).decode('utf8')

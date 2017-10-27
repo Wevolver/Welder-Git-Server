@@ -13,8 +13,8 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-# DEBUG = False
-DEBUG = True
+DEBUG = False
+#DEBUG = True
 
 ALLOWED_HOSTS = [ '*.wevolver.com', 'www.wevolver.com', 'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
 
@@ -92,61 +92,38 @@ if not os.path.exists('logs/'):
 with open(os.path.join('logs', 'main_debug.log'), 'w'):
     pass
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue'
-        }
+    'handlers': {
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+         },
     },
     'formatters': {
-        'main_formatter': {
-        'format': '%(levelname)s:%(name)s: %(message)s '
-        '(%(asctime)s; %(filename)s:%(lineno)d)',
-        'datefmt': "%Y-%m-%d %H:%M:%S",
+        'verbose': {
+            'format': '%(asctime)s %(levelname)-8s [%(name)s:%(lineno)s] %(message)s',
         },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'main_formatter',
-        },
-        'debug_file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/main_debug.log',
-            'maxBytes': 1024 * 1024 * 5,
-            'backupCount': 7,
-            'formatter': 'main_formatter',
-            'filters': ['require_debug_true'],
-        },
-        'null': {
-            "class": 'logging.NullHandler',
-        }
     },
     'loggers': {
-        'django.request': {
-        'handlers': ['console'],
-        'level': 'ERROR',
-        'propagate': True,
-        },
-        'django': {
-            'handlers': ['null', ],
-        },
-        'py.warnings': {
-            'handlers': ['null', ],
-        },
         '': {
-        'handlers': ['console', 'debug_file'],
-            'level': "DEBUG",
+            'handlers': ['console'],
+            'level': 'DEBUG',
         },
-    }
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
 }
 
 
