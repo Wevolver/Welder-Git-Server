@@ -13,9 +13,8 @@ import json
 import time
 import os
 import os
-cwd = os.getcwd()
-print(os.listdir(cwd))
 
+cwd = os.getcwd()
 logger = logging.getLogger(__name__)
 logging.disable(logging.CRITICAL)
 settings.DEBUG = True
@@ -61,12 +60,12 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open(cwd + '/env.json') as fp:
+        with open(cwd + '/requirements.txt') as fp:
             response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test.json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
     def test_list_files(self):
-        with open(cwd + '/env.json') as fp:
+        with open(cwd + '/requirements.txt') as fp:
             self.client.post('/{}/{}/upload?path='.format(self.username, self.app, self.user), {'env': fp})
         response = self.client.get('/{}/{}?path='.format(self.username, self.app))
         print(response.content)
