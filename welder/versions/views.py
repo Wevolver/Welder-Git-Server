@@ -252,14 +252,12 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
     """
     request.upload_handlers.insert(0, DirectoryUploadHandler())
     request.upload_handlers.insert(0, DirectoryUploadHandlerBig())
-    print('hello')
     try:
         directory = porcelain.generate_directory(user)
         email = request.POST.get('email', 'git@wevolver.com')
         message = request.POST.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        print('hello')
         if request.FILES:
             blobs = []
             for key, file in request.FILES.items():
@@ -280,7 +278,6 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
         print('error')
 
     response['Permissions'] = permissions_token
-    print(response)
     return response
 
 @require_http_methods(["GET"])
