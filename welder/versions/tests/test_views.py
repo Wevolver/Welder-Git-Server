@@ -14,6 +14,7 @@ import time
 import os
 import os
 cwd = os.getcwd()
+print(os.listdir(cwd))
 
 logger = logging.getLogger(__name__)
 logging.disable(logging.CRITICAL)
