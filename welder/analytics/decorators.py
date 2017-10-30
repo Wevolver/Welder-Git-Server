@@ -28,7 +28,7 @@ def track(func):
              return func(request, *args, **kwargs)
         title = name_mapping.get(func.__name__, False)
         if title:
-            tracking = kwargs['tracking']
+            tracking = kwargs.get('tracking', None)
             if tracking:
                 user = tracking['user']
             else:

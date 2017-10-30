@@ -413,13 +413,6 @@ def info_refs(request, user, project_name, tracking=None):
                            repository=requested_repo, data=None)
     return response.get_http_info_refs()
 
-@permissions.requires_git_permission_to('read')
-@mixpanel.track
-def upload_pack(request, user, project_name, tracking=None):
-    """ Calls service_rpc assuming the user is authenticated and has read permissions """
-
-    return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
-
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
@@ -562,7 +555,7 @@ def upload_pack(request, user, project_name, tracking=None):
 
 @permissions.requires_git_permission_to('write')
 @mixpanel.track
-def receive_pack(request, user, project_name, tracking=None):
+def receive_pack(request, user, project_name, permissions_token=None, tracking=None):
     """ Calls service_rpc assuming the user is authenticated and has write permissions """
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
@@ -680,30 +673,6 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     except AttributeError as e:
         response = HttpResponseBadRequest("No path parameter")
     return JsonResponse({'history': history})
-@mixpanel.track
-def receive_pack(request, user, project_name, tracking=None):
-    """ Calls service_rpc assuming the user is authenticated and has write permissions """
-
-    return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
-
-def service_rpc(user, project_name, request_service, request_body, tracking=None):
-    """ Calls the Git commands to pull or push data from the server depending on the received service.
-
-    https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-
-    Returns:
-        GitResponse: An HttpResponse that indicates success or failure and may include the requested packfile
-    """
-
-    directory = porcelain.generate_directory(user)
-    request_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
-    response = GitResponse(service=request_service, action=Actions.result.value,
-                           repository=request_repo, data=request_body)
-    return response.get_http_service_rpc()
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')
