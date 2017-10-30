@@ -9,9 +9,9 @@ from django.conf import settings
 from welder.permissions import decorators as permissions
 from welder.analytics import decorators as mixpanel
 from welder.notifications import decorators as notification
+from welder.uploads import decorators as uploads
 from welder.versions.git import GitResponse
 from welder.versions import porcelain
-from welder.versions.uploadhandlers import DirectoryUploadHandler, DirectoryUploadHandlerBig
 
 from wsgiref.util import FileWrapper
 from io import BytesIO
@@ -237,6 +237,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
+@uploads.add_handlers
 @notification.notify("committed to")
 @mixpanel.track
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -250,8 +251,6 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
     Returns:
         JsonResponse: An object
     """
-    request.upload_handlers.insert(0, DirectoryUploadHandler())
-    request.upload_handlers.insert(0, DirectoryUploadHandlerBig())
     try:
         directory = porcelain.generate_directory(user)
         email = request.POST.get('email', 'git@wevolver.com')
