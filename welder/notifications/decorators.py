@@ -24,13 +24,16 @@ def notify(action):
 
             directory = porcelain.generate_directory(user_name)
             repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-            walker = repo.walk(repo.head.target, pygit2.GIT_SORT_TIME)
 
-            existing_commits = []
-            for i in range(5):
-                existing_commits.append(next(walker).tree_id)
+            existing_commits = {}
+            for branch in repo.branches:
+                walker = repo.walk(repo.revparse_single(branch).id, pygit2.GIT_SORT_TIME)
+                existing_commits[branch] = []
+                for i in range(5):
+                    existing_commits[branch].append(next(walker).tree_id)
 
             to_return = func(request, *args, **kwargs)
+            branch = sorted(repo.branches, key=lambda x:repo.revparse_single(x).commit_time)[1]
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
             access_token = access_token if access_token else request.GET.get("access_token")
 
@@ -45,14 +48,14 @@ def notify(action):
             user_id = request.GET.get("user_id")
 
             events = []
-            walker = repo.walk(repo.head.target, pygit2.GIT_SORT_TIME)
+            walker = repo.walk(repo.revparse_single(branch).id, pygit2.GIT_SORT_TIME)
             for i in range(5):
                 commit = next(walker)
-                if commit.tree_id not in existing_commits:
+                if commit.tree_id not in existing_commits[branch]:
                     events.append({
                       "who": commit.committer.email,
                       "what": commit.message,
-                      "where": repo.head.name.split('/')[-1]
+                      "where": branch
                     })
 
             if(access_token):
