@@ -1,5 +1,5 @@
-from welder.versions.uploadhandlers import DirectoryUploadHandler
-from welder.versions.uploadhandlers import DirectoryUploadHandlerBig
+from .uploadhandlers import DirectoryUploadHandler
+from .uploadhandlers import DirectoryUploadHandlerBig
 from django.conf import settings
 from functools import wraps
 

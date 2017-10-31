@@ -525,8 +525,9 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
     return response
 
 @require_http_methods(["GET"])
+@mixpanel.track
 @permissions.requires_git_permission_to('read')
-def info_refs(request, user, project_name, tracking=None):
+def info_refs(request, user, project_name, permissions_token=None,  tracking=None):
     """ Initiates a handshake for a smart HTTP connection
 
     https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
@@ -554,12 +555,14 @@ def upload_pack(request, user, project_name, tracking=None):
 
 @permissions.requires_git_permission_to('write')
 @mixpanel.track
+@notification.notify("committed to")
 def receive_pack(request, user, project_name, permissions_token=None, tracking=None):
     """ Calls service_rpc assuming the user is authenticated and has write permissions """
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
-def service_rpc(user, project_name, request_service, request_body, tracking=None):
+@mixpanel.track
+def service_rpc(user, project_name, request_service, request_body, permissions_token=None, tracking=None):
     """ Calls the Git commands to pull or push data from the server depending on the received service.
 
     https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols

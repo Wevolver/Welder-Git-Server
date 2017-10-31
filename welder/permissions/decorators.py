@@ -57,13 +57,16 @@ def requires_permission_to(permission):
                     success, response = get_token(user_name, project_name, access_token)
                     token = response.content
                     decoded_token = decode_token(token)
-                    permissions = decoded_token['permissions']
+                    try:
+                        permissions = decoded_token['permissions']
+                    except:
+                        permissions = ['none']
+
                 elif not permissions:
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
-            if decoded_token['project'] == project_name and permission in permissions:
-                logger.info("Got token: {}".format(permissions))
+            if decoded_token and decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
@@ -129,7 +132,6 @@ def basic_auth(authorization_header):
     Args:
         authorization_header (str): the current user's bearer token
     """
-    logger.info(authorization_header)
     authorization_method, authorization = authorization_header.split(' ', 1)
     if authorization_method.lower() == 'basic':
         authorization = base64.b64decode(authorization.strip()).decode('utf8')
