@@ -84,6 +84,32 @@ def create_project(request, user, project_name, permissions_token, tracking=None
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("create")
 @mixpanel.track
+def create_branch(request, user, project_name, permissions_token, tracking=None):
+
+    try:
+        post = request.POST
+        directory = porcelain.generate_directory(user)
+        source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+
+        branch = post['branch_name']
+
+        commit = repo[LAST_COMMIT]
+        reference = repo.branches.create(branch, commit)
+
+        response = HttpResponse("Created branch {} on ./repos/{}/{}".format(branch, user, project_name))
+
+    except KeyError as e:
+        response = HttpResponseBadRequest("The requested path doesn't exist!")
+    except AttributeError as e:
+        response = HttpResponseBadRequest("The request is missing a path parameter")
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
+    return response
+
+@require_http_methods(["POST"])
+@permissions.requires_permission_to("create")
+@mixpanel.track
 def fork_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
         and project name in the URL.
@@ -180,6 +206,29 @@ def delete_project(request, user, project_name, permissions_token, tracking=None
     except FileNotFoundError as e:
         response = HttpResponseBadRequest("Not a repository.")
     response['Permissions'] = permissions_token
+    return response
+
+@require_http_methods(["POST"])
+@permissions.requires_permission_to("create")
+@mixpanel.track
+def delete_branch(request, user, project_name, permissions_token, tracking=None):
+
+    try:
+        post = request.POST
+        directory = porcelain.generate_directory(user)
+        source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+        branch = post['branch_name']
+        repo.branches.delete(branch)
+
+        response = HttpResponse("Deleted branch {} on ./repos/{}/{}".format(branch, user, project_name))
+
+    except KeyError as e:
+        response = HttpResponseBadRequest("The requested path doesn't exist!")
+    except AttributeError as e:
+        response = HttpResponseBadRequest("The request is missing a path parameter")
+    except pygit2.GitError as e:
+        response = HttpResponseBadRequest("looks like you already have a project with this name!")
     return response
 
 @require_http_methods(["GET"])
