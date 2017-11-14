@@ -338,7 +338,6 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         files = request.POST.get('files', None)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-
         if files:
             new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
             porcelain.commit_tree(repo, new_commit_tree, user, email, message)
