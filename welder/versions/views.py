@@ -324,6 +324,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
         response = HttpResponseBadRequest("The repository for this project could not be found.")
     except error:
         print('error')
+    return response
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")
