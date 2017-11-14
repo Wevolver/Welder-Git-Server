@@ -262,18 +262,18 @@ def receive_files(request, user, project_name, permissions_token, tracking=None)
                 blob = repo.create_blob(file.read())
                 # print(file.content_type_extra)
                 blobs.append((blob, file.content_type_extra))
-            # print(blobs)
-            new_commit_tree = porcelain.add_blob_to_tree(repo,branch,blobs)
-            # new_commit_tree = porcelain.add_blobs_to_tree(old_commit_tree, repo, blobs, path.split('/'))
-            # print(new_commit_tree)
-            porcelain.commit_tree(repo, new_commit_tree, user, email, message)
+
+            new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
+            porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:
             response = JsonResponse({'message': 'No files received'})
     except AttributeError as e:
         response = HttpResponseBadRequest("No path parameter.")
     except pygit2.GitError as e:
-        response = HttpResponseBadRequest("Not a git repository.")
+        response = HttpResponseBadRequest("The repository for this project could not be found.")
+    except error:
+        print('error')
 
     response['Permissions'] = permissions_token
     return response
