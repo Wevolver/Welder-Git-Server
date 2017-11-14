@@ -214,13 +214,16 @@ def delete_project(request, user, project_name, permissions_token, tracking=None
 def delete_branch(request, user, project_name, permissions_token, tracking=None):
 
     try:
-        post = request.POST
+        post =  json.loads(request.body)
         directory = porcelain.generate_directory(user)
         source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        branch = request.GET['branch']
-        repo.branches.delete(branch)
-        response = HttpResponse("Deleted branch {} on ./repos/{}/{}".format(branch, user, project_name))
+        branch = post.get('branch')
+        if branch:
+            repo.branches.delete(branch)
+            response = HttpResponse("Deleted branch {} on ./repos/{}/{}".format(branch, user, project_name))
+        else:
+            response = HttpResponseBadRequest("Missing branch name")
 
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
@@ -332,11 +335,13 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 @mixpanel.track
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
     try:
+        post = json.loads(request.body)
         directory = porcelain.generate_directory(user)
-        email = request.POST.get('email', 'git@wevolver.com')
-        message = request.POST.get('commit_message', 'received new files')
+        email = post.get('email', 'git@wevolver.com')
+        message = post.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-        files = request.POST.get('files', None)
+        files = post.get('files', None)
+
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if files:
             new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
