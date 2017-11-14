@@ -12,11 +12,14 @@ import base64
 import json
 import time
 import os
+import os
 
+cwd = os.getcwd()
 logger = logging.getLogger(__name__)
 logging.disable(logging.CRITICAL)
-
 settings.DEBUG = True
+
+
 class VersionsViewsTestCase(TestCase):
 
     @classmethod
@@ -57,21 +60,21 @@ class VersionsViewsTestCase(TestCase):
         self.assertTrue(repo.is_bare)
 
     def test_add_files(self):
-        with open('./Dockerfile') as fp:
-            response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test,json"), {'file': fp, 'path': 'test.json'})
+        with open(cwd + '/requirements.txt') as fp:
+            response = self.client.post('/{}/{}/upload?user_id={}&path={}'.format(self.username, self.app, self.user, "test.json"), {'file': fp, 'path': 'test.json'})
         self.assertTrue(b'Files uploaded' in response.content)
 
     def test_list_files(self):
-        with open('./Dockerfile') as fp:
-            self.client.post('/{}/{}/upload?user_id={}&path=test.json'.format(self.username, self.app, self.user), {'file': fp, 'path': 'test.json'})
-        response = self.client.get('/{}/{}?path=test.json'.format(self.username, self.app), {'user_id': self.user, 'path': 'test.json'})
-        self.assertEqual('Dockerfile', json.loads(response.content)['tree']['data'][0]['name'])
+        with open(cwd + '/requirements.txt') as fp:
+            self.client.post('/{}/{}/upload?path='.format(self.username, self.app, self.user), {'env': fp})
+        response = self.client.get('/{}/{}?path='.format(self.username, self.app))
+        self.assertEqual('requirements.txt', json.loads(response.content)['tree']['data'][1]['name'])
 
     def test_read_file(self):
-        response = self.client.get('/{}/{}/readfile?path=test/'.format(self.username, self.app), {'user_id': self.user, 'path': "readme.md"})
-        with open('welder/versions/starter.md','r') as readme:
+        response = self.client.get('/{}/{}/readfile?path=documentation.md'.format(self.username, self.app))
+        with open(cwd + '/welder/versions/starter.md','r') as readme:
             readme = readme.read().format(self.app)
-        content = (list(response.streaming_content)[0].decode("utf-8"))
+        content = list(response.streaming_content)[0].decode("utf-8")
         self.assertEqual(readme, content)
 
     def test_permissions(self):

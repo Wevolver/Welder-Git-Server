@@ -64,20 +64,17 @@ def walk_tree(repo, root_tree, full_path):
     return current_object, blob
 
 
-def add_blob_to_tree(repo, branch, blobs):
-    """ Adds blobs to a tree at a given path.
+def add_blobs_to_tree(repo, branch, blobs):
+    """ Adds blobs to a tree.
 
-        Traverse the repository to find the given path to a blob.
-        If the path to the blob does not exist it creates the necessary trees.
-        Then add blob to the last tree.
-        Then in reverse order trees are inserted into their parent up to the root.
-        Insert the new tree into the previous one to make a new snapshot.
+        Create an index file from a specific branch tree.
+        Add the blobs to it, the path must be the full path from root to the name of the blob.
+        Write the index file to a new tree and return.
 
     Args:
-        previous_commit_tree: The tree object of the last commit.
         repo (Repository): The user's repository.
-        blobs: New blobs to be added to a specific path.
-        path (string): The full path to the object.
+        branch: The name of the branch we want to commit to.
+        blobs: New blobs to be added.
 
     Returns:
         tree: New tree with the blobs added.
@@ -90,6 +87,19 @@ def add_blob_to_tree(repo, branch, blobs):
     for blob, path in blobs:
         entry = pygit2.IndexEntry(path, blob, pygit2.GIT_FILEMODE_BLOB)
         index.add(entry)
+
+    return index.write_tree()
+
+def remove_files_by_path(repo, branch, files):
+
+    tree = repo.revparse_single(branch).tree
+    index = repo.index
+    index.read_tree(tree)
+    for entry in index:
+        print(entry.path, entry.hex)
+
+    for filepath in files:
+        index.remove(filepath) 
 
     return index.write_tree()
 

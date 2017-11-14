@@ -57,12 +57,16 @@ def requires_permission_to(permission):
                     success, response = get_token(user_name, project_name, access_token)
                     token = response.content
                     decoded_token = decode_token(token)
-                    permissions = decoded_token['permissions']
+                    try:
+                        permissions = decoded_token['permissions']
+                    except:
+                        permissions = ['none']
+
                 elif not permissions:
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
-            if decoded_token['project'] == project_name and permission in permissions:
+            if decoded_token and decoded_token['project'] == project_name and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
