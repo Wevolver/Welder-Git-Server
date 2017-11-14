@@ -90,11 +90,13 @@ def add_blobs_to_tree(repo, branch, blobs):
 
     return index.write_tree()
 
-def remove_files_from_tree(repo, branch, files):
+def remove_files_by_path(repo, branch, files):
 
     tree = repo.revparse_single(branch).tree
     index = repo.index
     index.read_tree(tree)
+    for entry in index:
+        print(entry.path, entry.hex)
 
     for filepath in files:
         index.remove(filepath) 

@@ -334,47 +334,19 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
     try:
         directory = porcelain.generate_directory(user)
         email = request.POST.get('email', 'git@wevolver.com')
-        message = request.POST.get('commit_message', 'removed files')
+        message = request.POST.get('commit_message', 'received new files')
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-        files= request.POST.get('files', None)
+        files = request.POST.get('files', None)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
 
         if files:
-            new_commit_tree = porcelain.remove_files_from_tree(repo, branch, files)
+            new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
             porcelain.commit_tree(repo, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files Deleted'})
         else:
-            response = JsonResponse({'message': 'No Files Received'})
-
+            response = JsonResponse({'message': 'No Files Deleted'})
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("The repository for this project could not be found.")
-    except error:
-        print('error')
-
-@require_http_methods(["POST"])
-@permissions.requires_permission_to("write")
-@uploads.add_handlers
-@notification.notify("committed to")
-@mixpanel.track
-def remove_files(request, user, project_name, permissions_token=None, tracking=None):
-    try:
-        directory = porcelain.generate_directory(user)
-        email = request.POST.get('email', 'git@wevolver.com')
-        message = request.POST.get('commit_message', 'received new files')
-        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-        files = request.GET.get('files') if request.GET.get('files') else null
-        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-
-        new_commit_tree = porcelain.remove_files_by_path(repo, branch, files)
-
-        porcelain.commit_tree(repo, new_commit_tree, user, email, message)
-        response = JsonResponse({'message': 'Files uploaded'})
-        else:
-            response = JsonResponse({'message': 'No files received'})
-    except pygit2.GitError as e:
-        response = HttpResponseBadRequest("The repository for this project could not be found.")
-    except error:
-        print('error')
     response['Permissions'] = permissions_token
     return response
 
