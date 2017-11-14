@@ -218,9 +218,8 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
         directory = porcelain.generate_directory(user)
         source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        branch = post['branch_name']
+        branch = request.GET['branch']
         repo.branches.delete(branch)
-
         response = HttpResponse("Deleted branch {} on ./repos/{}/{}".format(branch, user, project_name))
 
     except KeyError as e:
@@ -561,9 +560,11 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token, t
         branches = {}
         for branch in repo.branches:
             branches[branch] = {"ahead": 0, "behind": 0}
-            ahead, behind = repo.ahead_behind(repo.lookup_branch(branch).target.hex, repo.lookup_branch('master').target.hex)
+            branch_latest_commit_oid = repo.lookup_branch(branch).target;
+            ahead, behind = repo.ahead_behind(branch_latest_commit_oid.hex, repo.lookup_branch('master').target.hex)
             branches[branch]['ahead'] = ahead
             branches[branch]['behind'] = behind
+            branches[branch]['commit_time'] = repo.get(branch_latest_commit_oid).commit_time
         response = JsonResponse(branches)
     except pygit2.GitError as e:
         response = HttpResponseBadRequest('not a repository')
@@ -781,64 +782,3 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
         response = HttpResponseBadRequest("No path parameter")
     response['Permissions'] = permissions_token
     return response
-
-@require_http_methods(["GET"])
-@permissions.requires_permission_to('read')
-@mixpanel.track
-def read_history(request, user, project_name, permissions_token, tracking=None):
-    """ Grabs and returns the history of a single file.
-
-       The commit history of the branch is parsed and the file of
-       interest is found on each commit tree.
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-        permissions_token (string): JWT token signed by Wevolver.
-
-    Returns:
-        JsonResponse: The history of the file at this path.
-    """
-    try:
-        path = request.GET.get('path').rstrip('/').lstrip('/')
-        history_type = request.GET.get('type')
-        branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-        directory = porcelain.generate_directory(user)
-        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        root_tree = repo.revparse_single(branch).tree
-
-        git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
-
-        page_size = int(request.GET.get('page_size', 10))
-        page = int(request.GET.get('page', 0))
-        start_index = page_size * page
-        history = []
-        for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
-            try:
-                title, description = commit.message.split('\n\n', 1)
-            except:
-                title, description = commit.message, None
-            if history_type == 'file':
-                git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
-                if type(git_blob) == pygit2.Blob:
-                    if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
-                        history.append({
-                            'id': git_blob.id.__str__(),
-                            'commit_time': commit.commit_time,
-                            'commit_description': description,
-                            'commit_title': title
-                        })
-            elif history_type == 'commits':
-                history.append({
-                    'author': commit.author.email,
-                    'committer': commit.committer.email,
-                    'commit_description': description,
-                    'commit_title': title,
-                    'commit_time': commit.commit_time,
-                    'commit_id': commit.id.__str__()
-                })
-    except pygit2.GitError as e:
-        response = HttpResponseBadRequest("Not a git repository")
-    except AttributeError as e:
-        response = HttpResponseBadRequest("No path parameter")
-    return JsonResponse({'history': history})
