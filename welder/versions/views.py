@@ -341,7 +341,7 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         if files:
             new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
-            porcelain.commit_tree(repo, new_commit_tree, user, email, message)
+            porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files Deleted'})
         else:
             response = JsonResponse({'message': 'No Files Deleted'})
