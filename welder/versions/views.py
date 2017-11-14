@@ -93,8 +93,8 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
 
         branch = post['branch_name']
+        commit = repo[repo.head.target]
 
-        commit = repo[LAST_COMMIT]
         reference = repo.branches.create(branch, commit)
 
         response = HttpResponse("Created branch {} on ./repos/{}/{}".format(branch, user, project_name))
