@@ -316,7 +316,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
                 blobs.append((blob, file.content_type_extra))
 
             new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
-            porcelain.commit_tree(repo, new_commit_tree, user, email, message)
+            porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
             response = JsonResponse({'message': 'Files uploaded'})
         else:
             response = JsonResponse({'message': 'No files received'})
@@ -324,6 +324,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
         response = HttpResponseBadRequest("The repository for this project could not be found.")
     except error:
         print('error')
+    return response
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("write")

@@ -103,7 +103,7 @@ def remove_files_by_path(repo, branch, files):
 
     return index.write_tree()
 
-def commit_tree(repo, newTree, name='Wevolver', email='git@wevolver.com', message='None'):
+def commit_tree(repo, branch, newTree, name='Wevolver', email='git@wevolver.com', message='None'):
     """ Commits tree to a repository.
 
     Args:
@@ -112,7 +112,8 @@ def commit_tree(repo, newTree, name='Wevolver', email='git@wevolver.com', messag
     """
     author_signature = pygit2.Signature(name, email, int(time()), 0)
     committer_signature = pygit2.Signature(name, email, int(time()), 0)
-    commit = repo.create_commit(repo.head.name, author_signature, committer_signature, message, newTree, [repo.head.peel().id])
+    branch_obj = repo.branches.get(branch)
+    commit = repo.create_commit(branch_obj.name, author_signature, committer_signature, message, newTree, [branch_obj.target])
 
 def flatten(tree, repo):
     """ Translates a tree structure into a single level array.
