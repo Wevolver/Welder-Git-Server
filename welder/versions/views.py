@@ -218,7 +218,7 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
         directory = porcelain.generate_directory(user)
         source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        branch = post.get('branch')
+        branch = post.get('branch_name')
         if branch:
             repo.branches.delete(branch)
             response = HttpResponse("Deleted branch {} on ./repos/{}/{}".format(branch, user, project_name))
