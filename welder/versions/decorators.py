@@ -3,9 +3,11 @@ from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.conf import settings
 from functools import wraps
+import logging
 import pygit2
 import json
-import logging
+import sys
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -39,6 +41,9 @@ def catch(func):
             response = HttpResponseBadRequest("The file doesn't exist")
             logger.info(e)
         except Exception as e:
-            logger.info(e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logger.info(exc_type, fname, exc_tb.tb_lineno)
+            response = HttpResponseBadRequest("Uh Oh")
         return response
     return _decorator

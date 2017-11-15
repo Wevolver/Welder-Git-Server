@@ -4,6 +4,7 @@ import subprocess, os.path
 from enum import Enum
 import logging
 import sys
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +75,7 @@ class GitResponse(HttpResponse):
             payload_type (plumbing): git plumbing call initiated by the request.
         """
 
+        logger.info(payload_type)
         if payload_type == plumbing.git_info_refs:
             process = subprocess.Popen([self.service.value,
                                         '--stateless-rpc',
@@ -81,6 +83,8 @@ class GitResponse(HttpResponse):
                                         self.repository],
                                         stdout=subprocess.PIPE)
 
+            logger.info('p')
+            logger.info(process)
             self.write(process.stdout.read())
 
         elif payload_type == plumbing.git_receive_pack:
@@ -117,6 +121,9 @@ class GitResponse(HttpResponse):
             self.set_response_payload(plumbing.git_info_refs)
             return self
         except BaseException as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            logger.info(exc_type, fname, exc_tb.tb_lineno)
             return get_http_error(e)
 
     def get_http_service_rpc(self):

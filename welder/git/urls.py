@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views
+from welder.git import views
 
 urlpatterns = [
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/git-upload-pack$', views.upload_pack, name='upload_pack'),

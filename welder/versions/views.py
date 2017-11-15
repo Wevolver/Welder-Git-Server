@@ -11,7 +11,7 @@ from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
 from welder.versions.utilities import fetch_repository
-from welder.versions import porcelain
+from welder.versions import porcelain as porcelain
 
 from wsgiref.util import FileWrapper
 from pygit2 import GIT_SORT_TIME
@@ -439,6 +439,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     """
 
     path = request.GET.get('path').rstrip('/').lstrip('/')
+    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     history_type = request.GET.get('type')
     repo = fetch_repository(user, project_name)
     root_tree = repo.revparse_single(branch).tree
@@ -490,8 +491,8 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     Returns:
         JsonResponse: An object with the requested tree as JSON
     """
-
     repo = fetch_repository(user, project_name)
+    path = request.GET.get('path').rstrip('/').lstrip('/')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     root_tree = repo.revparse_single(branch).tree
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
