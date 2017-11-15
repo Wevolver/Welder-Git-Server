@@ -87,7 +87,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
 def create_branch(request, user, project_name, permissions_token, tracking=None):
 
     try:
-        post = request.POST
+        post = json.loads(request.body)
         directory = porcelain.generate_directory(user)
         source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
