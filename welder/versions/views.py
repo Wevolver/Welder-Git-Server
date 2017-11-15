@@ -1,4 +1,3 @@
-from pygit2 import GIT_SORT_TOPOLOGICAL, GIT_SORT_TIME, GIT_SORT_REVERSE
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, JsonResponse
@@ -11,11 +10,11 @@ from welder.analytics import decorators as mixpanel
 from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
-from welder.versions.git import GitResponse
 from welder.versions.utilities import fetch_repository
 from welder.versions import porcelain
 
 from wsgiref.util import FileWrapper
+from pygit2 import GIT_SORT_TIME
 from io import BytesIO
 from time import time
 from enum import Enum
@@ -31,10 +30,6 @@ import json
 import os
 
 logger = logging.getLogger(__name__)
-
-class Actions(Enum):
-    advertisement = 'advertisement'
-    result = 'result'
 
 @require_http_methods(["POST"])
 @permissions.requires_permission_to("create")
@@ -70,10 +65,10 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     privacy = request.GET.get('privacy')
     public, private = "0", "2"
     if privacy == private:
-        with open('welder/versions/privatestarter.md','r') as documentation:
+        with open('welder/versions/markdown/privatestarter.md','r') as documentation:
             documentation = documentation.read().format(project_name)
     else:
-        with open('welder/versions/starter.md','r') as documentation:
+        with open('welder/versions/markdown/starter.md','r') as documentation:
             documentation = documentation.read().format(project_name)
     blob = repo.create_blob(documentation)
     tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
@@ -394,61 +389,6 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
     with tarfile.open(fileobj=response, mode='w') as archive:
         repo.write_archive(repo.revparse_single(branch).id, archive)
     return response
-
-@require_http_methods(["GET"])
-@mixpanel.track
-@permissions.requires_git_permission_to('read')
-def info_refs(request, user, project_name, permissions_token=None,  tracking=None):
-    """ Initiates a handshake for a smart HTTP connection
-
-    https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-
-    Returns:
-        GitResponse: A HttpResponse with the proper headers and payload needed by git.
-    """
-
-    repo = fetch_repository(user, project_name)
-    response = GitResponse(service=request.GET['service'], action=Actions.advertisement.value,
-                           repository=repo, data=None)
-    return response.get_http_info_refs()
-
-@permissions.requires_git_permission_to('read')
-@mixpanel.track
-def upload_pack(request, user, project_name, tracking=None):
-    """ Calls service_rpc assuming the user is authenticated and has read permissions """
-
-    return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
-
-@permissions.requires_git_permission_to('write')
-@mixpanel.track
-@notification.notify("committed to")
-def receive_pack(request, user, project_name, permissions_token=None, tracking=None):
-    """ Calls service_rpc assuming the user is authenticated and has write permissions """
-
-    return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
-
-@mixpanel.track
-def service_rpc(user, project_name, request_service, request_body, permissions_token=None, tracking=None):
-    """ Calls the Git commands to pull or push data from the server depending on the received service.
-
-    https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-
-    Returns:
-        GitResponse: An HttpResponse that indicates success or failure and may include the requested packfile
-    """
-
-    repo = fetch_repository(user, project_name)
-    response = GitResponse(service=request_service, action=Actions.result.value,
-                           repository=repo, data=request_body)
-    return response.get_http_service_rpc()
 
 @require_http_methods(["GET"])
 @permissions.requires_permission_to('read')

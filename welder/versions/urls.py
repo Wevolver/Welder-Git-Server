@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from . import views
 
 urlpatterns = [
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/create$', views.create_project, name='create-project'),
@@ -16,8 +15,5 @@ urlpatterns = [
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/listbranches$', views.list_branches, name='list_branches'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/listaheadbehind$', views.list_branches_ahead_behind, name='list_branches_ahead_behind'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/archive/download$', views.download_archive, name='download-archive'),
-    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/git-upload-pack$', views.upload_pack, name='upload_pack'),
-    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/git-receive-pack$', views.receive_pack, name='receive_pack'),
-    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/info/refs$', views.info_refs, name='info-refs'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)$', views.read_tree, name='read-tree'),
 ]

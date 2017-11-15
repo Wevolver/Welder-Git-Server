@@ -5,4 +5,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('welder.permissions.urls')),
     url(r'^', include('welder.versions.urls')),
+    url(r'^', include('welder.git.urls')),
 ]
