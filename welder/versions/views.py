@@ -93,7 +93,9 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
 
         branch = post['branch_name']
-        commit = repo[repo.head.target]
+        origin_branch = post['origin_branch']
+        # commit = repo[repo.head.target]
+        commit = repo[repo.branches.get(origin_branch).target]
 
         reference = repo.branches.create(branch, commit)
 
@@ -102,6 +104,7 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
     except KeyError as e:
         response = HttpResponseBadRequest("The requested path doesn't exist!")
     except AttributeError as e:
+        print(e)
         response = HttpResponseBadRequest("The request is missing a path parameter")
     except pygit2.GitError as e:
         response = HttpResponseBadRequest("looks like you already have a project with this name!")
