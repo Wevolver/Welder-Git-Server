@@ -12,6 +12,7 @@ from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
 from welder.versions.git import GitResponse
+from welder.versions.utilities import fetch_repository
 from welder.versions import porcelain
 
 from wsgiref.util import FileWrapper
@@ -86,9 +87,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
 @errors.catch
 def create_branch(request, user, project_name, permissions_token, tracking=None):
     post = json.loads(request.body)
-    directory = porcelain.generate_directory(user)
-    source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     branch = post['branch_name']
     commit = repo[repo.head.target]
     reference = repo.branches.create(branch, commit)
@@ -180,9 +179,7 @@ def delete_project(request, user, project_name, permissions_token, tracking=None
 @errors.catch
 def delete_branch(request, user, project_name, permissions_token, tracking=None):
     post =  json.loads(request.body)
-    directory = porcelain.generate_directory(user)
-    source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     branch = post.get('branch_name')
     if branch:
         repo.branches.delete(branch)
@@ -211,8 +208,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
     oid = request.GET.get('oid')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     download = request.GET.get('download')
-    directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     parsed_file = None
     data = None
     type_blob = 3
@@ -256,11 +252,10 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
         JsonResponse: An object
     """
 
-    directory = porcelain.generate_directory(user)
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', 'received new files')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     if request.FILES:
         blobs = []
         for key, file in request.FILES.items():
@@ -282,12 +277,11 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
 
     post = json.loads(request.body)
-    directory = porcelain.generate_directory(user)
+    repo = fetch_repository(user, project_name)
     email = post.get('email', 'git@wevolver.com')
     message = post.get('commit_message', 'received new files')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     files = post.get('files', None)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     if files:
         new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
         porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
@@ -316,9 +310,8 @@ def list_bom(request, user, project_name, permissions_token, tracking=None):
         HttpResponse: The full Bill of Materials (BOM)
     """
 
-    directory = porcelain.generate_directory(user)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     tree = (repo.revparse_single(branch).tree)
     blobs = porcelain.flatten(tree, repo)
     data = ''
@@ -342,9 +335,9 @@ def list_branches(request, user, project_name, permissions_token):
     Returns:
         JsonResponse: The list of branches
     """
-    directory = porcelain.generate_directory(user)
+
+    repo = fetch_repository(user, project_name)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     branches = {'branches': [repo for repo in repo.branches]}
     response = JsonResponse(branches)
     return response
@@ -364,9 +357,7 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token, t
     Returns:
         JsonResponse: The list of branches and their status
     """
-    directory = porcelain.generate_directory(user)
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     branches = []
     for branch in repo.branches:
         branch_latest_commit_oid = repo.lookup_branch(branch).target;
@@ -399,9 +390,8 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
     filename = project_name + '.tar'
     response = HttpResponse(content_type='application/x-gzip')
     response['Content-Disposition'] = 'attachment; filename=' + filename
-    directory = porcelain.generate_directory(user)
+    repo = fetch_repository(user, project_name)
     with tarfile.open(fileobj=response, mode='w') as archive:
-        repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
         repo.write_archive(repo.revparse_single(branch).id, archive)
     return response
 
@@ -421,10 +411,9 @@ def info_refs(request, user, project_name, permissions_token=None,  tracking=Non
         GitResponse: A HttpResponse with the proper headers and payload needed by git.
     """
 
-    directory = porcelain.generate_directory(user)
-    requested_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+    repo = fetch_repository(user, project_name)
     response = GitResponse(service=request.GET['service'], action=Actions.advertisement.value,
-                           repository=requested_repo, data=None)
+                           repository=repo, data=None)
     return response.get_http_info_refs()
 
 @permissions.requires_git_permission_to('read')
@@ -456,10 +445,9 @@ def service_rpc(user, project_name, request_service, request_body, permissions_t
         GitResponse: An HttpResponse that indicates success or failure and may include the requested packfile
     """
 
-    directory = porcelain.generate_directory(user)
-    request_repo = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
+    repo = fetch_repository(user, project_name)
     response = GitResponse(service=request_service, action=Actions.result.value,
-                           repository=request_repo, data=request_body)
+                           repository=repo, data=request_body)
     return response.get_http_service_rpc()
 
 @require_http_methods(["GET"])
@@ -481,9 +469,7 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     """
 
     path = request.GET.get('path').rstrip('/').lstrip('/')
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     root_tree = repo.revparse_single(branch).tree
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
@@ -514,9 +500,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
 
     path = request.GET.get('path').rstrip('/').lstrip('/')
     history_type = request.GET.get('type')
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
+    repo = fetch_repository(user, project_name)
     root_tree = repo.revparse_single(branch).tree
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
     page_size = int(request.GET.get('page_size', 10))
@@ -567,10 +551,8 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
         JsonResponse: An object with the requested tree as JSON
     """
 
-    path = request.GET.get('path').rstrip('/').lstrip('/')
+    repo = fetch_repository(user, project_name)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
-    directory = porcelain.generate_directory(user)
-    repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
     root_tree = repo.revparse_single(branch).tree
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
