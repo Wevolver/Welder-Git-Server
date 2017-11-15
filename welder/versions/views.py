@@ -561,15 +561,18 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token, t
         directory = porcelain.generate_directory(user)
         branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
         repo = pygit2.Repository(os.path.join(settings.REPO_DIRECTORY, directory, project_name))
-        branches = {}
+        branches = []
         for branch in repo.branches:
-            branches[branch] = {"ahead": 0, "behind": 0}
             branch_latest_commit_oid = repo.lookup_branch(branch).target;
             ahead, behind = repo.ahead_behind(branch_latest_commit_oid.hex, repo.lookup_branch('master').target.hex)
-            branches[branch]['ahead'] = ahead
-            branches[branch]['behind'] = behind
-            branches[branch]['commit_time'] = repo.get(branch_latest_commit_oid).commit_time
-        response = JsonResponse(branches)
+            branchParams = {
+                'name': branch,
+                'ahead': ahead,
+                'behind': behind,
+                'commit_time': repo.get(branch_latest_commit_oid).commit_time
+            }
+            branches.append(branchParams)
+        response = JsonResponse({ 'branches': branches })
     except pygit2.GitError as e:
         response = HttpResponseBadRequest('not a repository')
     return response
