@@ -84,7 +84,8 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
     post = json.loads(request.body)
     repo = fetch_repository(user, project_name)
     branch = post['branch_name']
-    commit = repo[repo.head.target]
+    origin_branch = post['origin_branch']
+    commit = repo[repo.branches.get(origin_branch).target]
     reference = repo.branches.create(branch, commit)
     response = HttpResponse("Created branch {} on ./repos/{}/{}".format(branch, user, project_name))
     return response
