@@ -66,10 +66,10 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     public, private = "0", "2"
     if privacy == private:
         with open('welder/versions/markdown/privatestarter.md','r') as documentation:
-            documentation = documentation.read().format(project_name)
+            documentation = documentation.read()
     else:
         with open('welder/versions/markdown/starter.md','r') as documentation:
-            documentation = documentation.read().format(project_name)
+            documentation = documentation.read()
     blob = repo.create_blob(documentation)
     tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
     sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
