@@ -462,6 +462,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
                         'id': git_blob.id.__str__(),
                         'commit_time': commit.commit_time,
                         'commit_description': description,
+                        'committer': commit.committer.email,
                         'commit_title': title
                     })
         elif history_type == 'commits':

@@ -75,7 +75,6 @@ class GitResponse(HttpResponse):
             payload_type (plumbing): git plumbing call initiated by the request.
         """
 
-        logger.info(payload_type)
         if payload_type == plumbing.git_info_refs:
             process = subprocess.Popen([self.service.value,
                                         '--stateless-rpc',
@@ -83,8 +82,6 @@ class GitResponse(HttpResponse):
                                         self.repository],
                                         stdout=subprocess.PIPE)
 
-            logger.info('p')
-            logger.info(process)
             self.write(process.stdout.read())
 
         elif payload_type == plumbing.git_receive_pack:
