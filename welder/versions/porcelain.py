@@ -20,7 +20,7 @@ def generate_directory(username):
     a, b, c, d, *rest= hash[0], hash[1:3], hash[3:5], hash[5:7]
     return os.path.join(a, b, c, d, username)
 
-def parse_file_tree(tree):
+def parse_file_tree(repo, tree):
     """ Parses the repository's tree structure into JSON.
 
     Args:
@@ -30,7 +30,7 @@ def parse_file_tree(tree):
         dict: A list of all blobs and trees in the provided tree.
     """
 
-    return {'data': [{'name': str(node.name), 'type': str(node.type), 'oid': str(node.id)} for node in tree]}
+    return {'data': [{'name': str(node.name), 'type': str(node.type), 'oid': str(node.id), 'size': repo[node.id].size if node.type == 'blob' else 0} for node in tree]}
 
 
 def walk_tree(repo, root_tree, full_path):
