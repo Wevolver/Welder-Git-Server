@@ -16,7 +16,16 @@ SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['7f253d1f.ngrok.io', '*.ngrok.io', '*.wevolver.com', 'www.wevolver.com', 'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com', 'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder' ]
+ALLOWED_HOSTS = ['484d3fa1.ngrok.io',
+                 'f5204e98.ngrok.io',
+                 'www.wevolver.com',
+                 'test.wevolver.com',
+                 'git.wevolver.com',
+                 'dev.wevolver.com',
+                 'welder.wevolver.com',
+                 'localhost',
+                 '127.0.0.1',
+                 'welder' ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
