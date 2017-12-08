@@ -500,7 +500,7 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
     if type(git_tree) == pygit2.Tree:
-        parsed_tree = porcelain.parse_file_tree(git_tree)
+        parsed_tree = porcelain.parse_file_tree(repo, git_tree)
     response = JsonResponse({'tree': parsed_tree})
     response['Permissions'] = permissions_token
     return response
