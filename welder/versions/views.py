@@ -56,6 +56,8 @@ def create_project(request, user, project_name, permissions_token, tracking=None
 
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
+    else:
+        return HttpResponseBadRequest("You already have a project with this name")
 
     repo = pygit2.init_repository(path, True)
     tree = repo.TreeBuilder()
@@ -389,35 +391,6 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
     repo = fetch_repository(user, project_name)
     with tarfile.open(fileobj=response, mode='w') as archive:
         repo.write_archive(repo.revparse_single(branch).id, archive)
-    return response
-
-@require_http_methods(["GET"])
-@permissions.requires_permission_to('read')
-@mixpanel.track
-@errors.catch
-def read_tree(request, user, project_name, permissions_token, tracking=None):
-    """ Grabs and returns a single file or a tree from a user's repository
-
-        The requested tree is first parsed into JSON.
-
-    Args:
-        user (string): The user's name.
-        project_name (string): The user's repository name.
-        permissions_token (string): JWT token signed by Wevolver.
-
-    Returns:
-        JsonResponse: An object with the requested tree as JSON
-    """
-
-    path = request.GET.get('path').rstrip('/').lstrip('/')
-    repo = fetch_repository(user, project_name)
-    root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
-    parsed_tree = None
-    if type(git_tree) == pygit2.Tree:
-        parsed_tree = porcelain.parse_file_tree(git_tree)
-    response = JsonResponse({'tree': parsed_tree})
-    response['Permissions'] = permissions_token
     return response
 
 @require_http_methods(["GET"])
