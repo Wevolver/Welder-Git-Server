@@ -54,10 +54,13 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     directory = porcelain.generate_directory(user)
     path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
 
+    print(os.path.exists(path))
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
-    else:
-        return HttpResponseBadRequest("You already have a project with this name")
+    
+    if os.path.exists(path):
+        response = HttpResponseBadRequest("You already have a project with this name")
+        return response
 
     repo = pygit2.init_repository(path, True)
     tree = repo.TreeBuilder()
