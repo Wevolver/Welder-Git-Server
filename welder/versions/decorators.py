@@ -40,6 +40,9 @@ def catch(func):
         except TypeError as e:
             response = HttpResponseBadRequest("The file doesn't exist")
             logger.info(e)
+        except ValueError as e:
+            response = HttpResponseBadRequest(e)
+            logger.info(e)
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
