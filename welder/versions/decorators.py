@@ -17,28 +17,28 @@ def catch(func):
         try:
             return func(request, *args, **kwargs)
         except json.decoder.JSONDecodeError as e:
-            response = HttpResponseBadRequest("Bad JSON")
+            response = HttpResponseBadRequest("Bad JSON.")
             logger.info(e)
         except FileExistsError as e:
-            response = HttpResponseBadRequest("You already have a project with this name")
+            response = HttpResponseBadRequest("You already have a project with this name.")
             logger.info(e)
         except OSError as e:
-            response = HttpResponseBadRequest("You already have a project with this name")
+            response = HttpResponseBadRequest("You already have a project with this name.")
             logger.info(e)
         except FileNotFoundError as e:
             response = HttpResponseBadRequest("Not a repository.")
             logger.info(e)
         except pygit2.GitError as e:
-            response = HttpResponseBadRequest("Pygit error")
+            response = HttpResponseBadRequest("Pygit error.")
             logger.info(e)
         except AttributeError as e:
-            response = HttpResponseBadRequest("The necessary parameter doesn't exist")
+            response = HttpResponseBadRequest("Missing necessary parameter.")
             logger.info(e)
         except KeyError as e:
-            response = HttpResponseBadRequest("The necessary parameter doesn't exist")
+            response = HttpResponseBadRequest("Missing necessary parameter.")
             logger.info(e)
         except TypeError as e:
-            response = HttpResponseBadRequest("The file doesn't exist")
+            response = HttpResponseBadRequest("The file doesn't exist.")
             logger.info(e)
         except ValueError as e:
             response = HttpResponseBadRequest(e)
@@ -47,6 +47,6 @@ def catch(func):
             exc_type, exc_obj, exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             logger.info(exc_type, fname, exc_tb.tb_lineno)
-            response = HttpResponseBadRequest("Uh Oh")
+            response = HttpResponseBadRequest("Unknown.")
         return response
     return _decorator
