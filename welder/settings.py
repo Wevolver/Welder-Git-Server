@@ -28,7 +28,7 @@ ALLOWED_HOSTS = ['484d3fa1.ngrok.io',
                  'welder' ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
-
+FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
 # Application definition
 
 INSTALLED_APPS = (
