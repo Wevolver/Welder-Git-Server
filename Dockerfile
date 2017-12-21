@@ -25,5 +25,6 @@ RUN pip install coveralls
 RUN pip install pyjwt
 RUN pip install profilehooks
 RUN pip install mixpanel
+RUN pip install boto3
 
 RUN ldconfig
