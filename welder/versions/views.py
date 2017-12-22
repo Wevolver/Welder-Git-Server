@@ -31,7 +31,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
 @mixpanel.track
 @errors.catch
@@ -81,7 +81,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
 @mixpanel.track
 @errors.catch
@@ -95,7 +95,7 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
     response = HttpResponse("Created branch {} on ./repos/{}/{}".format(branch, user, project_name))
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
 @mixpanel.track
 @errors.catch
@@ -126,7 +126,7 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
     response = HttpResponse("Cloned at ./repos/{}/{}".format(user, project_name))
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @mixpanel.track
 @errors.catch
@@ -151,7 +151,7 @@ def rename_project(request, user, project_name, permissions_token, tracking=None
     response = HttpResponse("Renamed at ./repos/{}/{}".format(user, new_name))
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to('write')
 @mixpanel.track
 @errors.catch
@@ -174,7 +174,7 @@ def delete_project(request, user, project_name, permissions_token, tracking=None
     response['Permissions'] = permissions_token
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
 @mixpanel.track
 @errors.catch
@@ -189,7 +189,7 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
         response = HttpResponseBadRequest("Missing branch name")
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -232,7 +232,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
         response['Content-Disposition'] = "attachment; filename=%s" % path
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
@@ -269,7 +269,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
         response = JsonResponse({'message': 'No files received'})
     return response
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
@@ -292,7 +292,7 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
     response['Permissions'] = permissions_token
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -321,7 +321,7 @@ def list_bom(request, user, project_name, permissions_token, tracking=None):
     response = HttpResponse(data)
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -343,7 +343,7 @@ def list_branches(request, user, project_name, permissions_token):
     response = JsonResponse(branches)
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -373,7 +373,7 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token, t
     response = JsonResponse({ 'branches': branches })
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -396,7 +396,7 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
         repo.write_archive(repo.revparse_single(branch).id, archive)
     return response
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch
@@ -452,7 +452,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
             })
     return JsonResponse({'history': history})
 
-@require_http_methods(["GET"])
+@require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
 @mixpanel.track
 @errors.catch

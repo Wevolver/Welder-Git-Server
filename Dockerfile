@@ -16,7 +16,7 @@ RUN pip install sphinx_rtd_theme
 RUN pip install tokenlib
 RUN pip install cryptography
 RUN pip install pygit2
-RUN pip install django
+RUN pip install django==1.11.3
 RUN pip install coveralls
 RUN pip install django-robots
 RUN pip3 install django-cors-headers
