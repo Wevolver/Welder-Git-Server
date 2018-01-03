@@ -8,8 +8,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 import boto3
+from botocore.client import Config
+
 s3 = boto3.client(
     's3',
+    'us-west-1',
+    config=Config(signature_version='s3v4'),
     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
 )
@@ -28,7 +32,6 @@ def locks_verify(request, user, project_name, permissions_token=None,  tracking=
 
 def objects_batch(request, user, project_name, permissions_token=None,  tracking=None):
     data = json.loads(request.body)
-    print(data)
     operation = data.get('operation', None)
 
     transfer = 'basic'
@@ -47,11 +50,13 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
 
         object_data = {'oid': object_id}
         href = s3.generate_presigned_url(
-            ClientMethod='put_object',
+            'put_object',
             Params={
                 'Bucket': 'wevolver-lfs',
                 'Key': object_id
-            }
+            },
+            ExpiresIn=18400,
+            HttpMethod='PUT'
         )
         headers = {'x-auth-token': permissions_token} if permissions_token else {}
 
@@ -64,6 +69,9 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
         objects.append(object_data)
 
     result = {'objects': objects, 'transfer': transfer}
+    print('result')
     print(result)
+    # files = {"file": "file_content"}
+    # response = requests.post(post["url"], data=post["fields"], files=files)
     return JsonResponse(result)
 
