@@ -10,7 +10,8 @@ logger = logging.getLogger(__name__)
 import boto3
 from botocore.client import Config
 
-s3 = boto3.client(
+# setup boto3 s3 client
+s3_client = boto3.client(
     's3',
     'us-west-1',
     config=Config(signature_version='s3v4'),
@@ -18,14 +19,34 @@ s3 = boto3.client(
     aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
 )
 
-def download(c_url, object_id, headers, object_size, object_data):
-    """ Download the object """
-    return True
+def get_s3_url(operation, object_id):
+    """ Build Presigned s3 URL"""
+    return s3_client.generate_presigned_url(
+        'get_object' if operation == 'download' else 'put_object',
+        Params={
+            'Bucket': 'wevolver-lfs',
+            'Key': object_id
+        },
+        ExpiresIn=18400,
+        HttpMethod='GET' if operation == 'download' else 'PUT'
+    )
 
+def get_lfs_object(operation, object_id, headers, object_size):
+    """ Upload or Download the object """
+    lfs_object = {
+      "oid": object_id,
+      "size": object_size,
+      "authenticated": True,
+      "actions": {
+        operation: {
+          "href": get_s3_url(operation, object_id),
+          "header": headers,
+          "expires_in": 18400,
+        }
+      }
+    }
 
-def upload(c_url, object_id, headers, object_size, object_data):
-    """ Upload the object """
-    return True
+    return lfs_object
 
 def locks_verify(request, user, project_name, permissions_token=None,  tracking=None):
     return JsonResponse({})
@@ -35,43 +56,22 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
     operation = data.get('operation', None)
 
     transfer = 'basic'
-    url = 'url ' + '/' + 'container'
     objects = []
-
-    handle = download if operation == 'download' else upload
 
     for file_object in data['objects']:
         try:
             object_id = file_object['oid']
             object_size = file_object['size']
+            headers = {}
         except KeyError:
             print(400)
-            # abort(400)
 
-        object_data = {'oid': object_id}
-        href = s3.generate_presigned_url(
-            'put_object',
-            Params={
-                'Bucket': 'wevolver-lfs',
-                'Key': object_id
-            },
-            ExpiresIn=18400,
-            HttpMethod='PUT'
-        )
-        headers = {'x-auth-token': permissions_token} if permissions_token else {}
+        # https://github.com/git-lfs/git-lfs/blob/master/docs/api/batch.md
+        lfs_object = get_lfs_object(operation, object_id, headers, object_size)
 
-        if handle(url, object_id, headers, object_size, object_data):
-            action = dict(href=href, header=headers, expires_at=None)
-            object_data['actions'] = {operation: action}
-
-        object_data['size'] = object_size
-        object_data['authenticated'] = True
-        objects.append(object_data)
+        objects.append(lfs_object)
 
     result = {'objects': objects, 'transfer': transfer}
-    print('result')
-    print(result)
-    # files = {"file": "file_content"}
-    # response = requests.post(post["url"], data=post["fields"], files=files)
+
     return JsonResponse(result)
 
