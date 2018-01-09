@@ -10,7 +10,10 @@ logger = logging.getLogger(__name__)
 import boto3
 from botocore.client import Config
 
-# setup boto3 s3 client
+"""
+Setup boto3 s3 client.
+The bucket's region AND the signature version 's3v4' must be specified.
+"""
 s3_client = boto3.client(
     's3',
     'us-west-1',
@@ -21,14 +24,17 @@ s3_client = boto3.client(
 
 def get_s3_url(operation, object_id):
     """ Build Presigned s3 URL"""
+    action = 'get_object' if operation == 'download' else 'put_object'
+    method = 'GET' if operation == 'download' else 'PUT'
+
     return s3_client.generate_presigned_url(
-        'get_object' if operation == 'download' else 'put_object',
-        Params={
+        action,
+        Params = {
             'Bucket': 'wevolver-lfs',
             'Key': object_id
         },
-        ExpiresIn=18400,
-        HttpMethod='GET' if operation == 'download' else 'PUT'
+        ExpiresIn = 18400, # TODO: No reason for this number, what's a good amount?
+        HttpMethod = method
     )
 
 def get_lfs_object(operation, object_id, headers, object_size):
@@ -41,7 +47,7 @@ def get_lfs_object(operation, object_id, headers, object_size):
         operation: {
           "href": get_s3_url(operation, object_id),
           "header": headers,
-          "expires_in": 18400,
+          "expires_in": 18400, # TODO: No reason for this number, what's a good amount?
         }
       }
     }
@@ -55,7 +61,9 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
     data = json.loads(request.body)
     operation = data.get('operation', None)
 
+    # transfer can only be basic
     transfer = 'basic'
+    # List of object to upload/download
     objects = []
 
     for file_object in data['objects']:
@@ -63,11 +71,10 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
             object_id = file_object['oid']
             object_size = file_object['size']
             headers = {}
+            # https://github.com/git-lfs/git-lfs/blob/master/docs/api/batch.md
+            lfs_object = get_lfs_object(operation, object_id, headers, object_size)
         except KeyError:
             print(400)
-
-        # https://github.com/git-lfs/git-lfs/blob/master/docs/api/batch.md
-        lfs_object = get_lfs_object(operation, object_id, headers, object_size)
 
         objects.append(lfs_object)
 
