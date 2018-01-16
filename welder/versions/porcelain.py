@@ -29,8 +29,28 @@ def parse_file_tree(repo, tree):
     Returns:
         dict: A list of all blobs and trees in the provided tree.
     """
+    data = []
+    for node in tree:
+        tree_object = {
+            'name': str(node.name),
+            'type': str(node.type),
+            'oid': str(node.id),
+            'size': repo[node.id].size if node.type == 'blob' else 0
+        }
 
-    return {'data': [{'name': str(node.name), 'type': str(node.type), 'oid': str(node.id), 'size': repo[node.id].size if node.type == 'blob' else 0} for node in tree]}
+        split_pointer = repo[node.id].data[:200].decode().splitlines()
+        pointer_marker = 'version https://git-lfs.github.com/spec/v1'
+        if split_pointer[0] == pointer_marker:
+            pointer_object = {}
+            for line in split_pointer:
+                key_value = line.split(' ')
+                pointer_object[key_value[0]] = key_value[1]
+            tree_object['lfs'] = pointer_object['oid']
+            tree_object['size'] = pointer_object['size']
+
+        data.append(tree_object)
+    return { 'data': data }
+    # return {'data': [{'name': str(node.name), 'type': str(node.type), 'oid': str(node.id), 'size': repo[node.id].size if node.type == 'blob' else 0} for node in tree]}
 
 
 def walk_tree(repo, root_tree, full_path):

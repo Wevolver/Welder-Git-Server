@@ -74,9 +74,11 @@ def objects_batch(request, user, project_name, permissions_token=None,  tracking
             # https://github.com/git-lfs/git-lfs/blob/master/docs/api/batch.md
             lfs_object = get_lfs_object(operation, object_id, headers, object_size)
         except KeyError:
+            lfs_object = None
             print(400)
 
-        objects.append(lfs_object)
+        if lfs_object:
+            objects.append(lfs_object)
 
     result = {'objects': objects, 'transfer': transfer}
 
