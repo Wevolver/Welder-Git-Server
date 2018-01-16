@@ -57,7 +57,7 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     print(os.path.exists(path))
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
-    
+
     if os.path.exists(path):
         response = HttpResponseBadRequest("You already have a project with this name")
         return response
@@ -75,8 +75,12 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     else:
         with open('welder/versions/markdown/starter.md','r') as documentation:
             documentation = documentation.read()
+    with open('welder/versions/helpers/attributes','r') as attributes:
+        attributes = attributes.read()
     blob = repo.create_blob(documentation)
+    attributes = repo.create_blob(attributes)
     tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
+    tree.insert('.gitattributes', attributes, pygit2.GIT_FILEMODE_BLOB)
     sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
     response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
     return response
