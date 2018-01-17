@@ -27,7 +27,7 @@ ALLOWED_HOSTS = ['484d3fa1.ngrok.io',
                  'welder' ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
-
+FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
 # Application definition
 
 INSTALLED_APPS = (
@@ -163,3 +163,5 @@ else:
     TOKEN_SECRET = get_env("TOKEN_SECRET")
     REPO_DIRECTORY = get_env("REPO_DIRECTORY")
     TRACKING_TOKEN = get_env("TRACKING_TOKEN")
+    AWS_ACCESS_KEY_ID = get_env("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = get_env("AWS_SECRET_ACCESS_KEY")
