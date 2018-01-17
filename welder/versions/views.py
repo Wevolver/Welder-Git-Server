@@ -103,7 +103,7 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
 @permissions.requires_permission_to("create")
 @mixpanel.track
 @errors.catch
-def fork_project(request, user, project_name, tracking=None):
+def fork_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
         and project name in the URL.
 
