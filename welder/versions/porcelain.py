@@ -20,7 +20,7 @@ def generate_directory(username):
     a, b, c, d, *rest= hash[0], hash[1:3], hash[3:5], hash[5:7]
     return os.path.join(a, b, c, d, username)
 
-def parse_file_tree(repo, tree):
+def parse_file_tree(repo, tree, folder_path):
     """ Parses the repository's tree structure into JSON.
 
     Args:
@@ -31,11 +31,13 @@ def parse_file_tree(repo, tree):
     """
     data = []
     for node in tree:
+        full_path = folder_path + [str(node.name)]
         tree_object = {
             'name': str(node.name),
             'type': str(node.type),
             'oid': str(node.id),
-            'size': repo[node.id].size if node.type == 'blob' else 0
+            'size': repo[node.id].size if node.type == 'blob' else 0,
+            'folder_path': '/'.join(full_path)
         }
 
         pointer_marker = 'version https://git-lfs.github.com/spec/v1'
@@ -74,17 +76,19 @@ def walk_tree(repo, root_tree, full_path):
     if locations[0] == "":
         locations = []
     blob = None
-    for location in locations:
+    for index, location in enumerate(locations):
         try:
             next_object = current_object.__getitem__(location)
         except KeyError as e:
-            return current_object, None
+            locations.pop()
+            return current_object, None, locations
         temp_object = current_object
         current_object = repo.get(next_object.id)
         if type(current_object) == pygit2.Blob:
             blob = current_object
             current_object = temp_object
-    return current_object, blob
+    locations.pop()
+    return current_object, blob, locations
 
 
 def add_blobs_to_tree(repo, branch, blobs):

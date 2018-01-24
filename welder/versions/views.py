@@ -223,7 +223,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
             data = git_blob[1]
     else:
         root_tree = repo.revparse_single(branch).tree
-        git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+        git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
         if type(git_blob) == pygit2.Blob:
             data = git_blob.data
     parsed_file = str(base64.b64encode(data), 'utf-8')
@@ -425,7 +425,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     history_type = request.GET.get('type')
     repo = fetch_repository(user, project_name)
     root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+    git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
     page_size = int(request.GET.get('page_size', 10))
     page = int(request.GET.get('page', 0))
     start_index = page_size * page
@@ -436,7 +436,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
         except:
             title, description = commit.message, None
         if history_type == 'file':
-            git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
+            git_tree, git_blob, folder_path = porcelain.walk_tree(repo, commit.tree, path)
             if type(git_blob) == pygit2.Blob:
                 if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
                     history.append({
@@ -478,10 +478,10 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     path = request.GET.get('path').rstrip('/').lstrip('/')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+    git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
     if type(git_tree) == pygit2.Tree:
-        parsed_tree = porcelain.parse_file_tree(repo, git_tree)
+        parsed_tree = porcelain.parse_file_tree(repo, git_tree, folder_path)
     response = JsonResponse({'tree': parsed_tree})
     response['Permissions'] = permissions_token
     return response
