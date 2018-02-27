@@ -54,10 +54,10 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     directory = porcelain.generate_directory(user)
     path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
 
-    print(os.path.exists(path))
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
-    
+
+    logger.info(path)
     if os.path.exists(path):
         response = HttpResponseBadRequest("You already have a project with this name")
         return response
@@ -67,16 +67,12 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     message = "Project created"
     author = pygit2.Signature('Wevolver', 'Wevolver')
     comitter = pygit2.Signature('Wevolver', 'Wevolver')
-    privacy = request.GET.get('privacy')
-    public, private = "0", "2"
-    if privacy == private:
-        with open('welder/versions/markdown/privatestarter.md','r') as documentation:
-            documentation = documentation.read()
-    else:
-        with open('welder/versions/markdown/starter.md','r') as documentation:
-            documentation = documentation.read()
-    blob = repo.create_blob(documentation)
-    tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
+
+    with open('welder/versions/helpers/attributes','r') as attributes:
+        attributes = attributes.read()
+
+    attributes = repo.create_blob(attributes)
+    tree.insert('.gitattributes', attributes, pygit2.GIT_FILEMODE_BLOB)
     sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
     response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
     return response

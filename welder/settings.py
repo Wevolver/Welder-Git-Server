@@ -16,7 +16,7 @@ SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = ['484d3fa1.ngrok.io',
+ALLOWED_HOSTS = ['db6d0aec.ngrok.io',
                  'f5204e98.ngrok.io',
                  'www.wevolver.com',
                  'test.wevolver.com',
