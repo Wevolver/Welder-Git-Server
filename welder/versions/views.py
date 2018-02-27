@@ -431,7 +431,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     history = []
     for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
         try:
-            title, description = commit.message.split('\n\n', 1)
+            title, description = commit.message.split('\n', 1)
         except:
             title, description = commit.message, None
         if history_type == 'file':
