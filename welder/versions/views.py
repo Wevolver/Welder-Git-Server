@@ -11,6 +11,7 @@ from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
 from welder.versions.utilities import fetch_repository
+from welder.versions.utilities import split_commit_message
 from welder.versions import porcelain as porcelain
 
 from wsgiref.util import FileWrapper
@@ -431,7 +432,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     history = []
     for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
         try:
-            title, description = commit.message.split('\n', 1)
+            title, description = split_commit_message(commit.message)
         except:
             title, description = commit.message, None
         if history_type == 'file':
