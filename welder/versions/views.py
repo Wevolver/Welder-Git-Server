@@ -277,7 +277,7 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
     post = json.loads(request.body)
     repo = fetch_repository(user, project_name)
     email = post.get('email', 'git@wevolver.com')
-    message = post.get('commit_message', 'deleted files: ' + str(files))
+    message = post.get('commit_message', 'deleted files')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     files = post.get('files', None)
     if files:
