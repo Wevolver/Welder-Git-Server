@@ -439,13 +439,20 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
                         'commit_title': title
                     })
         elif history_type == 'commits':
+            # Commit tree diff
+            try:
+                diff = repo.diff(commit.tree, commit.parents[0].tree)
+                files = [patch.delta.new_file.path for patch in diff]
+            except:
+                files = []
             history.append({
                 'author': commit.author.email,
                 'committer': commit.committer.email,
                 'commit_description': description,
                 'commit_title': title,
                 'commit_time': commit.commit_time,
-                'commit_id': commit.id.__str__()
+                'commit_id': commit.id.__str__(),
+                'commit_files': files,
             })
     return JsonResponse({'history': history})
 
