@@ -18,6 +18,11 @@ def split_commit_message(commit_message):
     nl_split = commit_message.split('\n', 1)
     p_split = commit_message.split('.', 1)
 
+    if len(nl_split[0]) > 50:
+        nl_split = [commit_message[:50], commit_message[50:]]
+    if len(p_split[0]) > 50:
+        p_split = [commit_message[:50], commit_message[50:]]
+
     if len(nl_split[0]) > len(p_split[0]):
         return p_split;
     else:

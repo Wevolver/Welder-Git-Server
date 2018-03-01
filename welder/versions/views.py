@@ -252,6 +252,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', 'received new files')
+    name = request.POST.get('user_name', user)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     repo = fetch_repository(user, project_name)
     if request.FILES:
@@ -260,7 +261,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
             blob = repo.create_blob(file.read())
             blobs.append((blob, file.content_type_extra))
         new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
-        porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
+        porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files uploaded'})
     else:
         response = JsonResponse({'message': 'No files received'})
@@ -436,12 +437,14 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
                         'commit_time': commit.commit_time,
                         'commit_description': description,
                         'committer': commit.committer.email,
+                        'committer_name': commit.committer.name,
                         'commit_title': title
                     })
         elif history_type == 'commits':
             history.append({
                 'author': commit.author.email,
                 'committer': commit.committer.email,
+                'committer_name': commit.committer.name,
                 'commit_description': description,
                 'commit_title': title,
                 'commit_time': commit.commit_time,
