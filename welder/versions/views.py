@@ -279,11 +279,12 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
     repo = fetch_repository(user, project_name)
     email = post.get('email', 'git@wevolver.com')
     message = post.get('commit_message', 'deleted files')
+    name = post.get('user_name', user)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     files = post.get('files', None)
     if files:
         new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
-        porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
+        porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files Deleted'})
     else:
         response = JsonResponse({'message': 'No Files Deleted'})
