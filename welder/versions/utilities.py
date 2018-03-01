@@ -15,15 +15,8 @@ def fetch_repository(username, projectname):
     return repo
 
 def split_commit_message(commit_message):
-    nl_split = commit_message.split('\n', 1)
-    p_split = commit_message.split('.', 1)
+    splits = [50,
+              (commit_message.index('\n') if '\n' in commit_message else float("inf")),
+              (commit_message.index('.') if '.' in commit_message else float("inf"))]
 
-    if len(nl_split[0]) > 50:
-        nl_split = [commit_message[:50], commit_message[50:]]
-    if len(p_split[0]) > 50:
-        p_split = [commit_message[:50], commit_message[50:]]
-
-    if len(nl_split[0]) > len(p_split[0]):
-        return p_split;
-    else:
-        return nl_split;
+    return [commit_message[:min(splits)], commit_message[min(splits):]]
