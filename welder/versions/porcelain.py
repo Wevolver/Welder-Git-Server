@@ -76,6 +76,7 @@ def walk_tree(repo, root_tree, full_path):
     if locations[0] == "":
         locations = []
     blob = None
+    print(locations)
     for index, location in enumerate(locations):
         try:
             next_object = current_object.__getitem__(location)
@@ -87,7 +88,7 @@ def walk_tree(repo, root_tree, full_path):
         if type(current_object) == pygit2.Blob:
             blob = current_object
             current_object = temp_object
-    locations.pop()
+            locations.pop()
     return current_object, blob, locations
 
 
