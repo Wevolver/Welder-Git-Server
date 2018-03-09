@@ -11,6 +11,7 @@ from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
 from welder.versions.utilities import fetch_repository
+from welder.versions.utilities import split_commit_message
 from welder.versions import porcelain as porcelain
 
 from wsgiref.util import FileWrapper
@@ -54,10 +55,10 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     directory = porcelain.generate_directory(user)
     path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
 
-    print(os.path.exists(path))
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
 
+    logger.info(path)
     if os.path.exists(path):
         response = HttpResponseBadRequest("You already have a project with this name")
         return response
@@ -67,19 +68,11 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     message = "Project created"
     author = pygit2.Signature('Wevolver', 'Wevolver')
     comitter = pygit2.Signature('Wevolver', 'Wevolver')
-    privacy = request.GET.get('privacy')
-    public, private = "0", "2"
-    if privacy == private:
-        with open('welder/versions/markdown/privatestarter.md','r') as documentation:
-            documentation = documentation.read()
-    else:
-        with open('welder/versions/markdown/starter.md','r') as documentation:
-            documentation = documentation.read()
+
     with open('welder/versions/helpers/attributes','r') as attributes:
         attributes = attributes.read()
-    blob = repo.create_blob(documentation)
+
     attributes = repo.create_blob(attributes)
-    tree.insert('documentation.md', blob, pygit2.GIT_FILEMODE_BLOB)
     tree.insert('.gitattributes', attributes, pygit2.GIT_FILEMODE_BLOB)
     sha = repo.create_commit('HEAD', author, comitter, message, tree.write(), [])
     response = HttpResponse("Created at ./repos/{}/{}".format(user, project_name))
@@ -259,6 +252,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', 'received new files')
+    name = request.POST.get('user_name', user)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     repo = fetch_repository(user, project_name)
     if request.FILES:
@@ -267,7 +261,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
             blob = repo.create_blob(file.read())
             blobs.append((blob, file.content_type_extra))
         new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
-        porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
+        porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files uploaded'})
     else:
         response = JsonResponse({'message': 'No files received'})
@@ -284,13 +278,13 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
     post = json.loads(request.body)
     repo = fetch_repository(user, project_name)
     email = post.get('email', 'git@wevolver.com')
-    message = post.get('commit_message', 'received new files')
+    message = post.get('commit_message', 'deleted files')
+    name = post.get('user_name', user)
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     files = post.get('files', None)
-    print('Hello')
     if files:
         new_commit_tree = porcelain.remove_files_by_path(repo, branch, files.split(','))
-        porcelain.commit_tree(repo, branch, new_commit_tree, user, email, message)
+        porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files Deleted'})
     else:
         response = JsonResponse({'message': 'No Files Deleted'})
@@ -432,7 +426,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     history = []
     for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
         try:
-            title, description = commit.message.split('\n\n', 1)
+            title, description = split_commit_message(commit.message)
         except:
             title, description = commit.message, None
         if history_type == 'file':
@@ -444,16 +438,33 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
                         'commit_time': commit.commit_time,
                         'commit_description': description,
                         'committer': commit.committer.email,
+                        'committer_name': commit.committer.name,
                         'commit_title': title
                     })
         elif history_type == 'commits':
+            # Commit tree diff
+            try:
+                diff = repo.diff(commit.tree, commit.parents[0].tree)
+                files = []
+                for patch in diff:
+                    status_to_char = {
+                        1: '+',
+                        2: '-',
+                        3: '○'
+                    }
+                    status = status_to_char[patch.delta.status]
+                    files.append({'path': patch.delta.new_file.path, 'status': status})
+            except:
+                files = []
             history.append({
                 'author': commit.author.email,
                 'committer': commit.committer.email,
+                'committer_name': commit.committer.name,
                 'commit_description': description,
                 'commit_title': title,
                 'commit_time': commit.commit_time,
-                'commit_id': commit.id.__str__()
+                'commit_id': commit.id.__str__(),
+                'commit_files': files,
             })
     return JsonResponse({'history': history})
 

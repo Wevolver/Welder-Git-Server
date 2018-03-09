@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 from django.core.exceptions import ImproperlyConfigured
 from corsheaders.defaults import default_headers
 
@@ -13,9 +14,9 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['484d3fa1.ngrok.io',
+ALLOWED_HOSTS = ['db6d0aec.ngrok.io',
                  'f5204e98.ngrok.io',
                  'www.wevolver.com',
                  'test.wevolver.com',
@@ -156,6 +157,8 @@ else:
         try:
             return env[setting]
         except KeyError:
+            print("No key: " + setting)
+            sys.exit(0)
             return False
 
     API_BASE = get_env("API_BASE")
