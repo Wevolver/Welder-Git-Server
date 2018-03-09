@@ -445,7 +445,15 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
             # Commit tree diff
             try:
                 diff = repo.diff(commit.tree, commit.parents[0].tree)
-                files = [patch.delta.new_file.path for patch in diff]
+                files = []
+                for patch in diff:
+                    status_to_char = {
+                        1: '+',
+                        2: '-',
+                        3: '○'
+                    }
+                    status = status_to_char[patch.delta.status]
+                    files.append({'path': patch.delta.new_file.path, 'status': status})
             except:
                 files = []
             history.append({
