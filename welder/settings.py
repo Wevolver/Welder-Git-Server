@@ -1,13 +1,13 @@
 import os
 import json
 import sys
-from django.core.exceptions import ImproperlyConfigured
+import warnings
 from corsheaders.defaults import default_headers
 
-CORS_ALLOW_HEADERS = default_headers + (
+CORS_ALLOW_HEADERS = default_headers + ('Permissions', )
+CORS_EXPOSE_HEADERS = [
     'Permissions',
-)
-CORS_EXPOSE_HEADERS = ['Permissions',]
+]
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
@@ -16,69 +16,34 @@ SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['db6d0aec.ngrok.io',
-                 'f5204e98.ngrok.io',
-                 'www.wevolver.com',
-                 'test.wevolver.com',
-                 'git.wevolver.com',
-                 'dev.wevolver.com',
-                 'welder.wevolver.com',
-                 'localhost',
-                 '127.0.0.1',
-                 'welder' ]
+ALLOWED_HOSTS = [
+    'db6d0aec.ngrok.io', 'f5204e98.ngrok.io', 'www.wevolver.com',
+    'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com',
+    'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder'
+]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000
 FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
-# Application definition
 
 INSTALLED_APPS = (
     'robots',
     'corsheaders',
     'django.contrib.sites',
-    # 'django.contrib.admin',
-    # 'django.contrib.auth',
     'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
-    # 'django.contrib.messages',
-    # 'django.contrib.staticfiles',
 )
 
 SITE_ID = 1
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
-    # 'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    # 'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
 
 X_FRAME_OPTIONS = 'ALLOW-FROM https://www.wevolver.com/'
-
 ROOT_URLCONF = 'welder.urls'
-
-# TEMPLATES = [
-#     {
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [],
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'context_processors': [
-#                 'django.template.loaders.app_directories.Loader',
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.contrib.messages.context_processors.messages',
-#             ],
-#         },
-#     },
-# ]
-
 WSGI_APPLICATION = 'welder.wsgi.application'
 
 DATABASES = {
@@ -88,13 +53,11 @@ DATABASES = {
     }
 }
 
-
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 STATIC_URL = '/static/'
 
 if not os.path.exists('logs/'):
@@ -103,20 +66,20 @@ if not os.path.exists('logs/'):
 with open(os.path.join('logs', 'main_debug.log'), 'w'):
     pass
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console':{
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
             'formatter': 'verbose'
-         },
+        },
     },
     'formatters': {
         'verbose': {
-            'format': '%(asctime)s %(levelname)-8s [%(name)s:%(lineno)s] %(message)s',
+            'format':
+            '%(asctime)s %(levelname)-8s [%(name)s:%(lineno)s] %(message)s',
         },
     },
     'loggers': {
@@ -137,13 +100,17 @@ LOGGING = {
     },
 }
 
-
 if os.environ.get('TRAVIS') == 'true':
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
     TOKEN_SECRET = 'TOKEN_SECRET'
     REPO_DIRECTORY = './'
     TRACKING_TOKEN = "TRACKING_TOKEN"
+
+try:
+    from welder.settings_local import *
+except ImportError:
+    warnings.warn('No local settings found', RuntimeWarning)
 
 else:
     try:
@@ -152,6 +119,7 @@ else:
     except:
         with open("../env.json") as f:
             environment = json.loads(f.read())
+
     def get_env(setting, env=environment):
         """Get the env variable or return explicit exception."""
         try:
