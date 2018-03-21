@@ -253,18 +253,19 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', 'received new files')
     name = request.POST.get('user_name', user)
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+    path = request.POST.get('path', None)
+    branch = request.GET.get('branch') if request.GET.get('branch') else None
     repo = fetch_repository(user, project_name)
-    if request.FILES:
+    if request.FILES and path and branch:
         blobs = []
         for key, file in request.FILES.items():
             blob = repo.create_blob(file.read())
-            blobs.append((blob, file.content_type_extra))
+            blobs.append((blob, path + file.name))
         new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
         porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files uploaded'})
     else:
-        response = JsonResponse({'message': 'No files received'})
+        response = JsonResponse({'message': 'No files or path or branch received'})
     return response
 
 @require_http_methods(["POST", "OPTIONS"])
