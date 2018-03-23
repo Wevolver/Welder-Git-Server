@@ -256,7 +256,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
     path = request.POST.get('path', None)
     branch = request.GET.get('branch') if request.GET.get('branch') else None
     repo = fetch_repository(user, project_name)
-    if request.FILES and path and branch:
+    if request.FILES and path != None and branch:
         blobs = []
         for key, file in request.FILES.items():
             blob = repo.create_blob(file.read())
