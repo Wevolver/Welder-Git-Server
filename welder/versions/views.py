@@ -219,7 +219,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
         git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
         if type(git_blob) == pygit2.Blob:
             data = git_blob.data
-    parsed_file = str(base64.b64encode(data), 'utf-8')
+    # parsed_file = str(base64.b64encode(data), 'utf-8')
     chunk_size = 8192
     filelike = FileWrapper(BytesIO(data), chunk_size)
     response = StreamingHttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
@@ -425,7 +425,7 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     page = int(request.GET.get('page', 0))
     start_index = page_size * page
     history = []
-    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
+    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size + 1):
         try:
             title, description = split_commit_message(commit.message)
         except:
@@ -438,9 +438,10 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
                         'id': git_blob.id.__str__(),
                         'commit_time': commit.commit_time,
                         'commit_description': description,
+                        'commit_id': commit.id.__str__(),
                         'committer': commit.committer.email,
                         'committer_name': commit.committer.name,
-                        'commit_title': title
+                        'commit_title': title,
                     })
         elif history_type == 'commits':
             # Commit tree diff
