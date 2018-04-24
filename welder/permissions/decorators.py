@@ -31,6 +31,7 @@ def requires_permission_to(permission):
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
+
             access_token = access_token if access_token else request.GET.get("access_token")
 
             permissions = request.META.get('HTTP_PERMISSIONS', None)
@@ -46,7 +47,7 @@ def requires_permission_to(permission):
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
 
             else:
                 token = permissions
@@ -66,7 +67,7 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
-            if decoded_token and decoded_token['project'] == project_name and permission in permissions:
+            if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)

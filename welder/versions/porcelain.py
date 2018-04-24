@@ -76,7 +76,6 @@ def walk_tree(repo, root_tree, full_path):
     if locations[0] == "":
         locations = []
     blob = None
-    print(locations)
     for index, location in enumerate(locations):
         try:
             next_object = current_object.__getitem__(location)
