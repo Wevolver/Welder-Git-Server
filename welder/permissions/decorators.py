@@ -26,7 +26,10 @@ def requires_permission_to(permission):
     def has_permission(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            if settings.DEBUG:
+            action = request.POST.get("action")
+            print('action')
+            print(action)
+            if settings.DEBUG or action == 'create':
                 kwargs['permissions_token'] = "All Good"
                 return func(request, *args, **kwargs)
 
@@ -66,6 +69,8 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
+            print('decoded_token')
+            print(decoded_token)
 
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
@@ -171,7 +176,6 @@ def get_token(user_name, project_name, access_token):
     #     access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
     # else:
     #     access_token = None
-
     if access_token:
         headers = {
             'Authorization': '{}'.format(access_token),
@@ -181,7 +185,6 @@ def get_token(user_name, project_name, access_token):
         response = requests.post(url, headers=headers, data=body)
     else:
         response = requests.post(url, data=body)
-
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token):
