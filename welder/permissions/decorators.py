@@ -42,7 +42,6 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
-
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
@@ -67,6 +66,7 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
+
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
@@ -162,21 +162,26 @@ def get_token(user_name, project_name, access_token):
         authorization (str): the current user's bearer token
         user (str): the current requesting user's id
     """
-    body = {
-        'project': "{}/{}".format(user_name, project_name)
-    }
-    url = "{}/permissions".format(settings.AUTH_BASE)
+    body = json.dumps({
+        'project': "{}/{}".format(user_name, project_name) 
+    })
+    url = "{}/permissions".format(settings.API_V2_BASE)
+
+    # if access_token:
+    #     access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
+    # else:
+    #     access_token = None
 
     if access_token:
-        access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
-    else:
-        access_token = None
-
-    if access_token:
-        headers = {'Authorization': '{}'.format(access_token)}
+        headers = {
+            'Authorization': '{}'.format(access_token),
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+        }
         response = requests.post(url, headers=headers, data=body)
     else:
         response = requests.post(url, data=body)
+
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token):
