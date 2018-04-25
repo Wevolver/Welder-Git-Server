@@ -26,9 +26,7 @@ def requires_permission_to(permission):
     def has_permission(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            action = request.POST.get("action")
-            print('action')
-            print(action)
+            action = request.GET.get("action")
             if settings.DEBUG or action == 'create':
                 kwargs['permissions_token'] = "All Good"
                 return func(request, *args, **kwargs)
@@ -182,6 +180,7 @@ def get_token(user_name, project_name, access_token):
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
         }
+        
         response = requests.post(url, headers=headers, data=body)
     else:
         response = requests.post(url, data=body)
