@@ -99,7 +99,7 @@ def requires_git_permission_to(permission):
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
                     kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
@@ -108,10 +108,10 @@ def requires_git_permission_to(permission):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
                 if access_token is None:
                     return user_id
-                success, response = get_token(user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token, user_id)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
                     kwargs['tracking'] = decoded_token 
                     return func(request, *args, **kwargs)
@@ -158,7 +158,7 @@ def basic_auth(authorization_header):
     else:
         return (None, 'Default')
 
-def get_token(user_name, project_name, access_token):
+def get_token(user_name, project_name, access_token, user_id = None):
     """ Checks against the Wevolver API to see if the users token is currently valid
 
     Args:
@@ -166,7 +166,8 @@ def get_token(user_name, project_name, access_token):
         user (str): the current requesting user's id
     """
     body = json.dumps({
-        'project': "{}/{}".format(user_name, project_name) 
+        'project': "{}/{}".format(user_name, project_name),
+        'user_id': user_id
     })
     url = "{}/permissions".format(settings.API_V2_BASE)
 
@@ -183,7 +184,12 @@ def get_token(user_name, project_name, access_token):
         
         response = requests.post(url, headers=headers, data=body)
     else:
-        response = requests.post(url, data=body)
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+        }
+        
+        response = requests.post(url, headers=headers, data=body)
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token):
