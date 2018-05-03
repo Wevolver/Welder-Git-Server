@@ -2,7 +2,9 @@ from time import time
 import requests
 import hashlib
 import pygit2
+import logging
 import os
+logger = logging.getLogger(__name__)
 
 def generate_directory(username):
     """ Generates a unique directory structure for the project based on the user name.
@@ -126,7 +128,7 @@ def remove_files_by_path(repo, branch, files):
         print(entry.path, entry.hex)
 
     for filepath in files:
-        index.remove(filepath) 
+        index.remove(filepath)
 
     return index.write_tree()
 

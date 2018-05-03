@@ -58,7 +58,6 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
 
-    logger.info(path)
     if os.path.exists(path):
         response = HttpResponseBadRequest("You already have a project with this name")
         return response
@@ -494,4 +493,19 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     response = JsonResponse({'tree': parsed_tree})
 
     response['Permissions'] = permissions_token
+    return response
+
+@require_http_methods(["GET", "OPTIONS"])
+@errors.catch
+def revert_commit(request, user, project_name, permissions_token=None, tracking=None):
+    repo = fetch_repository(user, project_name)
+    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+    email = request.POST.get('email', 'git@wevolver.com')
+    message = request.POST.get('commit_message', repo.get(branch).message)
+    name = request.POST.get('user_name', user)
+
+    new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, [])
+    porcelain.commit_tree(repo, 'master', new_commit_tree, name, email, message)
+
+    response = JsonResponse({'message':'success'})
     return response

@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/delete$', views.delete_project, name='delete-project'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/deletefiles$', views.delete_files, name='delete-files'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/deletebranch$', views.delete_branch, name='delete-branch'),
+    url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/revert$', views.revert_commit, name='revert-commit'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/readfile$', views.read_file, name='read-file'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/readhistory$', views.read_history, name='read-history'),
     url(r'^(?P<user>[-.\w]+)/(?P<project_name>[-.\w\s]+)/upload$', views.receive_files, name='receive-files'),
