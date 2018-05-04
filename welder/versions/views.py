@@ -495,7 +495,8 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     response['Permissions'] = permissions_token
     return response
 
-@require_http_methods(["GET", "OPTIONS"])
+@require_http_methods(["POST", "OPTIONS"])
+@permissions.requires_permission_to('write')
 @errors.catch
 def revert_commit(request, user, project_name, permissions_token=None, tracking=None):
     repo = fetch_repository(user, project_name)
@@ -503,9 +504,7 @@ def revert_commit(request, user, project_name, permissions_token=None, tracking=
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', repo.get(branch).message)
     name = request.POST.get('user_name', user)
-
     new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, [])
     porcelain.commit_tree(repo, 'master', new_commit_tree, name, email, message)
-
     response = JsonResponse({'message':'success'})
     return response
