@@ -54,6 +54,7 @@ def upload_pack(request, user, project_name, tracking=None):
 @permissions.requires_git_permission_to('write')
 @mixpanel.track
 @notification.notify("committed to")
+@notification.activity("committed")
 def receive_pack(request, user, project_name, permissions_token=None, tracking=None):
     """ Calls service_rpc assuming the user is authenticated and has write permissions """
 

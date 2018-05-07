@@ -232,6 +232,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
+@notification.activity("committed")
 @mixpanel.track
 @errors.catch
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -271,6 +272,7 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
+@notification.activity("committed")
 @mixpanel.track
 @errors.catch
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -497,6 +499,7 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to('write')
+@notification.activity("committed")
 @errors.catch
 def revert_commit(request, user, project_name, permissions_token=None, tracking=None):
     repo = fetch_repository(user, project_name)
