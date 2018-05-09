@@ -12,6 +12,22 @@ import os
 
 logger = logging.getLogger(__name__)
 
+def activity(action):
+    def activity(func):
+        @wraps(func)
+        def _decorator(request, *args, **kwargs):
+            if settings.DEBUG:
+                return func(request, *args, **kwargs)
+
+            project_name = kwargs['project_name']
+            user_name = kwargs['user']
+            send_activity(user_name, project_name, "committed")
+            to_return = func(request, *args, **kwargs)
+            return to_return
+
+        return _decorator
+    return activity
+
 def notify(action):
     def notification(func):
         @wraps(func)
@@ -73,6 +89,17 @@ def notify(action):
         return _decorator
     return notification
 
+def send_activity(user_name, project_name, verb):
+    body = {
+        'user': user_name,
+        'verb': verb,
+        'project': "{}/{}".format(user_name, project_name),
+        'project_name': "{}".format(project_name)
+    }
+    url = "{}/activity".format(settings.API_V2_BASE)
+    response = requests.post(url, json=body)
+
+    return (response.status_code == requests.codes.ok, response)
 
 def send_notification(user_name, project_name, verb, access_token, events):
     body = {

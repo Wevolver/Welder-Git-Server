@@ -26,11 +26,13 @@ def requires_permission_to(permission):
     def has_permission(func):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
-            if settings.DEBUG:
+            action = request.GET.get("action")
+            if settings.DEBUG or action == 'create':
                 kwargs['permissions_token'] = "All Good"
                 return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
+
             access_token = access_token if access_token else request.GET.get("access_token")
 
             permissions = request.META.get('HTTP_PERMISSIONS', None)
@@ -41,12 +43,11 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
-
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
 
             else:
                 token = permissions
@@ -66,7 +67,10 @@ def requires_permission_to(permission):
                     permissions = ['none']
                 else:
                     permissions = decoded_token['permissions']
-            if decoded_token and decoded_token['project'] == project_name and permission in permissions:
+            print('decoded_token')
+            print(decoded_token)
+
+            if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
@@ -95,7 +99,7 @@ def requires_git_permission_to(permission):
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
                     kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
@@ -104,10 +108,10 @@ def requires_git_permission_to(permission):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
                 if access_token is None:
                     return user_id
-                success, response = get_token(user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token, user_id)
                 token = response.content
                 decoded_token = decode_token(token)
-                permissions = decoded_token['permissions']
+                permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
                     kwargs['tracking'] = decoded_token 
                     return func(request, *args, **kwargs)
@@ -154,28 +158,38 @@ def basic_auth(authorization_header):
     else:
         return (None, 'Default')
 
-def get_token(user_name, project_name, access_token):
+def get_token(user_name, project_name, access_token, user_id = None):
     """ Checks against the Wevolver API to see if the users token is currently valid
 
     Args:
         authorization (str): the current user's bearer token
         user (str): the current requesting user's id
     """
-    body = {
-        'project': "{}/{}".format(user_name, project_name)
-    }
-    url = "{}/permissions".format(settings.AUTH_BASE)
+    body = json.dumps({
+        'project': "{}/{}".format(user_name, project_name),
+        'user_id': user_id
+    })
+    url = "{}/permissions".format(settings.API_V2_BASE)
 
+    # if access_token:
+    #     access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
+    # else:
+    #     access_token = None
     if access_token:
-        access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
-    else:
-        access_token = None
-
-    if access_token:
-        headers = {'Authorization': '{}'.format(access_token)}
+        headers = {
+            'Authorization': '{}'.format(access_token),
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+        }
+        
         response = requests.post(url, headers=headers, data=body)
     else:
-        response = requests.post(url, data=body)
+        headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+        }
+        
+        response = requests.post(url, headers=headers, data=body)
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token):

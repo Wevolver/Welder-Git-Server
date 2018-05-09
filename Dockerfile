@@ -1,9 +1,9 @@
 FROM python:3.6
 
 RUN apt-get update && apt-get install -y cmake
-RUN wget https://github.com/libgit2/libgit2/archive/v0.26.0.tar.gz
-RUN tar xzf v0.26.0.tar.gz
-RUN cd libgit2-0.26.0 \
+RUN wget https://github.com/libgit2/libgit2/archive/v0.27.0.tar.gz
+RUN tar xzf v0.27.0.tar.gz
+RUN cd libgit2-0.27.0 \
     && cmake . \
     && make \
     && make install

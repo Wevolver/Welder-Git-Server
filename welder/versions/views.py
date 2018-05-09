@@ -58,7 +58,6 @@ def create_project(request, user, project_name, permissions_token, tracking=None
     if not os.path.exists(os.path.join(settings.REPO_DIRECTORY, directory)):
         os.makedirs(os.path.join(settings.REPO_DIRECTORY, directory))
 
-    logger.info(path)
     if os.path.exists(path):
         response = HttpResponseBadRequest("You already have a project with this name")
         return response
@@ -216,10 +215,10 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
             data = git_blob[1]
     else:
         root_tree = repo.revparse_single(branch).tree
-        git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+        git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
         if type(git_blob) == pygit2.Blob:
             data = git_blob.data
-    parsed_file = str(base64.b64encode(data), 'utf-8')
+    # parsed_file = str(base64.b64encode(data), 'utf-8')
     chunk_size = 8192
     filelike = FileWrapper(BytesIO(data), chunk_size)
     response = StreamingHttpResponse(filelike, content_type=mimetypes.guess_type(path)[0])
@@ -233,6 +232,7 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
+@notification.activity("committed")
 @mixpanel.track
 @errors.catch
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -253,24 +253,26 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
     email = request.POST.get('email', 'git@wevolver.com')
     message = request.POST.get('commit_message', 'received new files')
     name = request.POST.get('user_name', user)
-    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+    path = request.POST.get('path', None)
+    branch = request.GET.get('branch') if request.GET.get('branch') else None
     repo = fetch_repository(user, project_name)
-    if request.FILES:
+    if request.FILES and path != None and branch:
         blobs = []
         for key, file in request.FILES.items():
             blob = repo.create_blob(file.read())
-            blobs.append((blob, file.content_type_extra))
+            blobs.append((blob, path + file.name))
         new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, blobs)
         porcelain.commit_tree(repo, branch, new_commit_tree, name, email, message)
         response = JsonResponse({'message': 'Files uploaded'})
     else:
-        response = JsonResponse({'message': 'No files received'})
+        response = JsonResponse({'message': 'No files or path or branch received'})
     return response
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 @notification.notify("committed to")
+@notification.activity("committed")
 @mixpanel.track
 @errors.catch
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -419,27 +421,28 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     history_type = request.GET.get('type')
     repo = fetch_repository(user, project_name)
     root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+    git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
     page_size = int(request.GET.get('page_size', 10))
     page = int(request.GET.get('page', 0))
     start_index = page_size * page
     history = []
-    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size ):
+    for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size + 1):
         try:
             title, description = split_commit_message(commit.message)
         except:
             title, description = commit.message, None
         if history_type == 'file':
-            git_tree, git_blob = porcelain.walk_tree(repo, commit.tree, path)
+            git_tree, git_blob, folder_path = porcelain.walk_tree(repo, commit.tree, path)
             if type(git_blob) == pygit2.Blob:
                 if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
                     history.append({
                         'id': git_blob.id.__str__(),
                         'commit_time': commit.commit_time,
                         'commit_description': description,
+                        'commit_id': commit.id.__str__(),
                         'committer': commit.committer.email,
                         'committer_name': commit.committer.name,
-                        'commit_title': title
+                        'commit_title': title,
                     })
         elif history_type == 'commits':
             # Commit tree diff
@@ -484,10 +487,27 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     path = request.GET.get('path').rstrip('/').lstrip('/')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob = porcelain.walk_tree(repo, root_tree, path)
+    git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
+    print(folder_path)
     if type(git_tree) == pygit2.Tree:
-        parsed_tree = porcelain.parse_file_tree(repo, git_tree)
+        parsed_tree = porcelain.parse_file_tree(repo, git_tree, folder_path)
     response = JsonResponse({'tree': parsed_tree})
+
     response['Permissions'] = permissions_token
+    return response
+
+@require_http_methods(["POST", "OPTIONS"])
+@permissions.requires_permission_to('write')
+@notification.activity("committed")
+@errors.catch
+def revert_commit(request, user, project_name, permissions_token=None, tracking=None):
+    repo = fetch_repository(user, project_name)
+    branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
+    email = request.POST.get('email', 'git@wevolver.com')
+    message = request.POST.get('commit_message', repo.get(branch).message)
+    name = request.POST.get('user_name', user)
+    new_commit_tree = porcelain.add_blobs_to_tree(repo, branch, [])
+    porcelain.commit_tree(repo, 'master', new_commit_tree, name, email, message)
+    response = JsonResponse({'message':'success'})
     return response

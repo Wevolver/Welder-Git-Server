@@ -14,7 +14,7 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'db6d0aec.ngrok.io', 'f5204e98.ngrok.io', 'www.wevolver.com',
@@ -103,6 +103,7 @@ LOGGING = {
 if os.environ.get('TRAVIS') == 'true':
     API_BASE = 'https://dev.wevolver.com'
     AUTH_BASE = 'https://dev.wevolver.com/o'
+    API_V2_BASE = 'https://dev.wevolver.com/api/v2'
     TOKEN_SECRET = 'TOKEN_SECRET'
     REPO_DIRECTORY = './'
     TRACKING_TOKEN = "TRACKING_TOKEN"
@@ -125,6 +126,7 @@ else:
 
     API_BASE = get_env("API_BASE")
     AUTH_BASE = get_env("AUTH_BASE")
+    API_V2_BASE = get_env("API_V2_BASE")
     TOKEN_SECRET = get_env("TOKEN_SECRET")
     REPO_DIRECTORY = get_env("REPO_DIRECTORY")
     TRACKING_TOKEN = get_env("TRACKING_TOKEN")
