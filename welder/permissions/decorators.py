@@ -71,7 +71,6 @@ def requires_permission_to(permission):
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 kwargs['tracking'] = decoded_token 
-                logger.info(func)
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -170,25 +169,27 @@ def get_token(user_name, project_name, access_token, user_id = None):
     })
     url = "{}/permissions".format(settings.API_V2_BASE)
 
-    # if access_token:
-    #     access_token = access_token if access_token.split()[0] == "Bearer" else 'Bearer {}'.format(access_token)
-    # else:
-    #     access_token = None
     if access_token:
         headers = {
-            'Authorization': '{}'.format(access_token),
+            # 'Authorization': '{}'.format(access_token),
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
         }
-        
-        response = requests.post(url, headers=headers, data=body)
+        try:
+            logger.info('me')
+            response = requests.post(url, headers=headers, data=body, timeout=5)
+        except Exception as e:
+            logger.info(e)
     else:
         headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
         }
-        
-        response = requests.post(url, headers=headers, data=body)
+        try:
+            logger.info('help')
+            response = requests.post(url, headers=headers, data=body)
+        except Exception as e:
+            logger.info(e)
     return (response.status_code == requests.codes.ok, response)
 
 def decode_token(token):
