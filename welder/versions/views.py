@@ -123,10 +123,10 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
     return response
 
 @require_http_methods(["POST", "OPTIONS"])
-@permissions.requires_permission_to("write")
+# @permissions.requires_permission_to("write")
 @mixpanel.track
 @errors.catch
-def rename_project(request, user, project_name, permissions_token, tracking=None):
+def rename_project(request, user, project_name, permissions_token=None, tracking=None):
     """ Renames a project
 
     Args:
@@ -138,7 +138,9 @@ def rename_project(request, user, project_name, permissions_token, tracking=None
         HttpResponse: A message indicating the success or failure of the rename
     """
 
+    logger.info('post')
     post = request.POST
+    logger.info(post)
     directory = porcelain.generate_directory(user)
     new_name = post['new_name'].lstrip('/').rstrip('/')
     source_path = os.path.join(settings.REPO_DIRECTORY, directory, project_name)
