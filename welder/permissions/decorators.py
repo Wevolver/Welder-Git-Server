@@ -13,7 +13,7 @@ import jwt
 import os
 
 logger = logging.getLogger(__name__)
-
+logging.basicConfig(level=logging.DEBUG)
 def requires_permission_to(permission):
     """ Determines the user and authorization through Wevolver token based auth
 
@@ -171,13 +171,14 @@ def get_token(user_name, project_name, access_token, user_id = None):
 
     if access_token:
         headers = {
-            # 'Authorization': '{}'.format(access_token),
+            'Authorization': '{}'.format(access_token),
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
         }
         try:
-            logger.info('me')
-            response = requests.post(url, headers=headers, data=body, timeout=5)
+            logger.info(url)
+            logger.info(headers)
+            response = requests.post(url, headers=headers, data=body)
         except Exception as e:
             logger.info(e)
     else:
@@ -186,7 +187,8 @@ def get_token(user_name, project_name, access_token, user_id = None):
             'Content-Type': 'application/json',
         }
         try:
-            logger.info('help')
+            logger.info(url)
+            logger.info(headers)
             response = requests.post(url, headers=headers, data=body)
         except Exception as e:
             logger.info(e)
