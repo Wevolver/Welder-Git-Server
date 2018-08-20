@@ -95,7 +95,7 @@ def walk_tree(repo, root_tree, full_path):
 
 def parse_full_tree(repo, root_tree):
     main_node = {
-        'root': parse_file_tree(repo, root_tree, [''])['data']
+        'root': parse_file_tree(repo, root_tree, [])['data']
     }
     def recursive_parse_tree(tree, path):
         for node in tree.__iter__():
