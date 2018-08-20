@@ -93,6 +93,22 @@ def walk_tree(repo, root_tree, full_path):
     return current_object, blob, locations
 
 
+def parse_full_tree(repo, root_tree):
+    main_node = {
+        'root': parse_file_tree(repo, root_tree, [''])['data']
+    }
+    def recursive_parse_tree(tree, path):
+        for node in tree.__iter__():
+            folder = path[:]
+            if node.type == 'tree':
+                tree = repo.get(node.id)
+                folder.append(node.name)
+                main_node[str(node.id)] = parse_file_tree(repo, tree, folder)['data']
+                recursive_parse_tree(tree, folder)
+
+    recursive_parse_tree(root_tree, [])
+    return main_node
+
 def add_blobs_to_tree(repo, branch, blobs):
     """ Adds blobs to a tree.
 

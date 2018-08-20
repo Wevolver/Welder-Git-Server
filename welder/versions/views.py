@@ -138,7 +138,6 @@ def rename_project(request, user, project_name, permissions_token=None, tracking
     Returns:
         HttpResponse: A message indicating the success or failure of the rename
     """
-
     post = request.POST
     directory = porcelain.generate_directory(user)
     new_name = post['new_name'].lstrip('/').rstrip('/')
@@ -488,12 +487,10 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     path = request.GET.get('path').rstrip('/').lstrip('/')
     branch = request.GET.get('branch') if request.GET.get('branch') else 'master'
     root_tree = repo.revparse_single(branch).tree
-    git_tree, git_blob, folder_path = porcelain.walk_tree(repo, root_tree, path)
     parsed_tree = None
-    if type(git_tree) == pygit2.Tree:
-        parsed_tree = porcelain.parse_file_tree(repo, git_tree, folder_path)
+    parsed_tree = porcelain.parse_full_tree(repo, root_tree)
+    
     response = JsonResponse({'tree': parsed_tree})
-
     response['Permissions'] = permissions_token
     return response
 

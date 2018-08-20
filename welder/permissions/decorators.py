@@ -178,6 +178,7 @@ def get_token(user_name, project_name, access_token, user_id = None):
         try:
             logger.info(url)
             logger.info(headers)
+            logger.info(body)
             response = requests.post(url, headers=headers, data=body)
         except Exception as e:
             logger.info(e)
