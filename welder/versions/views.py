@@ -434,17 +434,20 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
         if history_type == 'file':
             git_tree, git_blob, folder_path = porcelain.walk_tree(repo, commit.tree, path)
             if len(commit.parents) > 0:
-                diff = repo.diff(commit.tree, commit.parents[0].tree)
-                if type(git_blob) == pygit2.Blob and any(patch.delta.new_file.path == path for patch in diff):
-                    history.append({
-                        'id': git_blob.id.__str__(),
-                        'commit_time': commit.commit_time,
-                        'commit_description': description,
-                        'commit_id': commit.id.__str__(),
-                        'committer': commit.committer.email,
-                        'committer_name': commit.committer.name,
-                        'commit_title': title,
-                    })
+                try:
+                    diff = repo.diff(commit.tree, commit.parents[0].tree)
+                    if type(git_blob) == pygit2.Blob and any(patch.delta.new_file.path == path for patch in diff):
+                        history.append({
+                            'id': git_blob.id.__str__(),
+                            'commit_time': commit.commit_time,
+                            'commit_description': description,
+                            'commit_id': commit.id.__str__(),
+                            'committer': commit.committer.email,
+                            'committer_name': commit.committer.name,
+                            'commit_title': title,
+                        })
+                except:
+                    print('Failed to load history')
         elif history_type == 'commits':
             # Commit tree diff
             try:
