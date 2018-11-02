@@ -433,8 +433,9 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
             title, description = commit.message, None
         if history_type == 'file':
             git_tree, git_blob, folder_path = porcelain.walk_tree(repo, commit.tree, path)
-            if type(git_blob) == pygit2.Blob:
-                if not any(item.get('id', None) == git_blob.id.__str__() for item in history):
+            if len(commit.parents) > 0:
+                diff = repo.diff(commit.tree, commit.parents[0].tree)
+                if type(git_blob) == pygit2.Blob and any(patch.delta.new_file.path == path for patch in diff):
                     history.append({
                         'id': git_blob.id.__str__(),
                         'commit_time': commit.commit_time,
