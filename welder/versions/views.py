@@ -508,8 +508,10 @@ def read_tree(request, user, project_name, permissions_token, tracking=None):
     root_tree = repo.revparse_single(branch).tree
     parsed_tree = None
     parsed_tree = porcelain.parse_full_tree(repo, root_tree)
-    
-    response = JsonResponse({'tree': parsed_tree})
+    lastCommit = repo[repo.head.target]
+    lastCommitTime = lastCommit.commit_time
+
+    response = JsonResponse({'tree': parsed_tree, 'lastCommitTime': lastCommitTime})
     response['Permissions'] = permissions_token
     return response
 
