@@ -6,7 +6,6 @@
 * [Git](https://git-scm.com/downloads) - Latest version.
 * [libgit2](https://github.com/libgit2/libgit2) - Latest version. Libgit2 is a portable, pure C implementation of the Git core methods.
 
-
 ## Usage
 
 Install local requirements:
