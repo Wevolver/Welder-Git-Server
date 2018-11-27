@@ -426,6 +426,21 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
     page = int(request.GET.get('page', 0))
     start_index = page_size * page
     history = []
+
+    if page_size == 1 and page == 0:
+        lastCommit = repo[repo.head.target]
+        history = [{
+            'author': lastCommit.author.email,
+            'committer': lastCommit.committer.email,
+            'committer_name': lastCommit.committer.name,
+            'commit_description': '',
+            'commit_title': '',
+            'commit_time': lastCommit.commit_time,
+            'commit_id': lastCommit.id.__str__(),
+            'commit_files': [],
+        }]
+        return JsonResponse({'history': history})
+
     for commit in itertools.islice(repo.walk(repo.revparse_single(branch).id, GIT_SORT_TIME), start_index,  start_index + page_size + 1):
         try:
             title, description = split_commit_message(commit.message)
