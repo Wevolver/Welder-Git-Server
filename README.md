@@ -32,6 +32,7 @@ Run the container as part of a composition
 
 ```
 ...
+
   welder:
     command: python manage.py runserver [::]:9000
     image: btcrs/welder
