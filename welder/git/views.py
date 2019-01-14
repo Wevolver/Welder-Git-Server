@@ -2,7 +2,6 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse, JsonResponse
 
 from welder.permissions import decorators as permissions
-from welder.analytics import decorators as mixpanel
 from welder.notifications import decorators as notification
 from welder.git.git import GitResponse
 from welder.versions.utilities import fetch_repository
@@ -23,7 +22,6 @@ class Actions(Enum):
     result = 'result'
 
 @require_http_methods(["GET"])
-@mixpanel.track
 @permissions.requires_git_permission_to('read')
 def info_refs(request, user, project_name, permissions_token=None,  tracking=None):
     """ Initiates a handshake for a smart HTTP connection
@@ -45,14 +43,12 @@ def info_refs(request, user, project_name, permissions_token=None,  tracking=Non
     return response.get_http_info_refs()
 
 @permissions.requires_git_permission_to('read')
-@mixpanel.track
 def upload_pack(request, user, project_name, tracking=None):
     """ Calls service_rpc assuming the user is authenticated and has read permissions """
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
 @permissions.requires_git_permission_to('write')
-@mixpanel.track
 @notification.notify("committed to")
 @notification.activity("committed")
 def receive_pack(request, user, project_name, permissions_token=None, tracking=None):
@@ -60,7 +56,6 @@ def receive_pack(request, user, project_name, permissions_token=None, tracking=N
 
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
-@mixpanel.track
 def service_rpc(user, project_name, request_service, request_body, permissions_token=None, tracking=None):
     """ Calls the Git commands to pull or push data from the server depending on the received service.
 

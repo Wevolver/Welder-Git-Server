@@ -92,7 +92,7 @@ def requires_git_permission_to(permission):
             user_name = kwargs['user']
             project_name = kwargs['project_name']
             access_token = None
-
+            print('hello?')
             if permission is 'read':
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content

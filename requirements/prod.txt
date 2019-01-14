@@ -32,3 +32,4 @@ tokenlib==0.3.1
 urllib3==1.21.1
 mixpanel
 boto3
+jose

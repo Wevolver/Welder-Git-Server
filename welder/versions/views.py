@@ -6,14 +6,13 @@ from django.http import StreamingHttpResponse
 from django.conf import settings
 
 from welder.permissions import decorators as permissions
-from welder.analytics import decorators as mixpanel
 from welder.notifications import decorators as notification
 from welder.versions import decorators as errors
 from welder.uploads import decorators as uploads
 from welder.versions.utilities import fetch_repository
 from welder.versions.utilities import split_commit_message
 from welder.versions import porcelain as porcelain
-
+from welder.permissions.auth0decorator import requires_auth
 from wsgiref.util import FileWrapper
 from pygit2 import GIT_SORT_TIME
 from io import BytesIO
@@ -34,7 +33,6 @@ logger = logging.getLogger(__name__)
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
-@mixpanel.track
 @errors.catch
 def create_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
@@ -79,7 +77,6 @@ def create_project(request, user, project_name, permissions_token, tracking=None
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
-@mixpanel.track
 @errors.catch
 def create_branch(request, user, project_name, permissions_token, tracking=None):
     post = json.loads(request.body)
@@ -93,7 +90,6 @@ def create_branch(request, user, project_name, permissions_token, tracking=None)
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
-@mixpanel.track
 @errors.catch
 def fork_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
@@ -124,7 +120,6 @@ def fork_project(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
-@mixpanel.track
 @errors.catch
 def rename_project(request, user, project_name, permissions_token=None, tracking=None):
     """ Renames a project
@@ -149,7 +144,6 @@ def rename_project(request, user, project_name, permissions_token=None, tracking
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to('write')
-@mixpanel.track
 @errors.catch
 def delete_project(request, user, project_name, permissions_token, tracking=None):
     """ Finds the repository specified in the URL and deletes from the file system.
@@ -172,7 +166,6 @@ def delete_project(request, user, project_name, permissions_token, tracking=None
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("create")
-@mixpanel.track
 @errors.catch
 def delete_branch(request, user, project_name, permissions_token, tracking=None):
     post =  json.loads(request.body)
@@ -187,7 +180,7 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
+# @requires_auth
 @errors.catch
 def read_file(request, user, project_name, permissions_token, tracking=None):
     """ Finds a file in the path of the repository specified by the URL
@@ -233,7 +226,6 @@ def read_file(request, user, project_name, permissions_token, tracking=None):
 @uploads.add_handlers
 @notification.notify("committed to")
 @notification.activity("committed")
-@mixpanel.track
 @errors.catch
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
     """ Receives and commits an array of files to a specific path in the repository.
@@ -273,7 +265,6 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 @uploads.add_handlers
 @notification.notify("committed to")
 @notification.activity("committed")
-@mixpanel.track
 @errors.catch
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
 
@@ -295,7 +286,6 @@ def delete_files(request, user, project_name, permissions_token=None, tracking=N
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def list_bom(request, user, project_name, permissions_token, tracking=None):
     """ Collects all the bom.csv files in a repository and return their sum.
@@ -324,7 +314,6 @@ def list_bom(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def list_branches(request, user, project_name, permissions_token):
     """ Collects and returns all the names of the branches from the repository.
@@ -346,7 +335,6 @@ def list_branches(request, user, project_name, permissions_token):
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def list_branches_ahead_behind(request, user, project_name, permissions_token, tracking=None):
     """ Returns the number of commits each branch is ahead or behind master
@@ -376,7 +364,6 @@ def list_branches_ahead_behind(request, user, project_name, permissions_token, t
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def download_archive(request, user, project_name, permissions_token, tracking=None):
     """ Grabs and returns a user's repository as a tarball.
@@ -399,7 +386,6 @@ def download_archive(request, user, project_name, permissions_token, tracking=No
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def read_history(request, user, project_name, permissions_token, tracking=None):
     """ Grabs and returns the history of a single file.
@@ -487,7 +473,6 @@ def read_history(request, user, project_name, permissions_token, tracking=None):
 
 @require_http_methods(["GET", "OPTIONS"])
 @permissions.requires_permission_to('read')
-@mixpanel.track
 @errors.catch
 def read_tree(request, user, project_name, permissions_token, tracking=None):
     """ Grabs and returns a single file or a tree from a user's repository

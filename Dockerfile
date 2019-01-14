@@ -7,6 +7,9 @@ RUN cd libgit2-0.27.0 \
     && cmake . \
     && make \
     && make install
+
+WORKDIR /usr/src/app
+
 RUN pip install sphinx
 RUN pip install sphinx_rtd_theme
 RUN pip install tokenlib
@@ -22,5 +25,10 @@ RUN pip install pyjwt
 RUN pip install profilehooks
 RUN pip install mixpanel
 RUN pip install boto3
+RUN pip install jose
 
 RUN ldconfig
+
+EXPOSE 8000
+ENTRYPOINT ["python"]
+CMD ["./manage.py", "runserver", "0.0.0.0:8000"]
