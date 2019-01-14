@@ -32,7 +32,8 @@ import os
 logger = logging.getLogger(__name__)
 
 @require_http_methods(["POST", "OPTIONS"])
-@permissions.requires_permission_to("create")
+# @permissions.requires_permission_to("create")
+@requires_auth
 @errors.catch
 def create_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
@@ -179,10 +180,10 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
     return response
 
 @require_http_methods(["GET", "OPTIONS"])
-@permissions.requires_permission_to('read')
-# @requires_auth
+# @permissions.requires_permission_to('read')
+@requires_auth
 @errors.catch
-def read_file(request, user, project_name, permissions_token, tracking=None):
+def read_file(request, user, project_name, permissions_token):
     """ Finds a file in the path of the repository specified by the URL
         and returns the blob.
 

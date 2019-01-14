@@ -2,11 +2,13 @@ import json
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
+import logging
 
 AUTH0_DOMAIN = 'wevolver.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'http://localhost:5000/api/v2'
 
+logger = logging.getLogger(__name__)
 
 class AuthError(Exception):
     def __init__(self, error, status_code):
@@ -14,10 +16,10 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
-def get_token_auth_header():
+def get_token_auth_header(request):
     """Obtains the Access Token from the Authorization Header
     """
-    auth = request.headers.get('Authorization', None)
+    auth = request.META.get('HTTP_AUTHORIZATION', None)
     if not auth:
         # raise AuthError({
         #     'code': 'authorization_header_missing',
@@ -68,8 +70,12 @@ def requires_auth(f):
     """
 
     @wraps(f)
-    def decorated(*args, **kwargs):
-        print('HELLO')
-        return f(*args, **kwargs)
+    def decorated(request, *args, **kwargs):
+        logger.info('AUTH TOKEN')
+        token, user_id = get_token_auth_header(request)
+        logger.info(token)
+        logger.info(user_id)
+        kwargs['permissions_token'] = "All Good"
+        return f(request, *args, **kwargs)
 
     return decorated

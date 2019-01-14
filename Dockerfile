@@ -25,7 +25,7 @@ RUN pip install pyjwt
 RUN pip install profilehooks
 RUN pip install mixpanel
 RUN pip install boto3
-RUN pip install jose
+RUN pip install python-jose-cryptodome
 
 RUN ldconfig
 
