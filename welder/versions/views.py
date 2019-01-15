@@ -12,7 +12,6 @@ from welder.uploads import decorators as uploads
 from welder.versions.utilities import fetch_repository
 from welder.versions.utilities import split_commit_message
 from welder.versions import porcelain as porcelain
-from welder.permissions.auth0decorator import requires_auth
 from wsgiref.util import FileWrapper
 from pygit2 import GIT_SORT_TIME
 from io import BytesIO
@@ -32,8 +31,7 @@ import os
 logger = logging.getLogger(__name__)
 
 @require_http_methods(["POST", "OPTIONS"])
-# @permissions.requires_permission_to("create")
-@requires_auth
+@permissions.requires_permission_to("create")
 @errors.catch
 def create_project(request, user, project_name, permissions_token, tracking=None):
     """ Creates a bare repository (project) based on the user name
@@ -180,8 +178,8 @@ def delete_branch(request, user, project_name, permissions_token, tracking=None)
     return response
 
 @require_http_methods(["GET", "OPTIONS"])
-# @permissions.requires_permission_to('read')
-@requires_auth
+@permissions.requires_permission_to('read')
+# @requires_auth
 @errors.catch
 def read_file(request, user, project_name, permissions_token):
     """ Finds a file in the path of the repository specified by the URL

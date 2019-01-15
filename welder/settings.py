@@ -14,7 +14,7 @@ CORS_ALLOW_CREDENTIALS = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ggec94x-e8!9pfqz2(ev32gxpq#w)81v4wa@cuc3tur77$s!1a'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '69e77e5c.ngrok.io', '5a77b1ab.ngrok.io', 'www.wevolver.com',

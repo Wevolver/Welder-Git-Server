@@ -70,7 +70,7 @@ def requires_permission_to(permission):
 
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
-                kwargs['tracking'] = decoded_token 
+                # kwargs['tracking'] = decoded_token 
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -92,7 +92,6 @@ def requires_git_permission_to(permission):
             user_name = kwargs['user']
             project_name = kwargs['project_name']
             access_token = None
-            print('hello?')
             if permission is 'read':
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
