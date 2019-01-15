@@ -21,7 +21,7 @@ def activity(action):
 
             project_name = kwargs['project_name']
             user_name = kwargs['user']
-            send_activity(user_name, project_name, "committed")
+            # send_activity(user_name, project_name, "committed")
             to_return = func(request, *args, **kwargs)
             return to_return
 
@@ -80,8 +80,8 @@ def notify(action):
             except:
                 logger.info('less than 5')
 
-            if(access_token):
-                send_notification(user_name, project_name, action, access_token, events)
+            # if(access_token):
+            #     send_notification(user_name, project_name, action, access_token, events)
 
             kwargs['permissions_token'] = 'required'
 

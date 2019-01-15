@@ -223,7 +223,6 @@ def read_file(request, user, project_name, permissions_token):
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
-@notification.notify("committed to")
 @notification.activity("committed")
 @errors.catch
 def receive_files(request, user, project_name, permissions_token=None, tracking=None):
@@ -262,7 +261,6 @@ def receive_files(request, user, project_name, permissions_token=None, tracking=
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
-@notification.notify("committed to")
 @notification.activity("committed")
 @errors.catch
 def delete_files(request, user, project_name, permissions_token=None, tracking=None):
