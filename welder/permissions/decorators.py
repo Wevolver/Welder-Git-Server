@@ -27,10 +27,13 @@ def requires_permission_to(permission):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
             action = request.GET.get("action", None)
-            if settings.DEBUG or action == 'create':
-                kwargs['permissions_token'] = "All Good"
-                return func(request, *args, **kwargs)
+            # if settings.DEBUG or action == 'create':
+            #     kwargs['permissions_token'] = "All Good"
+            #     logger.info(action)
+            #     logger.info(kwargs)
+            #     return func(request, *args, **kwargs)
 
+            logger.info(request)
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
 
             access_token = access_token if access_token else request.GET.get("access_token")
@@ -70,7 +73,7 @@ def requires_permission_to(permission):
 
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
-                kwargs['tracking'] = decoded_token 
+                kwargs['tracking'] = decoded_token
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -93,8 +96,11 @@ def requires_git_permission_to(permission):
             project_name = kwargs['project_name']
             access_token = None
 
+            if 'welder.app' in str(request.host):
+                host_url = "{}/welder/permissions".format(settings.API_V2_BASE)
+
             if permission is 'read':
-                success, response = get_token(user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token, url = host_url)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
@@ -106,12 +112,12 @@ def requires_git_permission_to(permission):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
                 if access_token is None:
                     return user_id
-                success, response = get_token(user_name, project_name, access_token, user_id)
+                success, response = get_token(user_name, project_name, access_token, user_id, url = host_url)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
-                    kwargs['tracking'] = decoded_token 
+                    kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
                 else:
                     res = HttpResponse()
@@ -156,18 +162,18 @@ def basic_auth(authorization_header):
     else:
         return (None, 'Default')
 
-def get_token(user_name, project_name, access_token, user_id = None):
+def get_token(user_name, project_name, access_token, user_id = None, url = "{}/permissions".format(settings.API_V2_BASE)):
     """ Checks against the Wevolver API to see if the users token is currently valid
 
     Args:
         authorization (str): the current user's bearer token
         user (str): the current requesting user's id
     """
+    logger.info(url)
     body = json.dumps({
         'project': "{}/{}".format(user_name, project_name),
         'user_id': user_id
     })
-    url = "{}/permissions".format(settings.API_V2_BASE)
 
     if access_token:
         headers = {

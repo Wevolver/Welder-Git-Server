@@ -130,7 +130,6 @@ else:
     TOKEN_SECRET = get_env("TOKEN_SECRET")
     REPO_DIRECTORY = get_env("REPO_DIRECTORY")
     TRACKING_TOKEN = get_env("TRACKING_TOKEN")
-    print(TRACKING_TOKEN)
     AWS_ACCESS_KEY_ID = get_env("AWS_ACCESS_KEY_ID")
     AWS_SECRET_ACCESS_KEY = get_env("AWS_SECRET_ACCESS_KEY")
 
@@ -138,4 +137,3 @@ try:
     from welder.settings_local import *
 except ImportError:
     warnings.warn('No local settings found', RuntimeWarning)
-
