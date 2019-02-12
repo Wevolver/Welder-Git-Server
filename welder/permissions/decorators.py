@@ -33,7 +33,6 @@ def requires_permission_to(permission):
             #     logger.info(kwargs)
             #     return func(request, *args, **kwargs)
 
-            logger.info(request)
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
 
             access_token = access_token if access_token else request.GET.get("access_token")
@@ -46,8 +45,13 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
+            logger.info(str(request.META.get('HTTP_HOST', '')))
+            host_url =  "{}/permissions".format(settings.API_V2_BASE)
+            if 'welder.app' in str(request.META.get('HTTP_HOST', '')):
+                host_url = "{}/welder/permissions".format(settings.API_V2_BASE)
+
             if not permissions:
-                success, response = get_token(user_name, project_name, access_token)
+                success, response = get_token(user_name, project_name, access_token, url=host_url)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
@@ -58,7 +62,7 @@ def requires_permission_to(permission):
                 right_project = decoded_token['project'] == project_name if decoded_token else None
                 not_permissions = not decoded_token or not right_project
                 if not_permissions:
-                    success, response = get_token(user_name, project_name, access_token)
+                    success, response = get_token(user_name, project_name, access_token, url = host_url)
                     token = response.content
                     decoded_token = decode_token(token)
                     try:
@@ -73,7 +77,6 @@ def requires_permission_to(permission):
 
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
-                kwargs['tracking'] = decoded_token
                 return func(request, *args, **kwargs)
             else:
                 return HttpResponseForbidden('No Permissions')
@@ -96,28 +99,23 @@ def requires_git_permission_to(permission):
             project_name = kwargs['project_name']
             access_token = None
 
-            if 'welder.app' in str(request.host):
-                host_url = "{}/welder/permissions".format(settings.API_V2_BASE)
-
             if permission is 'read':
-                success, response = get_token(user_name, project_name, access_token, url = host_url)
+                success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
-                    kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
 
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
                 if access_token is None:
                     return user_id
-                success, response = get_token(user_name, project_name, access_token, user_id, url = host_url)
+                success, response = get_token(user_name, project_name, access_token, user_id)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
                 if permissions and permission in permissions:
-                    kwargs['tracking'] = decoded_token
                     return func(request, *args, **kwargs)
                 else:
                     res = HttpResponse()

@@ -23,7 +23,7 @@ class Actions(Enum):
 
 @require_http_methods(["GET"])
 @permissions.requires_git_permission_to('read')
-def info_refs(request, user, project_name, permissions_token=None,  tracking=None):
+def info_refs(request, user, project_name, permissions_token=None):
     """ Initiates a handshake for a smart HTTP connection
 
     https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols

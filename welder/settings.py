@@ -19,7 +19,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '69e77e5c.ngrok.io', '5a77b1ab.ngrok.io', 'www.wevolver.com',
     'test.wevolver.com', 'git.wevolver.com', 'dev.wevolver.com',
-    'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder'
+    'welder.wevolver.com', 'localhost', '127.0.0.1', 'welder', 
+    'welder.app', 'www.welder.app',
 ]
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000

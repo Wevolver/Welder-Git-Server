@@ -54,10 +54,10 @@ def get_lfs_object(operation, object_id, headers, object_size):
 
     return lfs_object
 
-def locks_verify(request, user, project_name, permissions_token=None,  tracking=None):
+def locks_verify(request, user, project_name, permissions_token=None):
     return JsonResponse({})
 
-def objects_batch(request, user, project_name, permissions_token=None,  tracking=None):
+def objects_batch(request, user, project_name, permissions_token=None):
     data = json.loads(request.body)
     operation = data.get('operation', None)
 
