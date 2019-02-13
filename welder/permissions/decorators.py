@@ -45,10 +45,11 @@ def requires_permission_to(permission):
 
             user_name = kwargs['user']
 
-            logger.info(str(request.META.get('HTTP_HOST', '')))
-            host_url =  "{}/permissions".format(settings.API_V2_BASE)
-            if 'welder.app' in str(request.META.get('HTTP_HOST', '')):
-                host_url = "{}/welder/permissions".format(settings.API_V2_BASE)
+            host_url = "{}/permissions".format(settings.API_V2_BASE)
+            print(request.POST)
+            if 'is_welder' in str(request.POST):
+                host_url =  "https://api.wevolver.com/welder/api/v2/permissions"
+            print(host_url)
 
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
@@ -76,6 +77,9 @@ def requires_permission_to(permission):
                     permissions = decoded_token['permissions']
 
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
+                kwargs['permissions_token'] = token
+                return func(request, *args, **kwargs)
+            elif permissions and permission  == 'create' and "create" and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
             else:
@@ -180,9 +184,7 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             'Content-Type': 'application/json',
         }
         try:
-            logger.info(url)
             logger.info(headers)
-            logger.info(body)
             response = requests.post(url, headers=headers, data=body)
         except Exception as e:
             logger.info(e)
@@ -192,7 +194,6 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             'Content-Type': 'application/json',
         }
         try:
-            logger.info(url)
             logger.info(headers)
             response = requests.post(url, headers=headers, data=body)
         except Exception as e:
@@ -211,6 +212,8 @@ def decode_token(token):
     try:
         with open('./welder/permissions/jwt.verify','r') as verify:
             try:
+                print('token')
+                print(token)
                 return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
             except jwt.ExpiredSignatureError as error:
                 print(error)
