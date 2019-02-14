@@ -46,10 +46,8 @@ def requires_permission_to(permission):
             user_name = kwargs['user']
 
             host_url = "{}/permissions".format(settings.API_V2_BASE)
-            print(request.POST)
             if 'is_welder' in str(request.POST):
                 host_url =  "https://api.wevolver.com/welder/api/v2/permissions"
-            print(host_url)
 
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
@@ -79,7 +77,7 @@ def requires_permission_to(permission):
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
-            elif permissions and permission  == 'create' and "create" and permission in permissions:
+            elif permissions and permission  == 'create' and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
             else:
@@ -212,8 +210,6 @@ def decode_token(token):
     try:
         with open('./welder/permissions/jwt.verify','r') as verify:
             try:
-                print('token')
-                print(token)
                 return jwt.decode(token, verify.read(), algorithms=['RS256'], issuer='wevolver')
             except jwt.ExpiredSignatureError as error:
                 print(error)
