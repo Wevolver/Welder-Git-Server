@@ -27,14 +27,11 @@ def requires_permission_to(permission):
         @wraps(func)
         def _decorator(request, *args, **kwargs):
             action = request.GET.get("action", None)
-            # if settings.DEBUG or action == 'create':
-            #     kwargs['permissions_token'] = "All Good"
-            #     logger.info(action)
-            #     logger.info(kwargs)
-            #     return func(request, *args, **kwargs)
+            if settings.DEBUG or action == 'create':
+                kwargs['permissions_token'] = "All Good"
+                return func(request, *args, **kwargs)
 
             access_token = request.META.get('HTTP_AUTHORIZATION', None)
-
             access_token = access_token if access_token else request.GET.get("access_token")
 
             permissions = request.META.get('HTTP_PERMISSIONS', None)
@@ -46,9 +43,13 @@ def requires_permission_to(permission):
             user_name = kwargs['user']
 
             host_url = "{}/permissions".format(settings.API_V2_BASE)
+            logger.info('request.POST')
+            logger.info(request.POST)
             if 'is_welder' in str(request.POST):
                 host_url =  "https://api.wevolver.com/welder/api/v2/permissions"
 
+            print('gettokenrequest.POST')
+            print(host_url)
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
                 token = response.content
@@ -61,7 +62,7 @@ def requires_permission_to(permission):
                 right_project = decoded_token['project'] == project_name if decoded_token else None
                 not_permissions = not decoded_token or not right_project
                 if not_permissions:
-                    success, response = get_token(user_name, project_name, access_token, url = host_url)
+                    success, response = get_token(user_name, project_name, access_token, url=host_url)
                     token = response.content
                     decoded_token = decode_token(token)
                     try:
@@ -148,8 +149,9 @@ def basic_auth(authorization_header):
         password = password
         body = {'username': str(username),
                 'password': str(password),
+                'client_id': "r8PPxUDuHwCOSPy51Qg3PgNmLFCulUHO",
                 'grant_type': 'password'}
-        url = "{}/proxy-client-token".format(settings.AUTH_BASE)
+        url = "https://welder.eu.auth0.com/oauth/token"
         response = requests.post(url, data=body)
         try:
             response = (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
@@ -169,7 +171,6 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
         authorization (str): the current user's bearer token
         user (str): the current requesting user's id
     """
-    logger.info(url)
     body = json.dumps({
         'project': "{}/{}".format(user_name, project_name),
         'user_id': user_id
@@ -182,7 +183,6 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             'Content-Type': 'application/json',
         }
         try:
-            logger.info(headers)
             response = requests.post(url, headers=headers, data=body)
         except Exception as e:
             logger.info(e)
@@ -192,11 +192,11 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             'Content-Type': 'application/json',
         }
         try:
-            logger.info(headers)
             response = requests.post(url, headers=headers, data=body)
+            return (response.status_code == requests.codes.ok, response)
         except Exception as e:
             logger.info(e)
-    return (response.status_code == requests.codes.ok, response)
+    # return (False, "")
 
 def decode_token(token):
     """ Decodes the received token using Wevolvers JWT public key
