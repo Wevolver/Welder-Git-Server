@@ -48,8 +48,6 @@ def requires_permission_to(permission):
             if 'is_welder' in str(request.POST):
                 host_url =  "https://api.wevolver.com/welder/api/v2/permissions"
 
-            print('gettokenrequest.POST')
-            print(host_url)
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
                 token = response.content
@@ -102,7 +100,7 @@ def requires_git_permission_to(permission):
             project_name = kwargs['project_name']
             access_token = None
 
-            if permission is 'read':
+            if not request.META.get('HTTP_AUTHORIZATION') and permission is 'read':
                 success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
@@ -112,9 +110,8 @@ def requires_git_permission_to(permission):
 
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
-                if access_token is None:
-                    return user_id
-                success, response = get_token(user_name, project_name, access_token, user_id)
+                print(access_token)
+                success, response = get_token(user_name, project_name, access_token)
                 token = response.content
                 decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
@@ -154,7 +151,7 @@ def basic_auth(authorization_header):
         url = "https://welder.eu.auth0.com/oauth/token"
         response = requests.post(url, data=body)
         try:
-            response = (json.loads(response.content)['access_token'], json.loads(response.content)['user'].split('/')[-2])
+            response = (json.loads(response.content)['access_token'], json.loads(response.content)['id_token'])
             return response
         except:
             res = HttpResponse()
@@ -184,6 +181,7 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
         }
         try:
             response = requests.post(url, headers=headers, data=body)
+            print(response)
         except Exception as e:
             logger.info(e)
     else:
@@ -196,7 +194,6 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             return (response.status_code == requests.codes.ok, response)
         except Exception as e:
             logger.info(e)
-    # return (False, "")
 
 def decode_token(token):
     """ Decodes the received token using Wevolvers JWT public key
