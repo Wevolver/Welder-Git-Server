@@ -100,28 +100,16 @@ def requires_git_permission_to(permission):
             project_name = kwargs['project_name']
             access_token = None
 
-            if not request.META.get('HTTP_AUTHORIZATION') and permission is 'read':
-                success, response = get_token(user_name, project_name, access_token)
-                token = response.content
-                decoded_token = decode_token(token)
-                permissions = decoded_token['permissions'] if decoded_token else ''
-                if permissions and permission in permissions:
-                    return func(request, *args, **kwargs)
-
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
-                print(access_token)
-                success, response = get_token(user_name, project_name, access_token)
-                token = response.content
-                decoded_token = decode_token(token)
-                permissions = decoded_token['permissions'] if decoded_token else ''
-                if permissions and permission in permissions:
-                    return func(request, *args, **kwargs)
-                else:
-                    res = HttpResponse()
-                    res.status_code = 401
-                    res['WWW-Authenticate'] = 'Basic'
-                    return res
+
+            success, response = get_token(user_name, project_name, access_token)
+            token = response.content
+            print(token)
+            decoded_token = decode_token(token)
+            permissions = decoded_token['permissions'] if decoded_token else ''
+            if permissions and permission in permissions:
+                return func(request, *args, **kwargs)
 
             res = HttpResponse()
             res.status_code = 401
