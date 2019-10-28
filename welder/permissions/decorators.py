@@ -43,8 +43,6 @@ def requires_permission_to(permission):
             user_name = kwargs['user']
 
             host_url = "{}/permissions".format(settings.API_V2_BASE)
-            logger.info('request.POST')
-            logger.info(request.POST)
             if 'is_welder' in str(request.POST):
                 host_url =  "https://api.wevolver.com/welder/api/v2/permissions"
 
@@ -103,7 +101,7 @@ def requires_git_permission_to(permission):
             if request.META.get('HTTP_AUTHORIZATION'):
                 access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
 
-            success, response = get_token(user_name, project_name, access_token)
+            success, response = get_token(user_name, project_name, access_token, url="https://api.wevolver.com/welder/api/v2/permissions")
             token = response.content
             print(token)
             decoded_token = decode_token(token)
