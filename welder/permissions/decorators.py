@@ -50,7 +50,7 @@ def requires_permission_to(permission):
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
                 decoded_token = {  "project": "default", "permissions": "['read']"}
                 token = 'default'
-                if(response['content']):
+                if(success and response.json()['content']):
                     token = response.content
                     decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
@@ -173,7 +173,7 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             print(response)
             return (response.status_code == requests.codes.ok, response)
         except Exception as e:
-            return("", {'content': False})
+            return(False, {'content': False})
             logger.info(e)
     else:
         headers = {
@@ -186,7 +186,7 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
             return (response.status_code == requests.codes.ok, response)
         except Exception as e:
             logger.info(e)
-            return("", {'content': False})
+            return(False, {'content': False})
 
 def decode_token(token):
     """ Decodes the received token using Wevolvers JWT public key
