@@ -50,7 +50,7 @@ def requires_permission_to(permission):
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
                 decoded_token = {  "project": "default", "permissions": "['read']"}
                 token = 'default'
-                if(success and response.json()['content']):
+                if success:
                     token = response.content
                     decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
