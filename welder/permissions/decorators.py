@@ -48,8 +48,11 @@ def requires_permission_to(permission):
 
             if not permissions:
                 success, response = get_token(user_name, project_name, access_token, url=host_url)
-                token = response.content
-                decoded_token = decode_token(token)
+                decoded_token = {  "project": "default", "permissions": "['read']"}
+                token = 'default'
+                if(response.get('content', False)):
+                    token = response.content
+                    decoded_token = decode_token(token)
                 permissions = decoded_token['permissions'] if decoded_token else ''
 
             else:
@@ -74,7 +77,7 @@ def requires_permission_to(permission):
             if decoded_token and (decoded_token['project'] == project_name or decoded_token['project']=='default') and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
-            elif permissions and permission  == 'create' and permission in permissions:
+            elif permissions and permission == 'create' and permission in permissions:
                 kwargs['permissions_token'] = token
                 return func(request, *args, **kwargs)
             else:
@@ -168,7 +171,9 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
         try:
             response = requests.post(url, headers=headers, data=body)
             print(response)
+            return (response.status_code == requests.codes.ok, response)
         except Exception as e:
+            return("", {'content': False})
             logger.info(e)
     else:
         headers = {
@@ -177,9 +182,11 @@ def get_token(user_name, project_name, access_token, user_id = None, url = "{}/p
         }
         try:
             response = requests.post(url, headers=headers, data=body)
+            print(response)
             return (response.status_code == requests.codes.ok, response)
         except Exception as e:
             logger.info(e)
+            return("", {'content': False})
 
 def decode_token(token):
     """ Decodes the received token using Wevolvers JWT public key
