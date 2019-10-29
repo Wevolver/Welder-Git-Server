@@ -225,8 +225,8 @@ def read_file(request, user, project_name, permissions_token):
 @require_http_methods(["POST", "OPTIONS"])
 @uploads.add_handlers
 @permissions.requires_permission_to("write")
-# @notification.notify("committed to")
-@notification.activity("committed")
+# #@notification.notify("committed to")
+#@notification.activity("committed")
 @errors.catch
 def receive_files(request, user, project_name, permissions_token=None):
     """ Receives and commits an array of files to a specific path in the repository.
@@ -265,7 +265,7 @@ def receive_files(request, user, project_name, permissions_token=None):
 @permissions.requires_permission_to("write")
 @uploads.add_handlers
 # @notification.notify("committed to")
-@notification.activity("committed")
+#@notification.activity("committed")
 @errors.catch
 def delete_files(request, user, project_name, permissions_token=None):
 
@@ -503,7 +503,7 @@ def read_tree(request, user, project_name, permissions_token):
 
 @require_http_methods(["POST", "OPTIONS"])
 @permissions.requires_permission_to('write')
-@notification.activity("committed")
+#@notification.activity("committed")
 @errors.catch
 def revert_commit(request, user, project_name, permissions_token=None):
     repo = fetch_repository(user, project_name)

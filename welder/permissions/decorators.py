@@ -103,10 +103,10 @@ def requires_git_permission_to(permission):
             user_id = None
 
             if request.META.get('HTTP_AUTHORIZATION'):
-                access_token, user_id = basic_auth(request.META['HTTP_AUTHORIZATION'])
+                access_token = basic_auth(request.META['HTTP_AUTHORIZATION'])
 
-            success, response = get_token(user_name, project_name, access_token, url="https://api.wevolver.com/welder/api/v2/permissions")
-            # success, response = get_token(user_name, project_name, user_id, url="http://localhost:5000/api/v2/permissions")
+            # success, response = get_token(user_name, project_name, access_token, url="https://api.wevolver.com/welder/api/v2/permissions")
+            success, response = get_token(user_name, project_name, access_token, url="http://localhost:5000/api/v2/permissions")
             token = 'default'
             if success:
                 token = response.content
@@ -146,7 +146,7 @@ def basic_auth(authorization_header):
         url = "https://welder.eu.auth0.com/oauth/token"
         response = requests.post(url, data=body)
         try:
-            response = (json.loads(response.content)['access_token'], json.loads(response.content)['id_token'])
+            response = (json.loads(response.content)['access_token'])
             return response
         except:
             res = HttpResponse()

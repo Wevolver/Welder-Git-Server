@@ -49,8 +49,8 @@ def upload_pack(request, user, project_name):
     return service_rpc(user, project_name, request.path_info.split('/')[-1], request.body)
 
 @permissions.requires_git_permission_to('write')
-@notification.notify("committed to")
-@notification.activity("committed")
+#@notification.notify("committed to")
+#@notification.activity("committed")
 def receive_pack(request, user, project_name, permissions_token=None):
     """ Calls service_rpc assuming the user is authenticated and has write permissions """
 
