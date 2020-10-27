@@ -6,7 +6,7 @@ cffi==1.10.0
 chardet==3.0.4
 coverage==4.4.1
 coveralls==1.1
-cryptography==2.0
+cryptography==3.2
 Django==1.11.3
 django-cors-headers==2.1.0
 django-robots==3.0
